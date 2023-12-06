@@ -15,12 +15,12 @@
 
 ![export to png](readme-2.png)
 
-## extracting
+## extracting resources
 script `./extract.sh` will overwrite files in `game/resources/`
 
 note. check that transparency pixel is index 0
 
-## current
+## current resources
 ### tiles
 ![tiles](tiles.png)
 
