@@ -59,17 +59,11 @@ public:
     }
   }
 
-  // virtual ~o1store() {
-  //   free(all_);
-  //   free(free_);
-  //   free(alloc_);
-  //   free(del_);
-  // }
-
-  // returns true if allocatable instances available
+  // returns true if allocatable instance available
   inline auto can_allocate() -> bool { return free_ptr_ < free_end_; }
 
   // allocates an instance
+  // returns nullptr if instance could not be allocated
   auto allocate_instance() -> Type * {
     if (free_ptr_ >= free_end_) {
       return nullptr;
@@ -82,7 +76,7 @@ public:
     return inst;
   }
 
-  // adds instance to a list that is applied with 'apply_free()'
+  // adds instance to list of instances to be freed with 'apply_free()'
   void free_instance(Type *inst) {
     if (del_ptr_ >= del_end_) {
       printf("!!! o1store %u: free overrun\n", StoreId);
@@ -93,7 +87,7 @@ public:
     del_ptr_++;
   }
 
-  // de-allocates the instances that have been freed
+  // deallocates the instances that have been freed
   void apply_free() {
     for (Type **it = del_bgn_; it < del_ptr_; it++) {
       Type *inst_deleted = *it;
@@ -107,21 +101,21 @@ public:
     del_ptr_ = del_bgn_;
   }
 
-  // returns pointer to list of allocated instances
+  // returns list of allocated instances
   inline auto allocated_list() -> Type ** { return alloc_bgn_; }
 
-  // returns size of list of allocated instances
+  // returns length of list of allocated instances
   inline auto allocated_list_len() -> unsigned {
     return alloc_ptr_ - alloc_bgn_;
   }
 
-  // returns the list with all pre-allocated instances
+  // returns the list with all preallocated instances
   inline auto all_list() -> Type * { return all_; }
 
-  // returns the size of 'all' list
+  // returns the length of 'all' list
   constexpr auto all_list_len() -> unsigned { return Size; }
 
-  // returns instance from 'all' list at index 'ix'
+  // returns instance at index 'ix' from 'all' list
   inline auto instance(unsigned ix) -> Type * {
     if (!InstanceSizeInBytes) {
       return &all_[ix];
@@ -131,7 +125,7 @@ public:
                                     InstanceSizeInBytes * ix);
   }
 
-  // returns the size in bytes of allocated heap memory
+  // returns the size of allocated heap memory in bytes
   constexpr auto allocated_data_size_B() -> size_t {
     if (InstanceSizeInBytes) {
       return Size * InstanceSizeInBytes + 3 * Size * sizeof(Type *);

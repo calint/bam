@@ -76,16 +76,14 @@ class object;
 
 class sprite {
 public:
+  sprite **alloc_ptr = nullptr;
   object *obj = nullptr;
   uint8_t const *img = nullptr;
   int16_t scr_x = 0;
   int16_t scr_y = 0;
-  sprite **alloc_ptr = nullptr;
 };
 
 using sprites_store = o1store<sprite, sprite_count, 1>;
-// note. 255 because sprite_ix a.k.a. uint8_t max size is 255
-// note. sprite 255 is reserved which gives 255 [0:254] usable sprites
 
 static sprites_store sprites{};
 
@@ -94,54 +92,6 @@ static sprites_store sprites{};
 static sprite_ix *collision_map;
 static constexpr unsigned collision_map_size =
     sizeof(sprite_ix) * display_width * display_height;
-
-// helper class managing current frame time, dt, frames per second calculation
-class clk {
-public:
-  using time = unsigned long;
-
-private:
-  unsigned interval_ms_ = 5000;
-  unsigned frames_rendered_since_last_update_ = 0;
-  time last_fps_update_ms_ = 0;
-  time prv_ms_ = 0;
-
-public:
-  // current time since boot in milliseconds
-  time ms = 0;
-
-  // frame delta time in seconds
-  float dt = 0;
-
-  // current frames per second calculated at interval specified at 'init'
-  unsigned fps = 0;
-
-  // called at setup with current time and frames per seconds calculation
-  // interval
-  void init(const unsigned long time_ms,
-            const unsigned interval_of_fps_calculation_ms) {
-    last_fps_update_ms_ = prv_ms_ = ms;
-    interval_ms_ = interval_of_fps_calculation_ms;
-    ms = time_ms;
-  }
-
-  // called before every frame to update state
-  // returns true if new frames per second calculation was done
-  auto on_frame(const unsigned long time_ms) -> bool {
-    ms = time_ms;
-    dt = 0.001f * (ms - prv_ms_);
-    prv_ms_ = ms;
-    frames_rendered_since_last_update_++;
-    const unsigned long dt_ms = ms - last_fps_update_ms_;
-    if (dt_ms >= interval_ms_) {
-      fps = frames_rendered_since_last_update_ * 1000 / dt_ms;
-      frames_rendered_since_last_update_ = 0;
-      last_fps_update_ms_ = ms;
-      return true;
-    }
-    return false;
-  }
-} static clk{};
 
 class object {
 public:
@@ -196,8 +146,56 @@ public:
   }
 } static objects{};
 
+// helper class managing current frame time, dt, frames per second calculation
+class clk {
+public:
+  using time = unsigned long;
+
+private:
+  unsigned interval_ms_ = 5000;
+  unsigned frames_rendered_since_last_update_ = 0;
+  time last_fps_update_ms_ = 0;
+  time prv_ms_ = 0;
+
+public:
+  // current time since boot in milliseconds
+  time ms = 0;
+
+  // frame delta time in seconds
+  float dt = 0;
+
+  // current frames per second calculated at interval specified at 'init'
+  unsigned fps = 0;
+
+  // called at setup with current time and frames per seconds calculation
+  // interval
+  void init(const unsigned long time_ms,
+            const unsigned interval_of_fps_calculation_ms) {
+    last_fps_update_ms_ = prv_ms_ = ms;
+    interval_ms_ = interval_of_fps_calculation_ms;
+    ms = time_ms;
+  }
+
+  // called before every frame to update state
+  // returns true if new frames per second calculation was done
+  auto on_frame(const unsigned long time_ms) -> bool {
+    ms = time_ms;
+    dt = 0.001f * (ms - prv_ms_);
+    prv_ms_ = ms;
+    frames_rendered_since_last_update_++;
+    const unsigned long dt_ms = ms - last_fps_update_ms_;
+    if (dt_ms >= interval_ms_) {
+      fps = frames_rendered_since_last_update_ * 1000 / dt_ms;
+      frames_rendered_since_last_update_ = 0;
+      last_fps_update_ms_ = ms;
+      return true;
+    }
+    return false;
+  }
+} static clk{};
+
+// callback from 'main.cpp'
 static void engine_setup() {
-  // allocate collision map
   collision_map = static_cast<sprite_ix *>(malloc(collision_map_size));
   if (!collision_map) {
     printf("!!! could not allocate collision map\n");
@@ -212,6 +210,7 @@ static void render(const unsigned x, const unsigned y);
 // forward declaration of user provided callback
 static void main_on_frame_completed();
 
+// callback from 'main.cpp'
 // update and render the state of the engine
 static void engine_loop() {
   // call 'update()' on allocated objects

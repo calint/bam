@@ -39,7 +39,7 @@ static constexpr uint8_t cyd_led_green = 16;
 
 // ldr (light dependant resistor)
 // analog read of pin gives: 0 for full brightness, higher values is darker
-static constexpr uint8_t cyd_ldr_pin = 34;
+static constexpr uint8_t cyd_ldr = 34;
 
 // setup touch screen
 // https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display/blob/main/Examples/Basics/2-TouchTest/2-TouchTest.ino
@@ -331,7 +331,7 @@ void setup(void) {
   digitalWrite(cyd_led_blue, LOW);
 
   // setup ldr pin
-  pinMode(cyd_ldr_pin, INPUT);
+  pinMode(cyd_ldr, INPUT);
 
   // start the spi for the touch screen and init the library
   spi.begin(xpt2046_clk, xpt2046_miso, xpt2046_mosi, xpt2046_cs);
@@ -361,7 +361,7 @@ void setup(void) {
 void loop() {
   if (clk.on_frame(millis())) {
     printf("t=%lu  fps=%u  ldr=%u  objs=%u  sprs=%u\n", clk.ms, clk.fps,
-           analogRead(cyd_ldr_pin), objects.allocated_list_len(),
+           analogRead(cyd_ldr), objects.allocated_list_len(),
            sprites.allocated_list_len());
   }
 
