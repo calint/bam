@@ -1,4 +1,4 @@
-# jgame code
+# game code
 
 intention:
 * developing a toy game using platform independent engine
@@ -10,7 +10,7 @@ table of contents (in include order by program file):
 * `resources/*` partial files defining tiles, sprites, palettes and tile map
 * `defs.hpp` constants used by engine and game objects
 
-utilities:
+appendix:
 * `png-to-resources/extract.sh` tool for extracting resources from png files
 
 # overview
@@ -34,11 +34,9 @@ utilities:
 
 ## resources/*
 * `sprite_imgs.hpp`, `tile_imgs.hpp` and `palette_*.hpp` generated from png files by tool `png-to-resources/extract.sh`
-* `tile_map.hpp` is not tool generated
-* tile map size is user defined in `defs.hpp`
+* `tile_map.hpp` size is user defined in `defs.hpp`
 * separate palettes for tiles and sprites
 * 256 sprite and 256 tile images is default, however more can be defined by changing settings in `defs.hpp`
-  - example of 512 sprite and 512 tile images configuration is commented in `defs.hpp`
 * sprite and tile images are constant data stored in program memory
 
 ## defs.hpp
@@ -51,7 +49,7 @@ utilities:
 * set to 256B but should be maximum game object instance size rounded upwards to nearest power of 2 number
 
 ## limitations
-* due to target device not being able to allocate large (>128KB) chunks of contiguous memory some limitations are imposed
+* due to target device not being able to allocate large (>150KB) chunks of contiguous memory some limitations are imposed
 * concurrent sprites limited to 255 due to collision map having to be 8-bit to fit the screen pixels in a contiguous block of memory
 * concurrent objects limited to 255 being a natural sizing considering sprites
 * limits can be modified by changing definitions in `engine.hpp`
