@@ -45,7 +45,7 @@
   - initiate in the same manner as `spr`
 
 ### destructor
-* object de-allocates the default sprite `spr`
+* object deallocates the default sprite `spr`
 * user code might do additional clean up such as deallocating additional sprites
 
 ### update
