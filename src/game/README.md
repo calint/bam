@@ -1,4 +1,4 @@
-# game code
+# jgame code
 
 intention:
 * developing a toy game using platform independent engine
@@ -11,7 +11,7 @@ table of contents (in include order by program file):
 * `defs.hpp` constants used by engine and game objects
 
 utilities:
-* `png-to-resources/*` tools for extracting resources from png files
+* `png-to-resources/extract.sh` tool for extracting resources from png files
 
 # overview
 
