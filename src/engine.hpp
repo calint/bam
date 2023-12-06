@@ -5,6 +5,9 @@
 #include "platform.hpp"
 
 #include "o1store.hpp"
+
+#include <cstdint>
+#include <cstring>
 #include <limits>
 
 // palette used when rendering tiles
@@ -37,19 +40,13 @@ static constexpr unsigned tile_height_shift = 4;
 // 'tile_height'
 static constexpr unsigned tile_height_and = 15;
 
-class tile {
-public:
-  const uint8_t data[tile_width * tile_height];
-} static constexpr tiles[tile_count]{
+static constexpr uint8_t tiles[tile_count][tile_width * tile_height]{
 #include "game/resources/tile_imgs.hpp"
 };
 
-class tile_map {
-public:
-  tile_ix cell[tile_map_height][tile_map_width];
-} static tile_map{{
+static tile_ix tile_map[tile_map_height][tile_map_width]{
 #include "game/resources/tile_map.hpp"
-}};
+};
 
 // tile map controls
 static float tile_map_x = 0;

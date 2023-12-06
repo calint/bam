@@ -81,7 +81,7 @@ static void render_scanline(
     // render first partial tile
     const tile_ix tile_index = *(tiles_map_row_ptr + tile_x);
     const uint8_t *tile_data_ptr =
-        tiles[tile_index].data + tile_sub_y_times_tile_width + tile_dx;
+        tiles[tile_index] + tile_sub_y_times_tile_width + tile_dx;
     for (unsigned i = tile_dx; i < tile_width; i++) {
       *render_buf_ptr++ = palette_tiles[*tile_data_ptr++];
     }
@@ -91,7 +91,7 @@ static void render_scanline(
   for (unsigned tx = tile_x + 1; tx < tx_max; tx++) {
     const tile_ix tile_index = *(tiles_map_row_ptr + tx);
     const uint8_t *tile_data_ptr =
-        tiles[tile_index].data + tile_sub_y_times_tile_width;
+        tiles[tile_index] + tile_sub_y_times_tile_width;
     for (unsigned i = 0; i < tile_width; i++) {
       *render_buf_ptr++ = palette_tiles[*tile_data_ptr++];
     }
@@ -100,7 +100,7 @@ static void render_scanline(
     // render last partial tile
     const tile_ix tile_index = *(tiles_map_row_ptr + tx_max);
     const uint8_t *tile_data_ptr =
-        tiles[tile_index].data + tile_sub_y_times_tile_width;
+        tiles[tile_index] + tile_sub_y_times_tile_width;
     for (unsigned i = 0; i < tile_dx; i++) {
       *render_buf_ptr++ = palette_tiles[*tile_data_ptr++];
     }
@@ -181,7 +181,7 @@ static void render(const unsigned x, const unsigned y) {
   // current line y on screen
   int16_t scanline_y = 0;
   // pointer to start of current row of tiles
-  const tile_ix *tiles_map_row_ptr = tile_map.cell[tile_y];
+  const tile_ix *tiles_map_row_ptr = tile_map[tile_y];
   // pointer to collision map starting at top left of screen
   sprite_ix *collision_map_scanline_ptr = collision_map;
   if (tile_dy) {
@@ -293,6 +293,10 @@ void setup(void) {
   Serial.printf("             float: %zu B\n", sizeof(float));
   Serial.printf("            double: %zu B\n", sizeof(double));
   Serial.printf("             void*: %zu B\n", sizeof(void *));
+  Serial.printf("------------------- object sizes -------------------------\n");
+  Serial.printf("            sprite: %zu B\n", sizeof(sprite));
+  Serial.printf("            object: %zu B\n", sizeof(object));
+  Serial.printf("              tile: %zu B\n", sizeof(tiles[0]));
 
   // allocate DMA buffers
   dma_buf_1 = static_cast<uint16_t *>(malloc(dma_buf_size));
@@ -308,11 +312,8 @@ void setup(void) {
   Serial.printf("------------------- after init ---------------------------\n");
   Serial.printf("     free heap mem: %zu B\n", ESP.getFreeHeap());
   Serial.printf("largest free block: %zu B\n", ESP.getMaxAllocHeap());
-  Serial.printf("------------------- in program memory --------------------\n");
-  Serial.printf("     sprite images: %zu B\n", sizeof(sprite_imgs));
-  Serial.printf("             tiles: %zu B\n", sizeof(tiles));
-  Serial.printf("          tile map: %zu B\n", sizeof(tile_map));
   Serial.printf("------------------- globals ------------------------------\n");
+  Serial.printf("          tile map: %zu B\n", sizeof(tile_map));
   Serial.printf("           sprites: %zu B\n", sizeof(sprites));
   Serial.printf("           objects: %zu B\n", sizeof(objects));
   Serial.printf("------------------- on heap ------------------------------\n");
@@ -320,10 +321,9 @@ void setup(void) {
   Serial.printf("      objects data: %zu B\n", objects.allocated_data_size_B());
   Serial.printf("     collision map: %zu B\n", collision_map_size);
   Serial.printf("   DMA buf 1 and 2: %zu B\n", 2 * dma_buf_size);
-  Serial.printf("------------------- object sizes -------------------------\n");
-  Serial.printf("            sprite: %zu B\n", sizeof(sprite));
-  Serial.printf("            object: %zu B\n", sizeof(object));
-  Serial.printf("              tile: %zu B\n", sizeof(tile));
+  Serial.printf("------------------- in program memory --------------------\n");
+  Serial.printf("     sprite images: %zu B\n", sizeof(sprite_imgs));
+  Serial.printf("             tiles: %zu B\n", sizeof(tiles));
   Serial.printf("----------------------------------------------------------\n");
 
   // set rgb led blue
