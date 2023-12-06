@@ -1,4 +1,4 @@
-### toy game for ESP32-2432S028R a.k.a. cheap-yellow-display (cyd)
+# toy game for ESP32-2432S028R a.k.a. cheap-yellow-display (cyd)
 
 intention:
 * developing for esp32 boards using visual code platformio
