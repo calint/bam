@@ -33,11 +33,11 @@ appendix:
 * used in `main_on_frame_completed` to solve circular reference problems
 
 ## resources/*
-* `sprite_imgs.hpp`, `tile_imgs.hpp` and `palette_*.hpp` generated from png files by tool `png-to-resources/extract.sh`
-* `tile_map.hpp` size is user defined in `defs.hpp`
-* separate palettes for tiles and sprites
-* 256 sprite and 256 tile images is default, however more can be defined by changing settings in `defs.hpp`
+* `tile_map.hpp`: size defined in `defs.hpp`
+* `sprite_imgs.hpp`, `tile_imgs.hpp` and `palette_*.hpp`: generated from png files by tool `png-to-resources/extract.sh`
+* 256 sprite and tile images is default, defined in `defs.hpp`
 * sprite and tile images are constant data stored in program memory
+* separate palettes for tiles and sprites
 
 ## defs.hpp
 ### `enum object_class`
