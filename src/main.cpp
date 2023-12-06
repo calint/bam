@@ -333,7 +333,7 @@ void setup(void) {
   digitalWrite(cyd_led_green, HIGH);
   digitalWrite(cyd_led_blue, LOW);
 
-  // setup ldr
+  // setup ldr pin
   pinMode(cyd_ldr_pin, INPUT);
 
   // start the spi for the touch screen and init the library
