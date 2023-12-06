@@ -265,10 +265,18 @@ static void render(const unsigned x, const unsigned y) {
 }
 
 void setup(void) {
+  // setup rgb led pins
+  pinMode(cyd_led_red, OUTPUT);
+  pinMode(cyd_led_green, OUTPUT);
+  pinMode(cyd_led_blue, OUTPUT);
+
+  // set rgb led to yellow
+  digitalWrite(cyd_led_red, LOW);
+  digitalWrite(cyd_led_green, LOW);
+  digitalWrite(cyd_led_blue, HIGH);
+
   Serial.begin(115200);
   sleep(1); // arbitrary wait 1 second for serial to connect
-  while (!Serial)
-    ; // wait for serial port to connect. needed for native usb port only
 
   // heap_caps_dump_all();
   Serial.printf("\n\n");
@@ -320,15 +328,10 @@ void setup(void) {
   Serial.printf("              tile: %zu B\n", sizeof(tile));
   Serial.printf("----------------------------------------------------------\n");
 
-  // setup rgb led
-  pinMode(cyd_led_red, OUTPUT);
-  pinMode(cyd_led_green, OUTPUT);
-  pinMode(cyd_led_blue, OUTPUT);
-
-  // set rgb led to green
+  // set rgb led blue
   digitalWrite(cyd_led_red, HIGH);
-  digitalWrite(cyd_led_green, LOW);
-  digitalWrite(cyd_led_blue, HIGH);
+  digitalWrite(cyd_led_green, HIGH);
+  digitalWrite(cyd_led_blue, LOW);
 
   // setup ldr
   pinMode(cyd_ldr_pin, INPUT);
@@ -351,6 +354,11 @@ void setup(void) {
   clk.init(millis(), 2000);
 
   main_setup();
+
+  // set rgb led green
+  digitalWrite(cyd_led_red, HIGH);
+  digitalWrite(cyd_led_green, LOW);
+  digitalWrite(cyd_led_blue, HIGH);
 }
 
 void loop() {
