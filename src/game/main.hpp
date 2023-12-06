@@ -30,7 +30,7 @@ static void main_setup() {
   // blt->y = 300;
   // blt->dy = -100;
 
-  // printf("------------------- game objects -------------------------\n");
+  printf("------------------- game objects -------------------------\n");
   printf("            bullet: %u B\n", sizeof(bullet));
   printf("             dummy: %u B\n", sizeof(dummy));
   printf("          fragment: %u B\n", sizeof(fragment));
