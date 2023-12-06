@@ -16,13 +16,13 @@
 ![export to png](readme-2.png)
 
 ## extracting resources
-script `./extract-to-resources.sh` will overwrite `game/resources/*` files
+script `./extract.sh` will overwrite files in `game/resources/`
 
-note. make sure transparency pixel is palette index 0
+note. check that transparency pixel is index 0
 
 ## current resources
-tiles:
+tiles:  
 ![tiles](tiles.png)
 
-sprites:
+sprites:  
 ![sprites](sprites.png)
