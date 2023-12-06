@@ -34,8 +34,8 @@ utilities:
 
 ## resources/*
 * `sprite_imgs.hpp`, `tile_imgs.hpp` and `palette_*.hpp` generated from png files by tool `png-to-resources/extract.sh`
-* tile map size is user defined in `defs.hpp`
 * `tile_map.hpp` is not tool generated
+* tile map size is user defined in `defs.hpp`
 * separate palettes for tiles and sprites
 * 256 sprite and 256 tile images is default, however more can be defined by changing settings in `defs.hpp`
   - example of 512 sprite and 512 tile images configuration is commented in `defs.hpp`
