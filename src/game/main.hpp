@@ -1,11 +1,12 @@
 #pragma once
 // setup initial game state, callbacks from engine, game logic
-// solves circular references between 'game' and game objects
+// solves circular references between 'game_state' and game objects
 
+// first include engine
 #include "../engine.hpp"
-
+// then the game state
 #include "game_state.hpp"
-
+// then the objects
 #include "objects/bullet.hpp"
 #include "objects/dummy.hpp"
 #include "objects/hero.hpp"
@@ -48,14 +49,8 @@ unsigned long last_fire_ms = 0;
 
 // callback when screen is touched, happens before 'update'
 static void main_on_touch_screen(int16_t x, int16_t y, int16_t z) {
-  // const int y_relative_center =
-  //     y - touch_screen_value_min - touch_screen_value_range / 2;
-  // constexpr float dy_factor = 200.0f / (touch_screen_value_range / 2);
-  // tile_map_dy = dy_factor * y_relative_center;
-
   // fire eight times a second
   if (clk.ms - last_fire_ms > 125) {
-    // Serial.printf("touch  x=%u  y=%u\n", x, y);
     last_fire_ms = clk.ms;
     if (objects.can_allocate()) {
       bullet *blt = new (objects.allocate_instance()) bullet{};
@@ -73,7 +68,7 @@ static void main_wave_3();
 static void main_wave_4();
 // static void main_wave_5();
 
-// util to more easily position where waves are triggered
+// constant used to more easily position where waves are triggered
 constexpr unsigned tiles_per_screen = display_height / tile_height;
 
 // pointer to function that creates wave

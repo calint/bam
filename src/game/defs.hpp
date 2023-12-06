@@ -1,22 +1,22 @@
 #pragma once
-// constants used by engine and game objects
+// constants used by engine, game objects and 'main.hpp'
 
 // portrait or landscape orientation of screen
 // 0: portrait, 1: landscape
 static constexpr uint8_t display_orientation = 0;
 
 // number of sprite images
-// defined in 'resources/sprite_imgs.hpp'
 static constexpr unsigned sprite_imgs_count = 256;
+// defined in 'resources/sprite_imgs.hpp'
 
-// type used to address instance in 'sprite_imgs' array
+// type used to index an instance in the 'sprite_imgs' array
 using sprite_imgs_ix = uint8_t;
 
 // number of tile images
-// defined in 'resources/tile_imgs.hpp'
 static constexpr unsigned tile_count = 256;
+// defined in 'resources/tile_imgs.hpp'
 
-// type used to index in the tiles images
+// type used to index an in the 'tile_imgs' array
 using tile_ix = uint8_t;
 
 // example configuration of more sprites and tiles
@@ -26,18 +26,18 @@ using tile_ix = uint8_t;
 // using tile_ix = uint16_t;
 
 // tile map dimension
-// defined in 'resources/tile_map.hpp'
 static constexpr unsigned tile_map_width = 15;
 static constexpr unsigned tile_map_height = 320;
-
-// sprites available for allocation using 'sprites'
-// note. maximum one less than max number of 'sprite_ix' due to the reserved
-// sprite index used for transparency
-static constexpr unsigned sprite_count = 255;
+// defined in 'resources/tile_map.hpp'
 
 // type used to index a sprite
 // note. 8-bit for 'collision_map' to fit in a contiguous block of heap
 using sprite_ix = uint8_t;
+
+// sprites available for allocation using 'sprites'
+// note. maximum is one less than max number of 'sprite_ix' due to the reserved
+// sprite index used for transparency
+static constexpr unsigned sprite_count = 255;
 
 // objects available for allocation using 'objects'
 static constexpr unsigned object_count = 255;
