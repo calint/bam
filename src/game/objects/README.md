@@ -24,7 +24,7 @@
 * example:
   - if `col_bits` of object A bitwise AND with `col_mask` of object B is non-zero then object B `col_with` pointer is set to object A
   - same procedure is done with A and B swapped
-* the definition of the 32 available bits and their meaning is custom depending on the game
+* the definition bits and their meaning is custom depending on the game
 * example:
   - bit 1 - _'enemy fire'_ - meaning that all classes representing _'enemy fire'_ enable bit 1 in `col_bits`
   - hero `col_mask` would enable bit 1 to get notified when collision with any _'enemy fire'_ object occurs
