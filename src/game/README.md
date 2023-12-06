@@ -52,4 +52,4 @@ appendix:
 * due to target device not being able to allocate large (>150KB) chunks of contiguous memory some limitations are imposed
 * concurrent sprites limited to 255 due to collision map having to be 8-bit to fit the screen pixels in a contiguous block of memory
 * concurrent objects limited to 255 being a natural sizing considering sprites
-* limits can be modified in `defs.hpp`
+* limits defined in `defs.hpp`
