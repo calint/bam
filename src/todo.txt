@@ -10,7 +10,7 @@
 [ ] o1store: consider using std::vector instead of calloc and free
 [ ] o1store: consider a minimal implementation of span to return allocated list
 [ ] #define O1STORE_DEBUG to check for double free, index out of bounds
-[ ] modifiable tiles map
+[x] modifiable tiles map
 [ ] vectorized functions:
     #include <esp32-hal-vector.h>
     float a[4] = {1.5, 2.5, 3.5, 4.5};

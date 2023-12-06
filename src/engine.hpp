@@ -47,7 +47,7 @@ public:
 class tile_map {
 public:
   tile_ix cell[tile_map_height][tile_map_width];
-} static constexpr tile_map{{
+} static tile_map{{
 #include "game/resources/tile_map.hpp"
 }};
 
