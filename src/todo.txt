@@ -1,0 +1,44 @@
+[x] o1store: consider replacing alloc_ix with pointer to array element
+    removing array look-ups vs free_, alloc_, del_ would hold pointers (x4 space usage)
+[ ] game_object: position relative to tile map or screen
+[ ] consider locking dt to 30 fps for deterministic behavior
+[ ] horizontal, vertical flip of sprite
+[ ] several sets of tiles cycled for animation
+[ ] render_scanline(...) consider looping through allocated sprites instead of all
+[ ] o1store: can_allocate() is not thread safe
+[ ] o1store: hang if overrun?
+[ ] o1store: consider using std::vector instead of calloc and free
+[ ] o1store: consider a minimal implementation of span to return allocated list
+[ ] #define O1STORE_DEBUG to check for double free, index out of bounds
+[ ] modifiable tiles map
+[ ] vectorized functions:
+    #include <esp32-hal-vector.h>
+    float a[4] = {1.5, 2.5, 3.5, 4.5};
+    float b[4] = {0.5, 1.5, 2.5, 3.5};
+    float result[4];
+    vaddf(result, a, b, 4);
+-------------------------------------------------------------------------------
+[x] keep engine 'object' minimalistic and extract logic and update to 'game_object'
+[x] display_width and height is defined in engine.hpp but is device dependent
+    => extracted to 'platform.hpp' as platform dependent constant
+[x] animated sprite class {sprite_img,ms}
+    => animation implemented ad-hoc in 'game/objects/ship2.hpp'
+[x] separate palette for sprites and tiles
+[x] extract files into headers/source
+[x] collision detection: bit field for type and collision interest
+[-] o1store: consider std::array instead of pointers
+    => done with pointer shenanigans
+[x] o1store: consider using pointers instead indexes in arrays
+[x] o1store: return pointer to object instead of reference.
+    nullptr if allocation could not be done.
+[x] sprite allocation for active objects
+    => O(1) sprite allocation and free
+[x] make sprite allocation class into a template
+    => o1store
+[x] objects composed of several sprites
+[x] separate concept of sprite and object
+[x] polymorphism without allocation on the heap
+    => 'new' in place
+[x] replace #define with constexpr
+    => somewhat worse because it is unclear by naming what is constant
+       consider reverting to 'defines' including other constexpr or naming captialized?
