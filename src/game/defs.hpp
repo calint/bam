@@ -19,7 +19,9 @@ static constexpr unsigned tile_count = 256;
 // type used to index an in the 'tile_imgs' array
 using tile_ix = uint8_t;
 
+//
 // example configuration of more sprites and tiles
+//
 // static constexpr unsigned sprite_imgs_count = 512;
 // using sprite_imgs_ix = uint16_t;
 // static constexpr unsigned tile_count = 512;
@@ -35,8 +37,8 @@ static constexpr unsigned tile_map_height = 320;
 using sprite_ix = uint8_t;
 
 // sprites available for allocation using 'sprites'
-// note. maximum is one less than max number of 'sprite_ix' due to the reserved
-// sprite index used for transparency
+// note. maximum is one less than maximum number of 'sprite_ix' due to the
+// reserved sprite index used for transparency
 static constexpr unsigned sprite_count = 255;
 
 // objects available for allocation using 'objects'
