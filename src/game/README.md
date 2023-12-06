@@ -9,6 +9,8 @@ table of contents (in include order by program file):
 * `game_state.hpp` game state used by objects
 * `objects/*` game objects
 * `main.hpp` setup initial game state, callbacks from engine, game logic
+
+utilities:
 * `png-to-resources/*` tools for extracting resources from png files
 
 # overview
