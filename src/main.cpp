@@ -32,12 +32,6 @@
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
 
-// #define USE_WIFI
-#ifdef USE_WIFI
-#include "WiFi.h"
-#include "secrets.h"
-#endif
-
 // rgb led
 static constexpr uint8_t cyd_led_blue = 17;
 static constexpr uint8_t cyd_led_red = 4;
@@ -284,9 +278,6 @@ void setup(void) {
                 display_height);
   Serial.printf("     free heap mem: %u B\n", ESP.getFreeHeap());
   Serial.printf("largest free block: %u B\n", ESP.getMaxAllocHeap());
-#ifdef USE_WIFI
-  Serial.printf("              WiFi: on\n");
-#endif
   Serial.printf("------------------- type sizes ---------------------------\n");
   Serial.printf("              bool: %zu B\n", sizeof(bool));
   Serial.printf("              char: %zu B\n", sizeof(char));
@@ -351,20 +342,6 @@ void setup(void) {
   display.init();
   display.setRotation(display_orientation);
   display.initDMA(true);
-
-#ifdef USE_WIFI
-  WiFi.begin(secret_wifi_network, secret_wifi_password);
-  WiFi.setAutoReconnect(true);
-  Serial.print("Connecting to ");
-  Serial.print(secret_wifi_network);
-  Serial.flush();
-  while (WiFi.status() != WL_CONNECTED) {
-    Serial.print(".");
-    sleep(1);
-  }
-  Serial.print("\nConnected\nIP: ");
-  Serial.println(WiFi.localIP());
-#endif
 
   // set random seed for deterministic behavior
   randomSeed(0);
