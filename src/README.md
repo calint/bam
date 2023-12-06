@@ -1,4 +1,4 @@
-# toy game
+# bam game platform
 
 table of contents:
 * `main.cpp` platform dependent code for booting and rendering
