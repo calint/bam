@@ -34,12 +34,12 @@ utilities:
 
 ## resources/*
 * `sprite_imgs.hpp`, `tile_imgs.hpp` and `palette_*.hpp` generated from png file by tool `png-to-resources/extract.sh`
+* tile map size is user defined in `defs.hpp`
+* `tile_map.hpp` is not tool generated
 * separate palettes for tiles and sprites
 * 256 sprite and 256 tile images is default, however more can be defined by changing settings in `defs.hpp`
   - example of 512 sprite and 512 tile images configuration is commented in `defs.hpp`
 * sprite and tile images are constant data stored in program memory
-* tile map size is user defined in `defs.hpp`
-* note. `tile_map.hpp` is not tool generated
 
 ## defs.hpp
 ### `enum object_class`
