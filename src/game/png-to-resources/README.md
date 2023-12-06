@@ -21,8 +21,8 @@ script `./extract.sh` will overwrite files in `game/resources/`
 note. check that transparency pixel is index 0
 
 ## current resources
-tiles:  
+### tiles
 ![tiles](tiles.png)
 
-sprites:  
+### sprites
 ![sprites](sprites.png)
