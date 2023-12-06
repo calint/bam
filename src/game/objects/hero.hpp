@@ -1,8 +1,9 @@
 #pragma once
+// first include engine
 #include "../../engine.hpp"
-// include game logic
+// then game state
 #include "../game_state.hpp"
-// include dependencies
+// then objects
 #include "bullet.hpp"
 #include "fragment.hpp"
 #include "game_object.hpp"

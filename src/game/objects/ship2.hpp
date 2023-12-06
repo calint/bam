@@ -1,6 +1,7 @@
 #pragma once
+// first include engine
 #include "../../engine.hpp"
-
+// then objects
 #include "game_object.hpp"
 
 class ship2 final : public game_object {
@@ -58,5 +59,6 @@ public:
 };
 
 const sprite_imgs_ix ship2::animation_frames[] = {6, 7};
-const unsigned ship2::animation_frames_len = sizeof(ship2::animation_frames) / sizeof(sprite_imgs_ix);
+const unsigned ship2::animation_frames_len =
+    sizeof(ship2::animation_frames) / sizeof(sprite_imgs_ix);
 const unsigned ship2::animation_rate_ms = 500;

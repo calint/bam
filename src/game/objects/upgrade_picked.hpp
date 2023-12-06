@@ -1,6 +1,7 @@
 #pragma once
+// first include engine
 #include "../../engine.hpp"
-
+// then objects
 #include "game_object.hpp"
 
 class upgrade_picked final : public game_object {
