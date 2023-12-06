@@ -33,7 +33,7 @@ utilities:
 * used in `main_on_frame_completed` to solve circular reference problems
 
 ## resources/*
-* `sprite_imgs.hpp`, `tile_imgs.hpp` and `palette_*.hpp` generated from png file by tool `png-to-resources/extract.sh`
+* `sprite_imgs.hpp`, `tile_imgs.hpp` and `palette_*.hpp` generated from png files by tool `png-to-resources/extract.sh`
 * tile map size is user defined in `defs.hpp`
 * `tile_map.hpp` is not tool generated
 * separate palettes for tiles and sprites
