@@ -85,7 +85,7 @@ public:
   // adds instance to a list that is applied with 'apply_free()'
   void free_instance(Type *inst) {
     if (del_ptr_ >= del_end_) {
-      Serial.printf("!!! o1store %u: free overrun\n", StoreId);
+      printf("!!! o1store %u: free overrun\n", StoreId);
       while (true)
         ;
     }

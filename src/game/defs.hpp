@@ -30,6 +30,18 @@ using tile_ix = uint8_t;
 static constexpr unsigned tile_map_width = 15;
 static constexpr unsigned tile_map_height = 320;
 
+// sprites available for allocation using 'sprites'
+// note. maximum one less than max number of 'sprite_ix' due to the reserved
+// sprite index used for transparency
+static constexpr unsigned sprite_count = 255;
+
+// type used to index a sprite
+// note. 8-bit for 'collision_map' to fit in a contiguous block of heap
+using sprite_ix = uint8_t;
+
+// objects available for allocation using 'objects'
+static constexpr unsigned object_count = 255;
+
 // size that fits any instance of game object
 static constexpr unsigned object_instance_max_size_B = 256;
 

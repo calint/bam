@@ -7,6 +7,7 @@
 #include "game_state.hpp"
 
 #include "objects/bullet.hpp"
+#include "objects/dummy.hpp"
 #include "objects/hero.hpp"
 #include "objects/ship1.hpp"
 #include "objects/ship2.hpp"
@@ -28,6 +29,17 @@ static void main_setup() {
   // blt->x = display_width / 2 - sprite_width / 2;
   // blt->y = 300;
   // blt->dy = -100;
+
+  // printf("------------------- game objects -------------------------\n");
+  printf("            bullet: %u B\n", sizeof(bullet));
+  printf("             dummy: %u B\n", sizeof(dummy));
+  printf("          fragment: %u B\n", sizeof(fragment));
+  printf("              hero: %u B\n", sizeof(hero));
+  printf("             ship1: %u B\n", sizeof(ship1));
+  printf("             ship2: %u B\n", sizeof(ship2));
+  printf("    upgrade_picked: %u B\n", sizeof(upgrade_picked));
+  printf("           upgrade: %u B\n", sizeof(upgrade));
+  printf("----------------------------------------------------------\n");
 }
 
 unsigned long last_fire_ms = 0;

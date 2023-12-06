@@ -277,54 +277,53 @@ void setup(void) {
   sleep(1); // arbitrary wait 1 second for serial to connect
 
   // heap_caps_dump_all();
-  Serial.printf("\n\n");
-  Serial.printf("------------------- platform -----------------------------\n");
-  Serial.printf("        chip model: %s\n", ESP.getChipModel());
-  Serial.printf("            screen: %u x %u px\n", display_width,
-                display_height);
-  Serial.printf("     free heap mem: %u B\n", ESP.getFreeHeap());
-  Serial.printf("largest free block: %u B\n", ESP.getMaxAllocHeap());
-  Serial.printf("------------------- type sizes ---------------------------\n");
-  Serial.printf("              bool: %zu B\n", sizeof(bool));
-  Serial.printf("              char: %zu B\n", sizeof(char));
-  Serial.printf("               int: %zu B\n", sizeof(int));
-  Serial.printf("              long: %zu B\n", sizeof(long));
-  Serial.printf("         long long: %zu B\n", sizeof(long long));
-  Serial.printf("             float: %zu B\n", sizeof(float));
-  Serial.printf("            double: %zu B\n", sizeof(double));
-  Serial.printf("             void*: %zu B\n", sizeof(void *));
-  Serial.printf("------------------- object sizes -------------------------\n");
-  Serial.printf("            sprite: %zu B\n", sizeof(sprite));
-  Serial.printf("            object: %zu B\n", sizeof(object));
-  Serial.printf("              tile: %zu B\n", sizeof(tiles[0]));
+  printf("\n\n");
+  printf("------------------- platform -----------------------------\n");
+  printf("        chip model: %s\n", ESP.getChipModel());
+  printf("            screen: %u x %u px\n", display_width, display_height);
+  printf("     free heap mem: %u B\n", ESP.getFreeHeap());
+  printf("largest free block: %u B\n", ESP.getMaxAllocHeap());
+  printf("------------------- type sizes ---------------------------\n");
+  printf("              bool: %zu B\n", sizeof(bool));
+  printf("              char: %zu B\n", sizeof(char));
+  printf("               int: %zu B\n", sizeof(int));
+  printf("              long: %zu B\n", sizeof(long));
+  printf("         long long: %zu B\n", sizeof(long long));
+  printf("             float: %zu B\n", sizeof(float));
+  printf("            double: %zu B\n", sizeof(double));
+  printf("             void*: %zu B\n", sizeof(void *));
+  printf("------------------- object sizes -------------------------\n");
+  printf("            sprite: %zu B\n", sizeof(sprite));
+  printf("            object: %zu B\n", sizeof(object));
+  printf("              tile: %zu B\n", sizeof(tiles[0]));
 
   // allocate DMA buffers
   dma_buf_1 = static_cast<uint16_t *>(malloc(dma_buf_size));
   dma_buf_2 = static_cast<uint16_t *>(malloc(dma_buf_size));
   if (!dma_buf_1 or !dma_buf_2) {
-    Serial.printf("!!! could not allocate DMA buffers");
+    printf("!!! could not allocate DMA buffers");
     while (true)
       ;
   }
 
   engine_setup();
 
-  Serial.printf("------------------- after init ---------------------------\n");
-  Serial.printf("     free heap mem: %zu B\n", ESP.getFreeHeap());
-  Serial.printf("largest free block: %zu B\n", ESP.getMaxAllocHeap());
-  Serial.printf("------------------- globals ------------------------------\n");
-  Serial.printf("          tile map: %zu B\n", sizeof(tile_map));
-  Serial.printf("           sprites: %zu B\n", sizeof(sprites));
-  Serial.printf("           objects: %zu B\n", sizeof(objects));
-  Serial.printf("------------------- on heap ------------------------------\n");
-  Serial.printf("      sprites data: %zu B\n", sprites.allocated_data_size_B());
-  Serial.printf("      objects data: %zu B\n", objects.allocated_data_size_B());
-  Serial.printf("     collision map: %zu B\n", collision_map_size);
-  Serial.printf("   DMA buf 1 and 2: %zu B\n", 2 * dma_buf_size);
-  Serial.printf("------------------- in program memory --------------------\n");
-  Serial.printf("     sprite images: %zu B\n", sizeof(sprite_imgs));
-  Serial.printf("             tiles: %zu B\n", sizeof(tiles));
-  Serial.printf("----------------------------------------------------------\n");
+  printf("------------------- after init ---------------------------\n");
+  printf("     free heap mem: %zu B\n", ESP.getFreeHeap());
+  printf("largest free block: %zu B\n", ESP.getMaxAllocHeap());
+  printf("------------------- globals ------------------------------\n");
+  printf("          tile map: %zu B\n", sizeof(tile_map));
+  printf("           sprites: %zu B\n", sizeof(sprites));
+  printf("           objects: %zu B\n", sizeof(objects));
+  printf("------------------- on heap ------------------------------\n");
+  printf("      sprites data: %zu B\n", sprites.allocated_data_size_B());
+  printf("      objects data: %zu B\n", objects.allocated_data_size_B());
+  printf("     collision map: %zu B\n", collision_map_size);
+  printf("   DMA buf 1 and 2: %zu B\n", 2 * dma_buf_size);
+  printf("------------------- in program memory --------------------\n");
+  printf("     sprite images: %zu B\n", sizeof(sprite_imgs));
+  printf("             tiles: %zu B\n", sizeof(tiles));
+  printf("----------------------------------------------------------\n");
 
   // set rgb led blue
   digitalWrite(cyd_led_red, HIGH);
@@ -361,9 +360,9 @@ void setup(void) {
 
 void loop() {
   if (clk.on_frame(millis())) {
-    Serial.printf("t=%lu  fps=%u  ldr=%u  objs=%u  sprs=%u\n", clk.ms, clk.fps,
-                  analogRead(cyd_ldr_pin), objects.allocated_list_len(),
-                  sprites.allocated_list_len());
+    printf("t=%lu  fps=%u  ldr=%u  objs=%u  sprs=%u\n", clk.ms, clk.fps,
+           analogRead(cyd_ldr_pin), objects.allocated_list_len(),
+           sprites.allocated_list_len());
   }
 
   if (touch_screen.tirqTouched() and touch_screen.touched()) {

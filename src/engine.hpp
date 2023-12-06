@@ -67,11 +67,6 @@ static constexpr uint8_t sprite_imgs[sprite_imgs_count]
 #include "game/resources/sprite_imgs.hpp"
                                     };
 
-using sprite_ix = uint8_t;
-// data type used to index a sprite
-// note. for 'collision_map' to fit in a contiguous block of heap it must be
-// 8-bit
-
 // the reserved 'sprite_ix' in 'collision_map' representing 'no sprite pixel'
 static constexpr sprite_ix sprite_ix_reserved =
     std::numeric_limits<sprite_ix>::max();
@@ -88,7 +83,7 @@ public:
   sprite **alloc_ptr = nullptr;
 };
 
-using sprites_store = o1store<sprite, 255, 1>;
+using sprites_store = o1store<sprite, sprite_count, 1>;
 // note. 255 because sprite_ix a.k.a. uint8_t max size is 255
 // note. sprite 255 is reserved which gives 255 [0:254] usable sprites
 
@@ -175,7 +170,7 @@ public:
   virtual void pre_render() {}
 };
 
-using object_store = o1store<object, 255, 2, object_instance_max_size_B>;
+using object_store = o1store<object, object_count, 2, object_instance_max_size_B>;
 
 class objects : public object_store {
 public:
@@ -205,7 +200,7 @@ static void engine_setup() {
   // allocate collision map
   collision_map = static_cast<sprite_ix *>(malloc(collision_map_size));
   if (!collision_map) {
-    Serial.printf("!!! could not allocate collision map");
+    printf("!!! could not allocate collision map\n");
     while (true)
       ;
   }
