@@ -186,10 +186,9 @@ static void render(const unsigned x, const unsigned y) {
   sprite_ix *collision_map_scanline_ptr = collision_map;
   if (tile_dy) {
     // render the partial top tile
-    // swap between two rendering buffers to not overwrite DMA accessed
-    // buffer
-    uint16_t *render_buf_ptr = dma_buf_use_first ? dma_buf_1 : dma_buf_2;
-    dma_buf_use_first = not dma_buf_use_first;
+    // note. always 'buf_1' and flip 'buf_use_first'
+    uint16_t *render_buf_ptr = dma_buf_1;
+    dma_buf_use_first = false;
     // pointer to the buffer that the DMA will copy to screen
     uint16_t *dma_buf = render_buf_ptr;
     // render scanlines of first partial tile
@@ -242,7 +241,6 @@ static void render(const unsigned x, const unsigned y) {
     // swap between two rendering buffers to not overwrite DMA accessed
     // buffer
     uint16_t *render_buf_ptr = dma_buf_use_first ? dma_buf_1 : dma_buf_2;
-    dma_buf_use_first = not dma_buf_use_first;
     // pointer to the buffer that the DMA will copy to screen
     uint16_t *dma_buf = render_buf_ptr;
     // render the partial last tile row
@@ -297,8 +295,8 @@ void setup(void) {
   Serial.printf("             void*: %zu B\n", sizeof(void *));
 
   // allocate DMA buffers
-  dma_buf_1 = (uint16_t *)malloc(dma_buf_size);
-  dma_buf_2 = (uint16_t *)malloc(dma_buf_size);
+  dma_buf_1 = static_cast<uint16_t *>(malloc(dma_buf_size));
+  dma_buf_2 = static_cast<uint16_t *>(malloc(dma_buf_size));
   if (!dma_buf_1 or !dma_buf_2) {
     Serial.printf("!!! could not allocate DMA buffers");
     while (true)

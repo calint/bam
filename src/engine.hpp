@@ -206,7 +206,7 @@ public:
 
 static void engine_setup() {
   // allocate collision map
-  collision_map = (sprite_ix *)malloc(collision_map_size);
+  collision_map = static_cast<sprite_ix *>(malloc(collision_map_size));
   if (!collision_map) {
     Serial.printf("!!! could not allocate collision map");
     while (true)

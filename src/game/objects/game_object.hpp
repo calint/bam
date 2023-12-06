@@ -21,7 +21,7 @@ public:
   // run time information about the class of this object
   object_class cls;
 
-  game_object(object_class c) : cls{c} {}
+  explicit game_object(object_class c) : cls{c} {}
   // note. after constructor 'spr' must be in valid state.
 
   ~game_object() override {

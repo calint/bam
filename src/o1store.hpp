@@ -26,26 +26,33 @@ class o1store {
 public:
   o1store() {
     if (InstanceSizeInBytes) {
-      all_ = (Type *)calloc(Size, InstanceSizeInBytes);
+      all_ = static_cast<Type *>(calloc(Size, InstanceSizeInBytes));
     } else {
-      all_ = (Type *)calloc(Size, sizeof(Type));
+      all_ = static_cast<Type *>(calloc(Size, sizeof(Type)));
     }
-    free_ptr_ = free_bgn_ = (Type **)calloc(Size, sizeof(Type *));
+
+    free_ptr_ = free_bgn_ = static_cast<Type **>(calloc(Size, sizeof(Type *)));
     free_end_ = free_bgn_ + Size;
-    alloc_ptr_ = alloc_bgn_ = (Type **)calloc(Size, sizeof(Type *));
-    del_ptr_ = del_bgn_ = (Type **)calloc(Size, sizeof(Type *));
+
+    alloc_ptr_ = alloc_bgn_ =
+        static_cast<Type **>(calloc(Size, sizeof(Type *)));
+
+    del_ptr_ = del_bgn_ = static_cast<Type **>(calloc(Size, sizeof(Type *)));
     del_end_ = del_bgn_ + Size;
+
     if (!all_ or !free_bgn_ or !alloc_bgn_ or !del_bgn_) {
       Serial.printf("!!! o1store %u: could not allocate arrays\n", StoreId);
       while (true)
         ;
     }
+
     // write pointers to instances in the 'free' list
     Type *all_it = all_;
     for (Type **free_it = free_bgn_; free_it < free_end_; free_it++) {
       *free_it = all_it;
       if (InstanceSizeInBytes) {
-        all_it = (Type *)((char *)all_it + InstanceSizeInBytes);
+        all_it = reinterpret_cast<Type *>(reinterpret_cast<char *>(all_it) +
+                                          InstanceSizeInBytes);
       } else {
         all_it++;
       }
@@ -120,7 +127,8 @@ public:
       return &all_[ix];
     }
     // note. if instance size is specified do pointer shenanigans
-    return (Type *)((char *)all_ + InstanceSizeInBytes * ix);
+    return reinterpret_cast<Type *>(reinterpret_cast<char *>(all_) +
+                                    InstanceSizeInBytes * ix);
   }
 
   // returns the size in bytes of allocated heap memory
