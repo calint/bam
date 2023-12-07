@@ -22,24 +22,6 @@ static constexpr uint16_t palette_sprites[256]{
 #include "game/resources/palette_sprites.hpp"
 };
 
-// tile dimensions
-static constexpr unsigned tile_width = 16;
-static constexpr unsigned tile_height = 16;
-
-// the right shift of 'x' to get the x in tiles map
-static constexpr unsigned tile_width_shift = 4;
-
-// the bits that are the partial tile position between 0 and not including
-// 'tile_width'
-static constexpr unsigned tile_width_and = 15;
-
-// the right shift of 'y' to get the y in tiles map
-static constexpr unsigned tile_height_shift = 4;
-
-// the bits that are the partial tile position between 0 and not including
-// 'tile_height'
-static constexpr unsigned tile_height_and = 15;
-
 static constexpr uint8_t tiles[tiles_count][tile_width * tile_height]{
 #include "game/resources/tiles.hpp"
 };
@@ -48,15 +30,32 @@ static tile_ix tile_map[tile_map_height][tile_map_width]{
 #include "game/resources/tile_map.hpp"
 };
 
+static constexpr int count_right_shifts_until_1(unsigned num) {
+  return (num <= 1) ? 0 : 1 + count_right_shifts_until_1(num >> 1);
+}
+
+// the right shift of 'x' to get the x in tiles map
+static constexpr unsigned tile_width_shift =
+    count_right_shifts_until_1(tile_width);
+
+// the right shift of 'y' to get the y in tiles map
+static constexpr unsigned tile_height_shift =
+    count_right_shifts_until_1(tile_height);
+;
+
+// the bits that are the partial tile position between 0 and not including
+// 'tile_width'
+static constexpr unsigned tile_width_and = (1 << tile_width_shift) - 1;
+
+// the bits that are the partial tile position between 0 and not including
+// 'tile_height'
+static constexpr unsigned tile_height_and = (1 << tile_height_shift) - 1;
+
 // tile map controls
 static float tile_map_x = 0;
 static float tile_map_dx = 0;
 static float tile_map_y = 0;
 static float tile_map_dy = 0;
-
-// sprite dimensions
-static constexpr unsigned sprite_width = 16;
-static constexpr unsigned sprite_height = 16;
 
 static constexpr int16_t sprite_width_neg = -int16_t(sprite_width);
 // used when rendering

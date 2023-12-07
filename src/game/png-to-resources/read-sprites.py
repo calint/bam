@@ -2,7 +2,8 @@
 from PIL import Image
 import sys
 
-def print_sprites_as_game_resource(filename):
+
+def print_sprites_as_game_resource(spr_width: int, spr_height: int, filename: str):
     try:
         with Image.open(filename) as img:
             if img.mode != "P":
@@ -11,12 +12,12 @@ def print_sprites_as_game_resource(filename):
 
             width, height = img.size
             ix = 0
-            for row in range(0, height, 16):
-                for column in range(0, width, 16):
+            for row in range(0, height, spr_height):
+                for column in range(0, width, spr_width):
                     print("{ //", ix)
                     ix += 1
-                    for y in range(row, row + 16):
-                        for x in range(column, column + 16):
+                    for y in range(row, row + spr_height):
+                        for x in range(column, column + spr_width):
                             pixel = img.getpixel((x, y))
                             print(f"0x{pixel:02X},", end="")
                         print()
@@ -25,8 +26,9 @@ def print_sprites_as_game_resource(filename):
     except Exception as e:
         print(f"Error: {e}")
 
+
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("usage: read-sprites <filename>")
+    if len(sys.argv) < 4:
+        print("usage: read-sprites <width> <height> <filename>")
         sys.exit(1)
-    print_sprites_as_game_resource(sys.argv[1])
+    print_sprites_as_game_resource(int(sys.argv[1]), int(sys.argv[2]), sys.argv[3])

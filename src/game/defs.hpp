@@ -34,6 +34,14 @@ using tile_ix = uint8_t;
 // static constexpr unsigned tiles_count = 512;
 // using tile_ix = uint16_t;
 
+// sprite dimensions
+static constexpr unsigned sprite_width = 16;
+static constexpr unsigned sprite_height = 16;
+
+// tile dimensions
+static constexpr unsigned tile_width = 16;
+static constexpr unsigned tile_height = 16;
+
 // tile map dimension
 static constexpr unsigned tile_map_width = 15;
 static constexpr unsigned tile_map_height = 320;
