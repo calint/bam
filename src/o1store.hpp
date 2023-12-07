@@ -3,7 +3,7 @@
 // implements a O(1) store of objects
 //
 // * Type is object type. 'Type' must contain public field 'Type **alloc_ptr'
-// * Size is number of pre-allocated objects
+// * Size is number of preallocated objects
 // * StoreId is for debugging
 // * InstanceSizeInBytes is custom size of instance
 //   used to fit largest object in an object hierarchy
@@ -108,6 +108,9 @@ public:
   inline auto allocated_list_len() -> unsigned {
     return alloc_ptr_ - alloc_bgn_;
   }
+
+  // returns length of list of allocated instances
+  inline auto allocated_list_end() -> Type ** { return alloc_ptr_; }
 
   // returns the list with all preallocated instances
   inline auto all_list() -> Type * { return all_; }

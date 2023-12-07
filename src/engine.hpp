@@ -126,9 +126,10 @@ using object_store =
 class objects : public object_store {
 public:
   void update() {
-    object **it = allocated_list();
-    const unsigned len = allocated_list_len();
-    for (unsigned i = 0; i < len; i++, it++) {
+    object **end = allocated_list_end();
+    // note. important to get the 'end' outside the loop because objects may
+    // allocate new objects in the loop and that would change the 'end'
+    for (object **it = allocated_list(); it < end; it++) {
       object *obj = *it;
       if (obj->update()) {
         obj->~object();
@@ -138,9 +139,10 @@ public:
   }
 
   void pre_render() {
-    object **it = allocated_list();
-    const unsigned len = allocated_list_len();
-    for (unsigned i = 0; i < len; i++, it++) {
+    object **end = allocated_list_end();
+    // note. important to get the 'end' outside the loop because objects may
+    // allocate new objects in the loop and that would change the 'end'
+    for (object **it = allocated_list(); it < end; it++) {
       object *obj = *it;
       obj->pre_render();
     }
