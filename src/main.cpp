@@ -69,7 +69,7 @@ static void render_scanline(
     const unsigned tile_x,
     const unsigned tile_dx,
     const unsigned tile_width_minus_dx,
-    const tile_ix *tiles_map_row_ptr,
+    const tiles_ix *tiles_map_row_ptr,
     const unsigned tile_sub_y,
     const unsigned tile_sub_y_times_tile_width
 ) {
@@ -79,7 +79,7 @@ static void render_scanline(
 
   if (tile_width_minus_dx) {
     // render first partial tile
-    const tile_ix tile_index = *(tiles_map_row_ptr + tile_x);
+    const tiles_ix tile_index = *(tiles_map_row_ptr + tile_x);
     const uint8_t *tile_data_ptr =
         tiles[tile_index] + tile_sub_y_times_tile_width + tile_dx;
     for (unsigned i = tile_dx; i < tile_width; i++) {
@@ -89,7 +89,7 @@ static void render_scanline(
   // render full tiles
   const unsigned tx_max = tile_x + (display_width / tile_width);
   for (unsigned tx = tile_x + 1; tx < tx_max; tx++) {
-    const tile_ix tile_index = *(tiles_map_row_ptr + tx);
+    const tiles_ix tile_index = *(tiles_map_row_ptr + tx);
     const uint8_t *tile_data_ptr =
         tiles[tile_index] + tile_sub_y_times_tile_width;
     for (unsigned i = 0; i < tile_width; i++) {
@@ -98,7 +98,7 @@ static void render_scanline(
   }
   if (tile_dx) {
     // render last partial tile
-    const tile_ix tile_index = *(tiles_map_row_ptr + tx_max);
+    const tiles_ix tile_index = *(tiles_map_row_ptr + tx_max);
     const uint8_t *tile_data_ptr =
         tiles[tile_index] + tile_sub_y_times_tile_width;
     for (unsigned i = 0; i < tile_dx; i++) {
@@ -181,7 +181,7 @@ static void render(const unsigned x, const unsigned y) {
   // current line y on screen
   int16_t scanline_y = 0;
   // pointer to start of current row of tiles
-  const tile_ix *tiles_map_row_ptr = tile_map[tile_y];
+  const tiles_ix *tiles_map_row_ptr = tile_map[tile_y];
   // pointer to collision map starting at top left of screen
   sprite_ix *collision_map_scanline_ptr = collision_map;
   if (tile_dy) {

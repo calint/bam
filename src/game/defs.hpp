@@ -5,7 +5,7 @@
 // 0: portrait, 1: landscape
 static constexpr uint8_t display_orientation = 0;
 
-// lock dt to 32 ms per frame, approximating ~31 fps
+// lock dt to 32 ms per frame (~31 fps) for deterministic behavior
 static constexpr unsigned clk_locked_dt_ms = 32;
 // use measured time to increase dt
 // static constexpr unsigned clk_locked_dt_ms = 0;
@@ -17,27 +17,27 @@ static constexpr unsigned sprite_imgs_count = 256;
 // type used to index an instance in the 'sprite_imgs' array
 using sprite_imgs_ix = uint8_t;
 
-// number of tile images
-static constexpr unsigned tile_count = 256;
-// defined in 'resources/tile_imgs.hpp'
+// number of tiles
+static constexpr unsigned tiles_count = 256;
+// defined in 'resources/tiles.hpp'
 
-// type used to index an in the 'tile_imgs' array
-using tile_ix = uint8_t;
+// type used to index in the 'tiles' array from 'tile_map'
+using tiles_ix = uint8_t;
 
 //
 // example configuration of more sprites and tiles
 //
 // static constexpr unsigned sprite_imgs_count = 512;
 // using sprite_imgs_ix = uint16_t;
-// static constexpr unsigned tile_count = 512;
-// using tile_ix = uint16_t;
+// static constexpr unsigned tiles_count = 512;
+// using tiles_ix = uint16_t;
 
 // tile map dimension
 static constexpr unsigned tile_map_width = 15;
 static constexpr unsigned tile_map_height = 320;
 // defined in 'resources/tile_map.hpp'
 
-// type used to index a sprite
+// type used to index a 'sprite'
 // note. 8-bit for 'collision_map' to fit in a contiguous block of heap
 using sprite_ix = uint8_t;
 

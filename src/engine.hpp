@@ -40,11 +40,11 @@ static constexpr unsigned tile_height_shift = 4;
 // 'tile_height'
 static constexpr unsigned tile_height_and = 15;
 
-static constexpr uint8_t tiles[tile_count][tile_width * tile_height]{
-#include "game/resources/tile_imgs.hpp"
+static constexpr uint8_t tiles[tiles_count][tile_width * tile_height]{
+#include "game/resources/tiles.hpp"
 };
 
-static tile_ix tile_map[tile_map_height][tile_map_width]{
+static tiles_ix tile_map[tile_map_height][tile_map_width]{
 #include "game/resources/tile_map.hpp"
 };
 

@@ -6,4 +6,4 @@ cd $(dirname "$0")
 ./read-sprites.py sprites.png > ../resources/sprite_imgs.hpp
 
 ./read-palette.py tiles.png > ../resources/palette_tiles.hpp
-./read-sprites.py tiles.png > ../resources/tile_imgs.hpp
+./read-sprites.py tiles.png > ../resources/tiles.hpp
