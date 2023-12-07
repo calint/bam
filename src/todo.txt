@@ -5,6 +5,11 @@
     => config in defs
 [ ] horizontal, vertical flip of sprite
 [ ] several sets of tiles cycled for animation
+[ ] o1store: new_ list optimizing apply by putting new instances in deleted slots
+    without swapping. if len(del_)>len(add_) no swaps will be made.
+    concession another list of size Size of pointers to instances
+[ ] engine: make sprite_width, sprite_height, tile_width, tile_height user definable
+[ ] extract.sh width and height parameter
 [ ] render_scanline(...) consider looping through allocated sprites instead of all
 [ ] o1store: can_allocate() is not thread safe
 [ ] o1store: hang if overrun?
