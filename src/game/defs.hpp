@@ -14,10 +14,10 @@ static constexpr unsigned clk_locked_dt_ms = 32;
 static constexpr unsigned sprite_imgs_count = 256;
 // defined in 'resources/sprite_imgs.hpp'
 
-// type used to index an instance in the 'sprite_imgs' array
+// type used to index in the 'sprite_imgs' array
 using sprite_imgs_ix = uint8_t;
 
-// number of tiles
+// number of tile images
 static constexpr unsigned tiles_count = 256;
 // defined in 'resources/tiles.hpp'
 
