@@ -46,10 +46,10 @@ using sprite_ix = uint8_t;
 // sprites available for allocation using 'sprites'
 // note. maximum is one less than maximum number of 'sprite_ix' due to the
 // reserved sprite index used for transparency
-static constexpr unsigned sprite_count = 255;
+static constexpr unsigned sprites_count = 255;
 
 // objects available for allocation using 'objects'
-static constexpr unsigned object_count = 255;
+static constexpr unsigned objects_count = 255;
 
 // size that fits any instance of game object
 static constexpr unsigned object_instance_max_size_B = 256;

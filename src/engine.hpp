@@ -83,7 +83,7 @@ public:
   int16_t scr_y = 0;
 };
 
-using sprites_store = o1store<sprite, sprite_count, 1>;
+using sprites_store = o1store<sprite, sprites_count, 1>;
 
 static sprites_store sprites{};
 
@@ -121,7 +121,7 @@ public:
 };
 
 using object_store =
-    o1store<object, object_count, 2, object_instance_max_size_B>;
+    o1store<object, objects_count, 2, object_instance_max_size_B>;
 
 class objects : public object_store {
 public:
