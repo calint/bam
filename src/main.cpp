@@ -96,8 +96,8 @@ static void render_scanline(
       *render_buf_ptr++ = palette_tiles[*tile_data_ptr++];
     }
   }
-  constexpr unsigned remaining_x = display_width % tile_width;
-  if (remaining_x) {
+  constexpr unsigned remainder = display_width % tile_width;
+  if (remainder) {
     // this code is only compiled when display width is not evenly divisible
     // by tile_width
 
@@ -133,7 +133,8 @@ static void render_scanline(
     }
   } else {
     // this code is only compiled when display width is evenly divisible by
-    // tile_height
+    // tile_width
+
     if (tile_dx) {
       // render last partial tile
       const tile_ix tile_index = *(tiles_map_row_ptr + tx_max);
@@ -275,27 +276,118 @@ static void render(const unsigned x, const unsigned y) {
     display.setAddrWindow(0, frame_y, display_width, tile_height);
     display.pushPixelsDMA(dma_buf, display_width * tile_height);
   }
-  if (tile_dy) {
-    // render last partial tile
-    // swap between two rendering buffers to not overwrite DMA accessed
-    // buffer
-    uint16_t *render_buf_ptr = dma_buf_use_first ? dma_buf_1 : dma_buf_2;
-    // pointer to the buffer that the DMA will copy to screen
-    uint16_t *dma_buf = render_buf_ptr;
-    // render the partial last tile row
-    for (unsigned tile_sub_y = 0, tile_sub_y_times_tile_width = 0;
-         tile_sub_y < tile_dy;
-         tile_sub_y++, tile_sub_y_times_tile_width += tile_width,
-                  render_buf_ptr += display_width,
-                  collision_map_scanline_ptr += display_width, scanline_y++) {
+  constexpr unsigned remainder = display_height % tile_height;
+  if (remainder) {
+    // this code is only compiled when display height is not evenly divisible by
+    // tile_height
 
-      render_scanline(render_buf_ptr, collision_map_scanline_ptr, scanline_y,
-                      tile_x, tile_dx, tile_width_minus_dx, tiles_map_row_ptr,
-                      tile_sub_y, tile_sub_y_times_tile_width);
+    const unsigned remaining_y = display_height - scanline_y;
+    if (remaining_y <= tile_height) {
+      // swap between two rendering buffers to not overwrite DMA accessed
+      // buffer
+      uint16_t *render_buf_ptr = dma_buf_use_first ? dma_buf_1 : dma_buf_2;
+      dma_buf_use_first = not dma_buf_use_first;
+      // pointer to the buffer that the DMA will copy to screen
+      uint16_t *dma_buf = render_buf_ptr;
+      // render one tile height of pixels from tiles map and sprites to the
+      // 'render_buf_ptr'
+      for (unsigned tile_sub_y = 0, tile_sub_y_times_tile_width = 0;
+           tile_sub_y < remaining_y;
+           tile_sub_y++, tile_sub_y_times_tile_width += tile_height,
+                    render_buf_ptr += display_width,
+                    collision_map_scanline_ptr += display_width, scanline_y++) {
+
+        render_scanline(render_buf_ptr, collision_map_scanline_ptr, scanline_y,
+                        tile_x, tile_dx, tile_width_minus_dx, tiles_map_row_ptr,
+                        tile_sub_y, tile_sub_y_times_tile_width);
+      }
+
+      display.setAddrWindow(0, frame_y, display_width, remaining_y);
+      display.pushPixelsDMA(dma_buf, display_width * remaining_y);
+    } else {
+      // render a full tile then a partial tile
+      {
+        // swap between two rendering buffers to not overwrite DMA accessed
+        // buffer
+        uint16_t *render_buf_ptr = dma_buf_use_first ? dma_buf_1 : dma_buf_2;
+        dma_buf_use_first = not dma_buf_use_first;
+        // pointer to the buffer that the DMA will copy to screen
+        uint16_t *dma_buf = render_buf_ptr;
+        // render a tile height of pixels from tiles map and sprites to the
+        // 'render_buf_ptr'
+        for (unsigned tile_sub_y = 0, tile_sub_y_times_tile_width = 0;
+             tile_sub_y < tile_height;
+             tile_sub_y++, tile_sub_y_times_tile_width += tile_height,
+                      render_buf_ptr += display_width,
+                      collision_map_scanline_ptr += display_width,
+                      scanline_y++) {
+
+          render_scanline(render_buf_ptr, collision_map_scanline_ptr,
+                          scanline_y, tile_x, tile_dx, tile_width_minus_dx,
+                          tiles_map_row_ptr, tile_sub_y,
+                          tile_sub_y_times_tile_width);
+        }
+
+        display.setAddrWindow(0, frame_y, display_width, tile_height);
+        display.pushPixelsDMA(dma_buf, display_width * tile_height);
+
+        tile_y++;
+        tiles_map_row_ptr += tile_map_width;
+        frame_y += tile_height;
+      }
+      {
+        // swap between two rendering buffers to not overwrite DMA accessed
+        // buffer
+        uint16_t *render_buf_ptr = dma_buf_use_first ? dma_buf_1 : dma_buf_2;
+        dma_buf_use_first = not dma_buf_use_first;
+        // pointer to the buffer that the DMA will copy to screen
+        uint16_t *dma_buf = render_buf_ptr;
+        // render a partial tile of pixels from tiles map and sprites to the
+        // 'render_buf_ptr'
+        const unsigned len = remaining_y - tile_height;
+        for (unsigned tile_sub_y = 0, tile_sub_y_times_tile_width = 0;
+             tile_sub_y < len;
+             tile_sub_y++, tile_sub_y_times_tile_width += tile_height,
+                      render_buf_ptr += display_width,
+                      collision_map_scanline_ptr += display_width,
+                      scanline_y++) {
+
+          render_scanline(render_buf_ptr, collision_map_scanline_ptr,
+                          scanline_y, tile_x, tile_dx, tile_width_minus_dx,
+                          tiles_map_row_ptr, tile_sub_y,
+                          tile_sub_y_times_tile_width);
+        }
+
+        display.setAddrWindow(0, frame_y, display_width, len);
+        display.pushPixelsDMA(dma_buf, display_width * len);
+      }
     }
+  } else {
+    // this code is only compiled when display height is evenly divisible by
+    // tile_height
 
-    display.setAddrWindow(0, frame_y, display_width, tile_dy);
-    display.pushPixelsDMA(dma_buf, display_width * tile_dy);
+    if (tile_dy) {
+      // render last partial tile
+      // swap between two rendering buffers to not overwrite DMA accessed
+      // buffer
+      uint16_t *render_buf_ptr = dma_buf_use_first ? dma_buf_1 : dma_buf_2;
+      // pointer to the buffer that the DMA will copy to screen
+      uint16_t *dma_buf = render_buf_ptr;
+      // render the partial last tile row
+      for (unsigned tile_sub_y = 0, tile_sub_y_times_tile_width = 0;
+           tile_sub_y < tile_dy;
+           tile_sub_y++, tile_sub_y_times_tile_width += tile_width,
+                    render_buf_ptr += display_width,
+                    collision_map_scanline_ptr += display_width, scanline_y++) {
+
+        render_scanline(render_buf_ptr, collision_map_scanline_ptr, scanline_y,
+                        tile_x, tile_dx, tile_width_minus_dx, tiles_map_row_ptr,
+                        tile_sub_y, tile_sub_y_times_tile_width);
+      }
+
+      display.setAddrWindow(0, frame_y, display_width, tile_dy);
+      display.pushPixelsDMA(dma_buf, display_width * tile_dy);
+    }
   }
 
   display.endWrite();
