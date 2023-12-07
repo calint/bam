@@ -55,8 +55,10 @@ static TFT_eSPI display{};
 // using DMA. allocated in setup
 static constexpr unsigned dma_buf_size =
     sizeof(uint16_t) * display_width * tile_height;
-static uint16_t *dma_buf_1;
-static uint16_t *dma_buf_2;
+// static uint16_t *dma_buf_1;
+// static uint16_t *dma_buf_2;
+static uint16_t dma_buf_1[dma_buf_size];
+static uint16_t dma_buf_2[dma_buf_size];
 
 // clang-format off
 // note. not formatted because compiler gets confused and issues invalid error
@@ -393,7 +395,7 @@ static void render(const unsigned x, const unsigned y) {
   display.endWrite();
 }
 
-void setup(void) {
+void setup() {
   // setup rgb led pins
   pinMode(cyd_led_red, OUTPUT);
   pinMode(cyd_led_green, OUTPUT);
@@ -427,15 +429,6 @@ void setup(void) {
   printf("            sprite: %zu B\n", sizeof(sprite));
   printf("            object: %zu B\n", sizeof(object));
   printf("              tile: %zu B\n", sizeof(tiles[0]));
-
-  // allocate DMA buffers
-  dma_buf_1 = static_cast<uint16_t *>(malloc(dma_buf_size));
-  dma_buf_2 = static_cast<uint16_t *>(malloc(dma_buf_size));
-  if (!dma_buf_1 or !dma_buf_2) {
-    printf("!!! could not allocate DMA buffers\n");
-    while (true)
-      ;
-  }
 
   engine_setup();
 

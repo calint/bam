@@ -89,9 +89,9 @@ static sprites_store sprites{};
 
 // pixel precision collision detection between on screen sprites
 // allocated at 'engine_setup()'
-static sprite_ix *collision_map;
 static constexpr unsigned collision_map_size =
     sizeof(sprite_ix) * display_width * display_height;
+static sprite_ix *collision_map;
 
 class object {
 public:
