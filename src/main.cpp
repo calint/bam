@@ -101,14 +101,14 @@ static void render_scanline(
     // this code is only compiled when display width is not evenly divisible
     // by tile_width
 
-    const unsigned remaining_scan_line_len =
+    const unsigned remaining_x =
         display_width - (render_buf_ptr - scanline_ptr);
-    if (remaining_scan_line_len <= tile_width) {
+    if (remaining_x <= tile_width) {
       // complete the partial tile
       const tile_ix tile_index = *(tiles_map_row_ptr + tx_max);
       const uint8_t *tile_data_ptr =
           tiles[tile_index] + tile_sub_y_times_tile_width;
-      for (unsigned i = 0; i < remaining_scan_line_len; i++) {
+      for (unsigned i = 0; i < remaining_x; i++) {
         *render_buf_ptr++ = palette_tiles[*tile_data_ptr++];
       }
     } else {
@@ -125,7 +125,7 @@ static void render_scanline(
         const tile_ix tile_index = *(tiles_map_row_ptr + tx_max + 1);
         const uint8_t *tile_data_ptr =
             tiles[tile_index] + tile_sub_y_times_tile_width;
-        const unsigned len = remaining_scan_line_len - tile_width;
+        const unsigned len = remaining_x - tile_width;
         for (unsigned i = 0; i < len; i++) {
           *render_buf_ptr++ = palette_tiles[*tile_data_ptr++];
         }
