@@ -10,7 +10,7 @@ intention:
   - decent performance, ~30 frames per second on the device
 
 note:
-* device configuration file `src/User_Setup.h` provided by manufacturer has been copied to `lib/TFT_eSPI-2.5.34`
+* device configuration file `src/User_Setup.h` provided by the manufacturer has been copied to `lib/TFT_eSPI-2.5.34`
 
 ### about the device
 * [community](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display)
