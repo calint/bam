@@ -1,5 +1,5 @@
 # view assembler
-~/.platformio/packages/toolchain-xtensa-esp32/bin/xtensa-esp32-elf-objdump -S .pio/build/esp32dev/src/main.cpp.o
+~/.platformio/packages/toolchain-xtensa-esp32/bin/xtensa-esp32-elf-objdump -S .pio/build/esp32dev/src/main.cpp.o | less
 
 # stack trace. copy 'back trace' addresses as argument
 ~/.platformio/packages/toolchain-xtensa-esp32/bin/xtensa-esp32-elf-addr2line -pfiaC -e .pio/build/esp32dev/firmware.elf  0x400D2230:0x3FFD7CB0 0x400D846A:0x3FFD7CE0
