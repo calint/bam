@@ -86,6 +86,8 @@ static void render_scanline(
   }
   // render full tiles
   const unsigned tx_max = tile_x + (display_width / tile_width);
+  // note. tile_x + 1 because first tile is always rendered by the
+  //       loop above. tile_width_minus_dx can equal tile_width
   for (unsigned tx = tile_x + 1; tx < tx_max; tx++) {
     const tile_ix tile_index = *(tiles_map_row_ptr + tx);
     const uint8_t *tile_data_ptr =
