@@ -59,9 +59,6 @@ static constexpr unsigned sprites_count = 255;
 // objects available for allocation using 'objects'
 static constexpr unsigned objects_count = 255;
 
-// size that fits any instance of game object
-static constexpr unsigned object_instance_max_size_B = 256;
-
 // enumeration of game object classes
 // defined in 'objects/*'
 enum object_class : uint8_t {
@@ -74,6 +71,9 @@ enum object_class : uint8_t {
   upgrade_cls,
   upgrade_picked_cls
 };
+
+// size that fits any instance of game object
+static constexpr unsigned object_instance_max_size_B = 256;
 
 // define the size of collision bits
 using collision_bits = uint16_t;
