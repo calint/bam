@@ -17,6 +17,7 @@
 static void main_setup() {
   // scrolling vertically from bottom up
   tile_map_x = 0;
+  tile_map_dx = 16;
   tile_map_y = tile_map_height * tile_height - display_height;
   tile_map_dy = -16;
   // tile_map_y = 0;

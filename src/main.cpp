@@ -96,13 +96,52 @@ static void render_scanline(
       *render_buf_ptr++ = palette_tiles[*tile_data_ptr++];
     }
   }
-  if (tile_dx) {
-    // render last partial tile
-    const tile_ix tile_index = *(tiles_map_row_ptr + tx_max);
-    const uint8_t *tile_data_ptr =
-        tiles[tile_index] + tile_sub_y_times_tile_width;
-    for (unsigned i = 0; i < tile_dx; i++) {
-      *render_buf_ptr++ = palette_tiles[*tile_data_ptr++];
+  constexpr unsigned remaining_x = display_width % tile_width;
+  if (remaining_x) {
+    // this code is only compiled when display width is not evenly divisible
+    // by tile_width
+
+    const unsigned remaining_scan_line_len =
+        display_width - (render_buf_ptr - scanline_ptr);
+    if (remaining_scan_line_len <= tile_width) {
+      // complete the partial tile
+      const tile_ix tile_index = *(tiles_map_row_ptr + tx_max);
+      const uint8_t *tile_data_ptr =
+          tiles[tile_index] + tile_sub_y_times_tile_width;
+      for (unsigned i = 0; i < remaining_scan_line_len; i++) {
+        *render_buf_ptr++ = palette_tiles[*tile_data_ptr++];
+      }
+    } else {
+      // complete a full and a partial tile
+      {
+        const tile_ix tile_index = *(tiles_map_row_ptr + tx_max);
+        const uint8_t *tile_data_ptr =
+            tiles[tile_index] + tile_sub_y_times_tile_width;
+        for (unsigned i = 0; i < tile_width; i++) {
+          *render_buf_ptr++ = palette_tiles[*tile_data_ptr++];
+        }
+      }
+      {
+        const tile_ix tile_index = *(tiles_map_row_ptr + tx_max + 1);
+        const uint8_t *tile_data_ptr =
+            tiles[tile_index] + tile_sub_y_times_tile_width;
+        const unsigned len = remaining_scan_line_len - tile_width;
+        for (unsigned i = 0; i < len; i++) {
+          *render_buf_ptr++ = palette_tiles[*tile_data_ptr++];
+        }
+      }
+    }
+  } else {
+    // this code is only compiled when display width is evenly divisible by
+    // tile_height
+    if (tile_dx) {
+      // render last partial tile
+      const tile_ix tile_index = *(tiles_map_row_ptr + tx_max);
+      const uint8_t *tile_data_ptr =
+          tiles[tile_index] + tile_sub_y_times_tile_width;
+      for (unsigned i = 0; i < tile_dx; i++) {
+        *render_buf_ptr++ = palette_tiles[*tile_data_ptr++];
+      }
     }
   }
 
