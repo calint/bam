@@ -5,6 +5,11 @@
 // 0: portrait, 1: landscape
 static constexpr uint8_t display_orientation = 0;
 
+// lock dt to 32 ms per frame, approximating ~31 fps
+static constexpr unsigned clk_locked_dt_ms = 32;
+// use measured time to increase dt
+// static constexpr unsigned clk_locked_dt_ms = 0;
+
 // number of sprite images
 static constexpr unsigned sprite_imgs_count = 256;
 // defined in 'resources/sprite_imgs.hpp'

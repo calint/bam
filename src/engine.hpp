@@ -120,7 +120,8 @@ public:
   virtual void pre_render() {}
 };
 
-using object_store = o1store<object, object_count, 2, object_instance_max_size_B>;
+using object_store =
+    o1store<object, object_count, 2, object_instance_max_size_B>;
 
 class objects : public object_store {
 public:
@@ -156,6 +157,7 @@ private:
   unsigned frames_rendered_since_last_update_ = 0;
   time last_fps_update_ms_ = 0;
   time prv_ms_ = 0;
+  unsigned locked_dt_ms_ = 0;
 
 public:
   // current time since boot in milliseconds
@@ -170,18 +172,28 @@ public:
   // called at setup with current time and frames per seconds calculation
   // interval
   void init(const unsigned long time_ms,
-            const unsigned interval_of_fps_calculation_ms) {
-    last_fps_update_ms_ = prv_ms_ = ms;
+            const unsigned interval_of_fps_calculation_ms,
+            const unsigned locked_dt_ms) {
+    last_fps_update_ms_ = ms;
     interval_ms_ = interval_of_fps_calculation_ms;
-    ms = time_ms;
+    if (locked_dt_ms) {
+      locked_dt_ms_ = locked_dt_ms;
+      dt = 1.0f / locked_dt_ms;
+    } else {
+      prv_ms_ = ms = time_ms;
+    }
   }
 
   // called before every frame to update state
   // returns true if new frames per second calculation was done
   auto on_frame(const unsigned long time_ms) -> bool {
-    ms = time_ms;
-    dt = 0.001f * (ms - prv_ms_);
-    prv_ms_ = ms;
+    if (locked_dt_ms_) {
+      ms += locked_dt_ms_;
+    } else {
+      ms = time_ms;
+      dt = 0.001f * (ms - prv_ms_);
+      prv_ms_ = ms;
+    }
     frames_rendered_since_last_update_++;
     const unsigned long dt_ms = ms - last_fps_update_ms_;
     if (dt_ms >= interval_ms_) {

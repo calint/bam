@@ -348,7 +348,7 @@ void setup(void) {
 
   // initiate clock to current time and frames-per-second calculation every 2
   // seconds
-  clk.init(millis(), 2000);
+  clk.init(millis(), 2000, clk_locked_dt_ms);
 
   main_setup();
 

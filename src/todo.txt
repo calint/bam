@@ -1,7 +1,8 @@
 [x] o1store: consider replacing alloc_ix with pointer to array element
     removing array look-ups vs free_, alloc_, del_ would hold pointers (x4 space usage)
 [ ] game_object: position relative to tile map or screen
-[ ] consider locking dt to 30 fps for deterministic behavior
+[x] consider locking dt to 30 fps for deterministic behavior
+    => config in defs
 [ ] horizontal, vertical flip of sprite
 [ ] several sets of tiles cycled for animation
 [ ] render_scanline(...) consider looping through allocated sprites instead of all
