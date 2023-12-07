@@ -93,10 +93,8 @@ public:
       Type *inst_deleted = *it;
       alloc_ptr_--;
       Type *inst_to_move = *alloc_ptr_;
-      if (inst_deleted != inst_to_move) {
-        inst_to_move->alloc_ptr = inst_deleted->alloc_ptr;
-        *(inst_deleted->alloc_ptr) = inst_to_move;
-      }
+      inst_to_move->alloc_ptr = inst_deleted->alloc_ptr;
+      *(inst_deleted->alloc_ptr) = inst_to_move;
       free_ptr_--;
       *free_ptr_ = inst_deleted;
     }
