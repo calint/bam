@@ -24,7 +24,7 @@ static constexpr unsigned tiles_count = 256;
 // defined in 'resources/tiles.hpp'
 
 // type used to index in the 'tiles' array from 'tile_map'
-using tiles_ix = uint8_t;
+using tile_ix = uint8_t;
 
 //
 // example configuration of more sprites and tiles
@@ -32,7 +32,7 @@ using tiles_ix = uint8_t;
 // static constexpr unsigned sprite_imgs_count = 512;
 // using sprite_imgs_ix = uint16_t;
 // static constexpr unsigned tiles_count = 512;
-// using tiles_ix = uint16_t;
+// using tile_ix = uint16_t;
 
 // tile map dimension
 static constexpr unsigned tile_map_width = 15;

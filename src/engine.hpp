@@ -44,7 +44,7 @@ static constexpr uint8_t tiles[tiles_count][tile_width * tile_height]{
 #include "game/resources/tiles.hpp"
 };
 
-static tiles_ix tile_map[tile_map_height][tile_map_width]{
+static tile_ix tile_map[tile_map_height][tile_map_width]{
 #include "game/resources/tile_map.hpp"
 };
 
