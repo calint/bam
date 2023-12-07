@@ -53,10 +53,10 @@ static TFT_eSPI display{};
 
 // buffers for rendering a chunk while the other is transferred to the screen
 // using DMA. allocated in setup
-static uint16_t *dma_buf_1;
-static uint16_t *dma_buf_2;
 static constexpr unsigned dma_buf_size =
     sizeof(uint16_t) * display_width * tile_height;
+static uint16_t *dma_buf_1;
+static uint16_t *dma_buf_2;
 
 // clang-format off
 // note. not formatted because compiler gets confused and issues invalid error
@@ -432,7 +432,7 @@ void setup(void) {
   dma_buf_1 = static_cast<uint16_t *>(malloc(dma_buf_size));
   dma_buf_2 = static_cast<uint16_t *>(malloc(dma_buf_size));
   if (!dma_buf_1 or !dma_buf_2) {
-    printf("!!! could not allocate DMA buffers");
+    printf("!!! could not allocate DMA buffers\n");
     while (true)
       ;
   }
