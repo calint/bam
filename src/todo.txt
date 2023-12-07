@@ -1,8 +1,4 @@
-[x] o1store: consider replacing alloc_ix with pointer to array element
-    removing array look-ups vs free_, alloc_, del_ would hold pointers (x4 space usage)
 [ ] game_object: position relative to tile map or screen
-[x] consider locking dt to 30 fps for deterministic behavior
-    => config in defs
 [ ] horizontal, vertical flip of sprite
 [ ] several sets of tiles cycled for animation
 [ ] o1store: new_ list optimizing apply by putting new instances in deleted slots
@@ -16,7 +12,6 @@
 [ ] o1store: consider using std::vector instead of calloc and free
 [ ] o1store: consider a minimal implementation of span to return allocated list
 [ ] #define O1STORE_DEBUG to check for double free, index out of bounds
-[x] modifiable tiles map
 [ ] vectorized functions:
     #include <esp32-hal-vector.h>
     float a[4] = {1.5, 2.5, 3.5, 4.5};
@@ -24,6 +19,11 @@
     float result[4];
     vaddf(result, a, b, 4);
 -------------------------------------------------------------------------------
+[x] o1store: consider replacing alloc_ix with pointer to array element
+    removing array look-ups vs free_, alloc_, del_ would hold pointers (x4 space usage)
+[x] consider locking dt to 30 fps for deterministic behavior
+    => config in defs
+[x] modifiable tiles map
 [x] keep engine 'object' minimalistic and extract logic and update to 'game_object'
 [x] display_width and height is defined in engine.hpp but is device dependent
     => extracted to 'platform.hpp' as platform dependent constant
