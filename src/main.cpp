@@ -22,8 +22,6 @@
 // allocated at runtime as heap.
 // -- https://stackoverflow.com/questions/71085927/how-to-extend-esp32-heap-size
 
-#include <Arduino.h>
-
 // main entry file to user code
 #include "game/main.hpp"
 

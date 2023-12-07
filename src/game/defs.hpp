@@ -1,6 +1,8 @@
 #pragma once
 // constants used by engine, game objects and 'main.hpp'
 
+#include <cstdint>
+
 // portrait or landscape orientation of screen
 // 0: portrait, 1: landscape
 static constexpr uint8_t display_orientation = 0;
