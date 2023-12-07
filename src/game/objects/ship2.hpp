@@ -6,7 +6,7 @@
 
 class ship2 final : public game_object {
   // animation definition
-  static const sprite_imgs_ix animation_frames[];
+  static const sprite_img_ix animation_frames[];
   static const unsigned animation_frames_len;
   static const unsigned animation_rate_ms;
   // animation state
@@ -58,7 +58,7 @@ public:
   }
 };
 
-const sprite_imgs_ix ship2::animation_frames[] = {6, 7};
+const sprite_img_ix ship2::animation_frames[] = {6, 7};
 const unsigned ship2::animation_frames_len =
-    sizeof(ship2::animation_frames) / sizeof(sprite_imgs_ix);
+    sizeof(ship2::animation_frames) / sizeof(sprite_img_ix);
 const unsigned ship2::animation_rate_ms = 500;

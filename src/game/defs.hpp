@@ -17,7 +17,7 @@ static constexpr unsigned sprite_imgs_count = 256;
 // defined in 'resources/sprite_imgs.hpp'
 
 // type used to index in the 'sprite_imgs' array
-using sprite_imgs_ix = uint8_t;
+using sprite_img_ix = uint8_t;
 
 // number of tile images
 static constexpr unsigned tiles_count = 256;
@@ -30,7 +30,7 @@ using tile_ix = uint8_t;
 // example configuration of more sprites and tiles
 //
 // static constexpr unsigned sprite_imgs_count = 512;
-// using sprite_imgs_ix = uint16_t;
+// using sprite_img_ix = uint16_t;
 // static constexpr unsigned tiles_count = 512;
 // using tile_ix = uint16_t;
 
