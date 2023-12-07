@@ -1,3 +1,6 @@
+[o] fix rendering of 32x32 tiles and sprites
+[x]   portrait
+[ ]   landscape
 [ ] game_object: position relative to tile map or screen
 [ ] horizontal, vertical flip of sprite
 [ ] several sets of tiles cycled for animation
