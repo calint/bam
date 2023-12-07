@@ -174,7 +174,6 @@ public:
   void init(const unsigned long time_ms,
             const unsigned interval_of_fps_calculation_ms,
             const unsigned locked_dt_ms) {
-    last_fps_update_ms_ = ms;
     interval_ms_ = interval_of_fps_calculation_ms;
     if (locked_dt_ms) {
       locked_dt_ms_ = locked_dt_ms;
@@ -182,6 +181,7 @@ public:
     } else {
       prv_ms_ = ms = time_ms;
     }
+    last_fps_update_ms_ = time_ms;
   }
 
   // called before every frame to update state
@@ -195,11 +195,11 @@ public:
       prv_ms_ = ms;
     }
     frames_rendered_since_last_update_++;
-    const unsigned long dt_ms = ms - last_fps_update_ms_;
+    const unsigned long dt_ms = time_ms - last_fps_update_ms_;
     if (dt_ms >= interval_ms_) {
       fps = frames_rendered_since_last_update_ * 1000 / dt_ms;
       frames_rendered_since_last_update_ = 0;
-      last_fps_update_ms_ = ms;
+      last_fps_update_ms_ = time_ms;
       return true;
     }
     return false;
