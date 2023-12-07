@@ -1,6 +1,7 @@
 [x] fix rendering of 32x32 tiles and sprites
 [x]   portrait
 [x]   landscape
+[ ] examine generated assembler and compare 'for' and 'while'
 [ ] game_object: position relative to tile map or screen
 [ ] horizontal, vertical flip of sprite
 [ ] several sets of tiles cycled for animation
