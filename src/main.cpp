@@ -57,6 +57,10 @@ static constexpr unsigned dma_buf_size =
     sizeof(uint16_t) * display_width * tile_height;
 static uint16_t *dma_buf_1;
 static uint16_t *dma_buf_2;
+
+// note. allocating buffers in static memory leads to crash:
+//    assert failed: vApplicationGetIdleTaskMemory port_common.c:194
+//    (pxTCBBufferTemp != NULL)
 // static uint16_t dma_buf_1[dma_buf_size];
 // static uint16_t dma_buf_2[dma_buf_size];
 

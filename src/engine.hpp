@@ -93,6 +93,10 @@ static constexpr unsigned collision_map_size =
     sizeof(sprite_ix) * display_width * display_height;
 static sprite_ix *collision_map;
 
+// note. allocating collision_map in static ram gives device error:
+// rst:0x10 (RTCWDT_RTC_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+// static sprite_ix collision_map[collision_map_size];
+
 class object {
 public:
   object **alloc_ptr;
