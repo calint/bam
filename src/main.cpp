@@ -22,6 +22,8 @@
 // allocated at runtime as heap.
 // -- https://stackoverflow.com/questions/71085927/how-to-extend-esp32-heap-size
 
+// note. 38476 B static memory left for freertos not to crash
+
 // main entry file to user code
 #include "game/main.hpp"
 
@@ -63,8 +65,6 @@ static uint16_t *dma_buf_2;
 //    (pxTCBBufferTemp != NULL)
 // static uint16_t dma_buf_1[dma_buf_size];
 // static uint16_t dma_buf_2[dma_buf_size];
-
-// note. 38476 B static memory left for freertos not to crash
 
 static void render_scanline(uint16_t *render_buf_ptr,
                             sprite_ix *collision_map_row_ptr, unsigned tile_x,
