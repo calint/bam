@@ -187,9 +187,9 @@ static void render(const unsigned x, const unsigned y) {
     // render from tiles map and sprites to the 'render_buf_ptr'
     unsigned render_n_tile_lines =
         remaining_y < tile_height ? remaining_y : tile_height;
-    unsigned render_n_scanlines;
-    unsigned tile_sub_y;
-    unsigned tile_sub_y_times_tile_width;
+    unsigned render_n_scanlines = 0;
+    unsigned tile_sub_y = 0;
+    unsigned tile_sub_y_times_tile_width = 0;
     if (tile_dy) {
       render_n_scanlines = tile_height - tile_dy;
       tile_sub_y = tile_dy;
