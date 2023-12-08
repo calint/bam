@@ -51,8 +51,8 @@ static SPIClass spi{HSPI};
 static XPT2046_Touchscreen touch_screen{xpt2046_cs, xpt2046_irq};
 static TFT_eSPI display{};
 
-// buffers for rendering a chunk while the other is transferred to the screen
-// using DMA. allocated in setup
+// buffers for rendering a tile height of scanlines while the other is
+// transferred to the display using DMA. allocated in setup
 static constexpr unsigned dma_buf_size =
     sizeof(uint16_t) * display_width * tile_height;
 static uint16_t *dma_buf_1;
