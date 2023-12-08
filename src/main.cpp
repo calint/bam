@@ -128,7 +128,7 @@ static void render_scanline(
       // adjustment if x is negative
       spr_data_ptr -= spr->scr_x;
       scanline_dst_ptr -= spr->scr_x;
-      render_width = sprite_width + spr->scr_x;
+      render_width += spr->scr_x;
       collision_pixel -= spr->scr_x;
     } else if (spr->scr_x + sprite_width > display_width) {
       // adjustment if sprite partially outside screen (x-wise)
