@@ -114,21 +114,21 @@ static void render_scanline(uint16_t *render_buf_ptr,
     uint8_t const *spr_data_ptr =
         spr->img + (scanline_y - spr->scr_y) * sprite_width;
     uint16_t *scanline_dst_ptr = scanline_ptr + spr->scr_x;
-    unsigned render_width = sprite_width;
+    unsigned render_n_pixels = sprite_width;
     sprite_ix *collision_pixel = collision_map_scanline_ptr + spr->scr_x;
     if (spr->scr_x < 0) {
       // adjustment if x is negative
       spr_data_ptr -= spr->scr_x;
       scanline_dst_ptr -= spr->scr_x;
-      render_width += spr->scr_x;
+      render_n_pixels += spr->scr_x;
       collision_pixel -= spr->scr_x;
     } else if (spr->scr_x + sprite_width > display_width) {
       // adjustment if sprite partially outside screen (x-wise)
-      render_width = display_width - spr->scr_x;
+      render_n_pixels = display_width - spr->scr_x;
     }
     // render scanline of sprite
     object *obj = spr->obj;
-    while (render_width--) {
+    while (render_n_pixels--) {
       // write pixel from sprite data or skip if 0
       const uint8_t color_ix = *spr_data_ptr;
       if (color_ix) {
