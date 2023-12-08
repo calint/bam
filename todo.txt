@@ -1,17 +1,11 @@
-[x] fix rendering of 32x32 tiles and sprites
-[x]   portrait
-[x]   landscape
-[x] render, render_scanline: improve handling of non evenly divisible width, height
 [ ] examine generated assembler and compare 'for' and 'while'
 [ ] game_object: position relative to tile map or screen
 [ ] horizontal, vertical flip of sprite
 [ ] several sets of tiles cycled for animation
+[ ] render_scanline(...) consider looping through allocated sprites instead of all
 [ ] o1store: new_ list optimizing apply by putting new instances in deleted slots
     without swapping. if len(del_)>len(add_) no swaps will be made.
     concession is another list of size Size of pointers to instances
-[ ] engine: make sprite_width, sprite_height, tile_width, tile_height user definable
-[ ] extract.sh width and height parameter
-[ ] render_scanline(...) consider looping through allocated sprites instead of all
 [ ] o1store: can_allocate() is not thread safe
 [ ] o1store: hang if overrun?
 [ ] o1store: consider using std::vector instead of calloc and free
@@ -24,6 +18,13 @@
     float result[4];
     vaddf(result, a, b, 4);
 -------------------------------------------------------------------------------
+[x] extract.sh width and height parameter
+[x] fix rendering of 32x32 tiles and sprites
+[x]   portrait
+[x]   landscape
+[x] render, render_scanline: improve handling of non evenly divisible width, height
+[x] engine: make sprite_width, sprite_height, tile_width, tile_height user definable
+    => size = 2^n  size 64 does not fit the DMA buffers in remaining rams
 [x] o1store: consider replacing alloc_ix with pointer to array element
     removing array look-ups vs free_, alloc_, del_ would hold pointers (x4 space usage)
 [x] consider locking dt to 30 fps for deterministic behavior
