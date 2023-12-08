@@ -64,7 +64,6 @@ static uint16_t *dma_buf_2;
 // static uint16_t dma_buf_1[dma_buf_size];
 // static uint16_t dma_buf_2[dma_buf_size];
 
-// note. not formatted because compiler gets confused and issues invalid error
 static void render_scanline(uint16_t *render_buf_ptr,
                             sprite_ix *collision_map_scanline_ptr,
                             unsigned tile_x, unsigned tile_dx,
