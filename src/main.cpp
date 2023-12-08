@@ -72,7 +72,6 @@ static void render_scanline(
     const int16_t scanline_y,
     unsigned tile_x,
     unsigned tile_dx,
-    const unsigned tile_width_minus_dx,
     const tile_ix *tiles_map_row_ptr,
     const unsigned tile_sub_y,
     const unsigned tile_sub_y_times_tile_width
@@ -167,7 +166,6 @@ static void render(const unsigned x, const unsigned y) {
 
   const unsigned tile_x = x >> tile_width_shift;
   const unsigned tile_dx = x & tile_width_and;
-  const unsigned tile_width_minus_dx = tile_width - tile_dx;
   unsigned tile_y = y >> tile_height_shift;
   unsigned tile_dy = y & tile_height_and;
 
@@ -199,6 +197,7 @@ static void render(const unsigned x, const unsigned y) {
       render_n_scanlines = tile_height - tile_dy;
       tile_sub_y = tile_dy;
       tile_sub_y_times_tile_width = tile_dy << tile_height_shift;
+      tile_dy = 0;
     } else {
       render_n_scanlines = render_n_tile_lines;
       tile_sub_y = 0;
@@ -206,8 +205,8 @@ static void render(const unsigned x, const unsigned y) {
     }
     while (tile_sub_y < render_n_tile_lines) {
       render_scanline(render_buf_ptr, collision_map_scanline_ptr, scanline_y,
-                      tile_x, tile_dx, tile_width_minus_dx, tiles_map_row_ptr,
-                      tile_sub_y, tile_sub_y_times_tile_width);
+                      tile_x, tile_dx, tiles_map_row_ptr, tile_sub_y,
+                      tile_sub_y_times_tile_width);
       tile_sub_y++;
       tile_sub_y_times_tile_width += tile_width;
       render_buf_ptr += display_width;
@@ -218,7 +217,6 @@ static void render(const unsigned x, const unsigned y) {
     display.setAddrWindow(0, frame_y, display_width, render_n_scanlines);
     display.pushPixelsDMA(dma_buf, display_width * render_n_scanlines);
 
-    tile_dy = 0;
     tile_y++;
     frame_y += render_n_scanlines;
     remaining_y -= render_n_scanlines;
