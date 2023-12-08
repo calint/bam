@@ -172,7 +172,6 @@ static void render(const unsigned x, const unsigned y) {
   const unsigned tile_width_minus_dx = tile_width - tile_dx;
   unsigned tile_y = y >> tile_height_shift;
   const unsigned tile_dy = y & tile_height_and;
-  const unsigned tile_y_max = tile_y + (display_height / tile_height);
   const unsigned tile_height_minus_dy = tile_height - tile_dy;
 
   // selects buffer to write while DMA reads the other buffer
