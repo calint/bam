@@ -64,19 +64,13 @@ static uint16_t *dma_buf_2;
 // static uint16_t dma_buf_1[dma_buf_size];
 // static uint16_t dma_buf_2[dma_buf_size];
 
-// clang-format off
 // note. not formatted because compiler gets confused and issues invalid error
-static void render_scanline(
-    uint16_t *render_buf_ptr,
-    sprite_ix *collision_map_scanline_ptr,
-    const int16_t scanline_y,
-    unsigned tile_x,
-    unsigned tile_dx,
-    const tile_ix *tiles_map_row_ptr,
-    const unsigned tile_sub_y,
-    const unsigned tile_sub_y_times_tile_width
-) {
-  // clang-format on
+static void render_scanline(uint16_t *render_buf_ptr,
+                            sprite_ix *collision_map_scanline_ptr,
+                            unsigned tile_x, unsigned tile_dx,
+                            tile_ix const *tiles_map_row_ptr,
+                            const int16_t scanline_y, const unsigned tile_sub_y,
+                            const unsigned tile_sub_y_times_tile_width) {
 
   // used later by sprite renderer to overwrite tiles pixels
   uint16_t *scanline_ptr = render_buf_ptr;
@@ -204,8 +198,8 @@ static void render(const unsigned x, const unsigned y) {
       tile_sub_y_times_tile_width = 0;
     }
     while (tile_sub_y < render_n_tile_lines) {
-      render_scanline(render_buf_ptr, collision_map_scanline_ptr, scanline_y,
-                      tile_x, tile_dx, tiles_map_row_ptr, tile_sub_y,
+      render_scanline(render_buf_ptr, collision_map_scanline_ptr, tile_x,
+                      tile_dx, tiles_map_row_ptr, scanline_y, tile_sub_y,
                       tile_sub_y_times_tile_width);
       tile_sub_y++;
       tile_sub_y_times_tile_width += tile_width;
