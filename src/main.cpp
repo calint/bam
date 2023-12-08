@@ -136,8 +136,7 @@ static void render_scanline(
     }
     // render scanline of sprite
     object *obj = spr->obj;
-    for (unsigned j = 0; j < render_width;
-         j++, collision_pixel++, scanline_dst_ptr++) {
+    while (render_width--) {
       // write pixel from sprite data or skip if 0
       const uint8_t color_ix = *spr_data_ptr++;
       if (color_ix) {
@@ -155,6 +154,8 @@ static void render_scanline(
         // set pixel collision value to sprite index
         *collision_pixel = i;
       }
+      collision_pixel++;
+      scanline_dst_ptr++;
     }
   }
 }
