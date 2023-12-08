@@ -209,7 +209,7 @@ static void render(const unsigned x, const unsigned y) {
                       tile_x, tile_dx, tile_width_minus_dx, tiles_map_row_ptr,
                       tile_sub_y, tile_sub_y_times_tile_width);
       tile_sub_y++;
-      tile_sub_y_times_tile_width += tile_height;
+      tile_sub_y_times_tile_width += tile_width;
       render_buf_ptr += display_width;
       collision_map_scanline_ptr += display_width;
       scanline_y++;
