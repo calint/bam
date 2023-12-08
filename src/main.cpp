@@ -304,8 +304,8 @@ void setup() {
   // set random seed for deterministic behavior
   randomSeed(0);
 
-  // initiate clock to current time and frames-per-second calculation every 2
-  // seconds
+  // initiate clock to current time, frames-per-second calculation every 2
+  // seconds and locked dt
   clk.init(millis(), 2000, clk_locked_dt_ms);
 
   main_setup();
