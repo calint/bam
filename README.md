@@ -1,7 +1,7 @@
 # ESP32-2432S028R a.k.a. cheap-yellow-display (cyd)
 
 intention:
-* developing for esp32 boards on arduino framework using visual code (1.84.2) and platformio (6.1.11)
+* developing for esp32 boards using arduino framework with visual code (1.84.2) and platformio (6.1.11)
 * exploring the device by developing a toy game
 * developing a platform independent toy game engine featuring:
   - smooth scrolling tile map
