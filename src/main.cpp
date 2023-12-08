@@ -65,9 +65,8 @@ static uint16_t *dma_buf_2;
 // static uint16_t dma_buf_2[dma_buf_size];
 
 static void render_scanline(uint16_t *render_buf_ptr,
-                            sprite_ix *collision_map_scanline_ptr,
-                            unsigned tile_x, unsigned tile_dx,
-                            tile_ix const *tiles_map_row_ptr,
+                            sprite_ix *collision_map_row_ptr, unsigned tile_x,
+                            unsigned tile_dx, tile_ix const *tiles_map_row_ptr,
                             const int16_t scanline_y, const unsigned tile_sub_y,
                             const unsigned tile_sub_y_times_tile_width) {
 
@@ -115,7 +114,7 @@ static void render_scanline(uint16_t *render_buf_ptr,
         spr->img + (scanline_y - spr->scr_y) * sprite_width;
     uint16_t *scanline_dst_ptr = scanline_ptr + spr->scr_x;
     unsigned render_n_pixels = sprite_width;
-    sprite_ix *collision_pixel = collision_map_scanline_ptr + spr->scr_x;
+    sprite_ix *collision_pixel = collision_map_row_ptr + spr->scr_x;
     if (spr->scr_x < 0) {
       // adjustment if x is negative
       spr_data_ptr -= spr->scr_x;
@@ -172,7 +171,7 @@ static void render(const unsigned x, const unsigned y) {
   // pointer to start of current row of tiles
   tile_ix const *tiles_map_row_ptr = tile_map[tile_y];
   // pointer to collision map starting at top left of screen
-  sprite_ix *collision_map_scanline_ptr = collision_map;
+  sprite_ix *collision_map_row_ptr = collision_map;
   unsigned remaining_y = display_height;
   while (remaining_y) {
     // swap between two rendering buffers to not overwrite DMA accessed
@@ -198,13 +197,13 @@ static void render(const unsigned x, const unsigned y) {
       tile_sub_y_times_tile_width = 0;
     }
     while (tile_sub_y < render_n_tile_lines) {
-      render_scanline(render_buf_ptr, collision_map_scanline_ptr, tile_x,
-                      tile_dx, tiles_map_row_ptr, scanline_y, tile_sub_y,
+      render_scanline(render_buf_ptr, collision_map_row_ptr, tile_x, tile_dx,
+                      tiles_map_row_ptr, scanline_y, tile_sub_y,
                       tile_sub_y_times_tile_width);
       tile_sub_y++;
       tile_sub_y_times_tile_width += tile_width;
       render_buf_ptr += display_width;
-      collision_map_scanline_ptr += display_width;
+      collision_map_row_ptr += display_width;
       scanline_y++;
     }
 
