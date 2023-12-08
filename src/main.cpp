@@ -66,9 +66,10 @@ static uint16_t *dma_buf_2;
 
 static void render_scanline(uint16_t *render_buf_ptr,
                             sprite_ix *collision_map_row_ptr, unsigned tile_x,
-                            unsigned tile_dx, tile_ix const *tiles_map_row_ptr,
-                            const int16_t scanline_y, const unsigned tile_sub_y,
-                            const unsigned tile_sub_y_times_tile_width) {
+                            unsigned tile_x_fract,
+                            tile_ix const *tiles_map_row_ptr,
+                            const int16_t scanline_y,
+                            const unsigned tile_line_times_tile_width) {
 
   // used later by sprite renderer to overwrite tiles pixels
   uint16_t *scanline_ptr = render_buf_ptr;
@@ -79,11 +80,11 @@ static void render_scanline(uint16_t *render_buf_ptr,
 
   while (remaining_x) {
     uint8_t const *tile_data_ptr =
-        tiles[*tiles_map_ptr] + tile_sub_y_times_tile_width + tile_dx;
+        tiles[*tiles_map_ptr] + tile_line_times_tile_width + tile_x_fract;
     unsigned render_n_pixels = 0;
-    if (tile_dx) {
-      render_n_pixels = tile_width - tile_dx;
-      tile_dx = 0;
+    if (tile_x_fract) {
+      render_n_pixels = tile_width - tile_x_fract;
+      tile_x_fract = 0;
     } else {
       render_n_pixels = remaining_x < tile_width ? remaining_x : tile_width;
     }
@@ -158,9 +159,9 @@ static void render(const unsigned x, const unsigned y) {
   display.startWrite();
 
   const unsigned tile_x = x >> tile_width_shift;
-  const unsigned tile_dx = x & tile_width_and;
+  const unsigned tile_x_fract = x & tile_width_and;
   unsigned tile_y = y >> tile_height_shift;
-  unsigned tile_dy = y & tile_height_and;
+  unsigned tile_y_fract = y & tile_height_and;
 
   // selects buffer to write while DMA reads the other buffer
   bool dma_buf_use_first = true;
@@ -184,24 +185,24 @@ static void render(const unsigned x, const unsigned y) {
     unsigned render_n_tile_lines =
         remaining_y < tile_height ? remaining_y : tile_height;
     unsigned render_n_scanlines = 0;
-    unsigned tile_sub_y = 0;
-    unsigned tile_sub_y_times_tile_width = 0;
-    if (tile_dy) {
-      render_n_scanlines = tile_height - tile_dy;
-      tile_sub_y = tile_dy;
-      tile_sub_y_times_tile_width = tile_dy * tile_height;
-      tile_dy = 0;
+    unsigned tile_line = 0;
+    unsigned tile_line_times_tile_width = 0;
+    if (tile_y_fract) {
+      render_n_scanlines = tile_height - tile_y_fract;
+      tile_line = tile_y_fract;
+      tile_line_times_tile_width = tile_y_fract * tile_height;
+      tile_y_fract = 0;
     } else {
       render_n_scanlines = render_n_tile_lines;
-      tile_sub_y = 0;
-      tile_sub_y_times_tile_width = 0;
+      tile_line = 0;
+      tile_line_times_tile_width = 0;
     }
-    while (tile_sub_y < render_n_tile_lines) {
-      render_scanline(render_buf_ptr, collision_map_row_ptr, tile_x, tile_dx,
-                      tiles_map_row_ptr, scanline_y, tile_sub_y,
-                      tile_sub_y_times_tile_width);
-      tile_sub_y++;
-      tile_sub_y_times_tile_width += tile_width;
+    while (tile_line < render_n_tile_lines) {
+      render_scanline(render_buf_ptr, collision_map_row_ptr, tile_x,
+                      tile_x_fract, tiles_map_row_ptr, scanline_y,
+                      tile_line_times_tile_width);
+      tile_line++;
+      tile_line_times_tile_width += tile_width;
       render_buf_ptr += display_width;
       collision_map_row_ptr += display_width;
       scanline_y++;
