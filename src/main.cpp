@@ -73,14 +73,14 @@ static void render_scanline(uint16_t *render_buf_ptr,
 
   // used later by sprite renderer to overwrite tiles pixels
   uint16_t *scanline_ptr = render_buf_ptr;
-  const tile_ix *tiles_map_ptr = tiles_map_row_ptr + tile_x;
+
+  tile_ix const *tiles_map_ptr = tiles_map_row_ptr + tile_x;
 
   unsigned remaining_x = display_width;
 
   while (remaining_x) {
-    const tile_ix tile_index = *tiles_map_ptr;
-    const uint8_t *tile_data_ptr =
-        tiles[tile_index] + tile_sub_y_times_tile_width + tile_dx;
+    uint8_t const *tile_data_ptr =
+        tiles[*tiles_map_ptr] + tile_sub_y_times_tile_width + tile_dx;
     unsigned render_n_pixels = 0;
     if (tile_dx) {
       render_n_pixels = tile_width - tile_dx;
@@ -111,7 +111,7 @@ static void render_scanline(uint16_t *render_buf_ptr,
       // is outside the screen x-wise
       continue;
     }
-    const uint8_t *spr_data_ptr =
+    uint8_t const *spr_data_ptr =
         spr->img + (scanline_y - spr->scr_y) * sprite_width;
     uint16_t *scanline_dst_ptr = scanline_ptr + spr->scr_x;
     unsigned render_width = sprite_width;
@@ -130,7 +130,7 @@ static void render_scanline(uint16_t *render_buf_ptr,
     object *obj = spr->obj;
     while (render_width--) {
       // write pixel from sprite data or skip if 0
-      const uint8_t color_ix = *spr_data_ptr++;
+      const uint8_t color_ix = *spr_data_ptr;
       if (color_ix) {
         *scanline_dst_ptr = palette_sprites[color_ix];
         if (*collision_pixel != sprite_ix_reserved) {
@@ -146,6 +146,7 @@ static void render_scanline(uint16_t *render_buf_ptr,
         // set pixel collision value to sprite index
         *collision_pixel = i;
       }
+      spr_data_ptr++;
       collision_pixel++;
       scanline_dst_ptr++;
     }
@@ -169,7 +170,7 @@ static void render(const unsigned x, const unsigned y) {
   // current line y on screen
   int16_t scanline_y = 0;
   // pointer to start of current row of tiles
-  const tile_ix *tiles_map_row_ptr = tile_map[tile_y];
+  tile_ix const *tiles_map_row_ptr = tile_map[tile_y];
   // pointer to collision map starting at top left of screen
   sprite_ix *collision_map_scanline_ptr = collision_map;
   unsigned remaining_y = display_height;
@@ -189,7 +190,7 @@ static void render(const unsigned x, const unsigned y) {
     if (tile_dy) {
       render_n_scanlines = tile_height - tile_dy;
       tile_sub_y = tile_dy;
-      tile_sub_y_times_tile_width = tile_dy << tile_height_shift;
+      tile_sub_y_times_tile_width = tile_dy * tile_height;
       tile_dy = 0;
     } else {
       render_n_scanlines = render_n_tile_lines;
