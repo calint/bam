@@ -1,6 +1,7 @@
 [x] fix rendering of 32x32 tiles and sprites
 [x]   portrait
 [x]   landscape
+[x] render, render_scanline: improve handling of non evenly divisible width, height
 [ ] examine generated assembler and compare 'for' and 'while'
 [ ] game_object: position relative to tile map or screen
 [ ] horizontal, vertical flip of sprite
