@@ -16,10 +16,9 @@
 //   circular references and gives user the necessary callbacks to interface
 //   with engine
 
-// note. design decision regarding unsigned types
-// most constants are declared as 'int' instead of 'unsigned' to avoid sign
-// conversion warnings and subtle bugs
-// some types are declared as 'unsigned' due to bit width constraints
+// note. design decision regarding 'unsigned'
+// use signed constants to avoid sign conversion warnings and bugs in mixed
+// signedness operations; size values fit within the bit width of signed values.
 
 // note. why some buffers are allocated at 'setup'
 // Due to a technical limitation, the maximum statically allocated DRAM usage is
