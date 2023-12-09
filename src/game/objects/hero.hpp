@@ -90,7 +90,7 @@ public:
   }
 
 private:
-  static constexpr float frag_speed = 300;
+  static constexpr float frag_speed = 150;
   static constexpr int frag_count = 16;
   static constexpr float rand_max = float(RAND_MAX);
 
@@ -100,10 +100,10 @@ private:
       frg->die_at_ms = clk.ms + 500;
       frg->x = x;
       frg->y = y;
-      frg->dx = frag_speed * float(rand()) / rand_max - frag_speed / 2;
-      frg->dy = frag_speed * float(rand()) / rand_max - frag_speed / 2;
-      frg->ddx = frag_speed * float(rand()) / rand_max - frag_speed / 2;
-      frg->ddy = frag_speed * float(rand()) / rand_max - frag_speed / 2;
+      frg->dx = float(random(-frag_speed, frag_speed));
+      frg->dy = float(random(-frag_speed, frag_speed));
+      frg->ddx = float(random(-frag_speed, frag_speed));
+      frg->ddy = float(random(-frag_speed, frag_speed));
     }
   }
 };
