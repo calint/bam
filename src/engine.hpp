@@ -42,7 +42,6 @@ static constexpr int tile_width_shift =
 // the right shift of 'y' to get the y in tiles map
 static constexpr int tile_height_shift =
     count_right_shifts_until_1(tile_height);
-;
 
 // the bits that are the partial tile position between 0 and not including
 // 'tile_width'
