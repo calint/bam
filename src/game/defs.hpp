@@ -48,12 +48,12 @@ static constexpr unsigned tile_map_height = 320;
 // defined in 'resources/tile_map.hpp'
 
 // type used to index a 'sprite'
-// note. 8-bit for 'collision_map' to fit in a contiguous block of heap
+// note. 8-bit for 'collision_map' to fit in a contiguous block on heap
 using sprite_ix = uint8_t;
 
 // sprites available for allocation using 'sprites'
-// note. maximum is one less than maximum number of 'sprite_ix' due to the
-// reserved sprite index used for transparency
+// note. maximum is one less than limit of type 'sprite_ix' due to the reserved
+// sprite index (maximum limit) used at collision detection
 static constexpr unsigned sprites_count = 255;
 
 // objects available for allocation using 'objects'
