@@ -109,7 +109,7 @@ public:
     return alloc_ptr_ - alloc_bgn_;
   }
 
-  // returns length of list of allocated instances
+  // returns the end of allocated instances list
   inline auto allocated_list_end() -> Type ** { return alloc_ptr_; }
 
   // returns the list with all preallocated instances
