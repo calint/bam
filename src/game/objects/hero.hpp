@@ -92,7 +92,6 @@ public:
 private:
   static constexpr float frag_speed = 150;
   static constexpr int frag_count = 16;
-  static constexpr float rand_max = float(RAND_MAX);
 
   void create_fragments() {
     for (int i = 0; i < frag_count; i++) {

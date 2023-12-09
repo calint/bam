@@ -167,8 +167,8 @@ static void render(const int x, const int y) {
 
   // selects buffer to write while DMA reads the other buffer
   bool dma_buf_use_first = true;
-  // y in frame for current tiles row to be copied by DMA
-  int frame_y = 0;
+  // address window y to transfer render buffer using DMA
+  int addr_win_y = 0;
   // current line y on screen
   int16_t scanline_y = 0;
   // pointer to start of current row of tiles
@@ -210,11 +210,11 @@ static void render(const int x, const int y) {
       scanline_y++;
     }
 
-    display.setAddrWindow(0, frame_y, display_width, render_n_scanlines);
+    display.setAddrWindow(0, addr_win_y, display_width, render_n_scanlines);
     display.pushPixelsDMA(dma_buf, unsigned(display_width * render_n_scanlines));
 
     tile_y++;
-    frame_y += render_n_scanlines;
+    addr_win_y += render_n_scanlines;
     remaining_y -= render_n_scanlines;
     tiles_map_row_ptr += tile_map_width;
   }
