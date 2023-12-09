@@ -30,21 +30,19 @@ public:
     } else {
       all_ = static_cast<Type *>(calloc(Size, sizeof(Type)));
     }
-
     free_ptr_ = free_bgn_ = static_cast<Type **>(calloc(Size, sizeof(Type *)));
-    free_end_ = free_bgn_ + Size;
-
     alloc_ptr_ = alloc_bgn_ =
         static_cast<Type **>(calloc(Size, sizeof(Type *)));
-
     del_ptr_ = del_bgn_ = static_cast<Type **>(calloc(Size, sizeof(Type *)));
-    del_end_ = del_bgn_ + Size;
 
     if (!all_ or !free_bgn_ or !alloc_bgn_ or !del_bgn_) {
       Serial.printf("!!! o1store %u: could not allocate arrays\n", StoreId);
       while (true)
         ;
     }
+
+    free_end_ = free_bgn_ + Size;
+    del_end_ = del_bgn_ + Size;
 
     // write pointers to instances in the 'free' list
     Type *all_it = all_;
@@ -109,7 +107,7 @@ public:
     return alloc_ptr_ - alloc_bgn_;
   }
 
-  // returns the end of allocated instances list
+  // returns one past the end of allocated instances list
   inline auto allocated_list_end() -> Type ** { return alloc_ptr_; }
 
   // returns the list with all preallocated instances

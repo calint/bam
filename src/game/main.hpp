@@ -34,14 +34,14 @@ static void main_setup() {
 
   printf("------------------- game objects -------------------------\n");
   printf("----------------------------------------------------------\n");
-  printf("            bullet: %u B\n", sizeof(bullet));
-  printf("             dummy: %u B\n", sizeof(dummy));
-  printf("          fragment: %u B\n", sizeof(fragment));
-  printf("              hero: %u B\n", sizeof(hero));
-  printf("             ship1: %u B\n", sizeof(ship1));
-  printf("             ship2: %u B\n", sizeof(ship2));
-  printf("    upgrade_picked: %u B\n", sizeof(upgrade_picked));
-  printf("           upgrade: %u B\n", sizeof(upgrade));
+  printf("            bullet: %zu B\n", sizeof(bullet));
+  printf("             dummy: %zu B\n", sizeof(dummy));
+  printf("          fragment: %zu B\n", sizeof(fragment));
+  printf("              hero: %zu B\n", sizeof(hero));
+  printf("             ship1: %zu B\n", sizeof(ship1));
+  printf("             ship2: %zu B\n", sizeof(ship2));
+  printf("    upgrade_picked: %zu B\n", sizeof(upgrade_picked));
+  printf("           upgrade: %zu B\n", sizeof(upgrade));
   printf("----------------------------------------------------------\n");
 }
 

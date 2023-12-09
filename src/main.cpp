@@ -279,7 +279,7 @@ void setup() {
   printf("      sprites data: %zu B\n", sprites.allocated_data_size_B());
   printf("      objects data: %zu B\n", objects.allocated_data_size_B());
   printf("     collision map: %zu B\n", collision_map_size);
-  printf("   DMA buf 1 and 2: %zu B\n", 2 * dma_buf_size);
+  printf("   DMA buf 1 and 2: %u B\n", 2 * dma_buf_size);
   printf("------------------- in program memory --------------------\n");
   printf("     sprite images: %zu B\n", sizeof(sprite_imgs));
   printf("             tiles: %zu B\n", sizeof(tiles));
