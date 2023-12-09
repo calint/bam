@@ -178,7 +178,7 @@ static void render(const int x, const int y) {
   int tile_y_fract = y & tile_height_and;
   // selects buffer to write while DMA reads the other buffer
   bool dma_buf_use_first = true;
-  // destination window y for buffer transfer using DMA
+  // destination display y for buffer transfer using DMA
   int addr_win_y = 0;
   // current screen y for scanline
   int16_t scanline_y = 0;
