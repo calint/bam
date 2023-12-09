@@ -30,6 +30,7 @@ static tile_ix tile_map[tile_map_height][tile_map_width]{
 #include "game/resources/tile_map.hpp"
 };
 
+// returns number of shifts to convert a 2^n number to 1
 static constexpr int count_right_shifts_until_1(unsigned num) {
   return (num <= 1) ? 0 : 1 + count_right_shifts_until_1(num >> 1);
 }
@@ -57,8 +58,8 @@ static float tile_map_dx = 0;
 static float tile_map_y = 0;
 static float tile_map_dy = 0;
 
-static constexpr int16_t sprite_width_neg = -int16_t(sprite_width);
 // used when rendering
+static constexpr int16_t sprite_width_neg = -int16_t(sprite_width);
 static constexpr int16_t sprite_height_neg = -int16_t(sprite_height);
 
 // images used by sprites
