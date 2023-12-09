@@ -104,7 +104,7 @@ static void render_scanline(uint16_t *render_buf_ptr,
 
   sprite *spr = sprites.all_list();
   const int len = sprites.all_list_len();
-  for (int i = 0; i < len; i++, spr++) {
+  for (sprite_ix i = 0; i < len; i++, spr++) {
     if (!spr->img or spr->scr_y > scanline_y or
         spr->scr_y + int16_t(sprite_height) <= scanline_y or
         spr->scr_x <= sprite_width_neg or spr->scr_x > int16_t(display_width)) {

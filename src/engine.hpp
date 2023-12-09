@@ -184,7 +184,7 @@ public:
     interval_ms_ = interval_of_fps_calculation_ms;
     if (locked_dt_ms) {
       locked_dt_ms_ = locked_dt_ms;
-      dt = 1.0f / locked_dt_ms;
+      dt = 1.0f / float(locked_dt_ms);
     } else {
       prv_ms_ = ms = time_ms;
     }
@@ -198,7 +198,7 @@ public:
       ms += unsigned(locked_dt_ms_);
     } else {
       ms = time_ms;
-      dt = 0.001f * (ms - prv_ms_);
+      dt = 0.001f * float(ms - prv_ms_);
       prv_ms_ = ms;
     }
     frames_rendered_since_last_update_++;
@@ -248,7 +248,7 @@ static void engine_loop() {
   objects.pre_render();
 
   // render tiles, sprites and collision map
-  render(tile_map_x, tile_map_y);
+  render(int(tile_map_x), int(tile_map_y));
 
   // game logic hook
   main_on_frame_completed();

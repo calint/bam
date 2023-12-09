@@ -55,7 +55,8 @@ static void main_on_touch_screen(int16_t x, int16_t y, int16_t z) {
     last_fire_ms = clk.ms;
     if (objects.can_allocate()) {
       bullet *blt = new (objects.allocate_instance()) bullet{};
-      blt->x = (x - touch_screen_min_x) * display_width / touch_screen_range_x;
+      blt->x = float((x - touch_screen_min_x) * display_width /
+                     touch_screen_range_x);
       blt->y = 300;
       blt->dy = -100;
     }
@@ -132,9 +133,9 @@ static void main_on_frame_completed() {
 
   if (not game_state.hero_is_alive) {
     hero *hro = new (objects.allocate_instance()) hero{};
-    hro->x = float(rand()) * display_width / RAND_MAX;
+    hro->x = float(rand()) * float(display_width) / float(RAND_MAX);
     hro->y = 30;
-    hro->dx = float(rand()) * 64 / RAND_MAX;
+    hro->dx = float(rand()) * 64.0f / float(RAND_MAX);
   }
 
   // trigger waves

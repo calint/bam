@@ -1,6 +1,8 @@
 [x] examine generated assembler and compare 'for' and 'while'
 [x] inspect the sign conversion warnings and consider converting size constants to signed
     => converted unsigned to signed including constants, sizes etc
+[x] inspect conversion warnings
+    => fixed with casts
 [ ] game_object: position relative to tile map or screen
 [ ] horizontal, vertical flip of sprite
 [ ] several sets of tiles cycled for animation

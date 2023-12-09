@@ -82,16 +82,17 @@ public:
     game_object::pre_render();
 
     // set position of additional sprites
-    spr_left->scr_x = spr->scr_x - sprite_width;
+    spr_left->scr_x = int16_t(spr->scr_x - sprite_width);
     spr_left->scr_y = spr->scr_y;
 
-    spr_right->scr_x = spr->scr_x + sprite_width;
+    spr_right->scr_x = int16_t(spr->scr_x + sprite_width);
     spr_right->scr_y = spr->scr_y;
   }
 
 private:
   static constexpr float frag_speed = 300;
   static constexpr int frag_count = 16;
+  static constexpr float rand_max = float(RAND_MAX);
 
   void create_fragments() {
     for (int i = 0; i < frag_count; i++) {
@@ -99,10 +100,10 @@ private:
       frg->die_at_ms = clk.ms + 500;
       frg->x = x;
       frg->y = y;
-      frg->dx = frag_speed * rand() / RAND_MAX - frag_speed / 2;
-      frg->dy = frag_speed * rand() / RAND_MAX - frag_speed / 2;
-      frg->ddx = frag_speed * rand() / RAND_MAX - frag_speed / 2;
-      frg->ddy = frag_speed * rand() / RAND_MAX - frag_speed / 2;
+      frg->dx = frag_speed * float(rand()) / rand_max - frag_speed / 2;
+      frg->dy = frag_speed * float(rand()) / rand_max - frag_speed / 2;
+      frg->ddx = frag_speed * float(rand()) / rand_max - frag_speed / 2;
+      frg->ddy = frag_speed * float(rand()) / rand_max - frag_speed / 2;
     }
   }
 };
