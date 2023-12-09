@@ -1,4 +1,5 @@
 [ ] examine generated assembler and compare 'for' and 'while'
+[ ] inspect the sign conversion warnings and consider converting size constants to signed
 [ ] game_object: position relative to tile map or screen
 [ ] horizontal, vertical flip of sprite
 [ ] several sets of tiles cycled for animation
