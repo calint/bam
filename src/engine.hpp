@@ -31,26 +31,26 @@ static tile_ix tile_map[tile_map_height][tile_map_width]{
 };
 
 // returns number of shifts to convert a 2^n number to 1
-static constexpr int count_right_shifts_until_1(unsigned num) {
+static constexpr int count_right_shifts_until_1(int num) {
   return (num <= 1) ? 0 : 1 + count_right_shifts_until_1(num >> 1);
 }
 
 // the right shift of 'x' to get the x in tiles map
-static constexpr unsigned tile_width_shift =
+static constexpr int tile_width_shift =
     count_right_shifts_until_1(tile_width);
 
 // the right shift of 'y' to get the y in tiles map
-static constexpr unsigned tile_height_shift =
+static constexpr int tile_height_shift =
     count_right_shifts_until_1(tile_height);
 ;
 
 // the bits that are the partial tile position between 0 and not including
 // 'tile_width'
-static constexpr unsigned tile_width_and = (1 << tile_width_shift) - 1;
+static constexpr int tile_width_and = (1 << tile_width_shift) - 1;
 
 // the bits that are the partial tile position between 0 and not including
 // 'tile_height'
-static constexpr unsigned tile_height_and = (1 << tile_height_shift) - 1;
+static constexpr int tile_height_and = (1 << tile_height_shift) - 1;
 
 // tile map controls
 static float tile_map_x = 0;
@@ -90,7 +90,7 @@ static sprites_store sprites{};
 
 // pixel precision collision detection between on screen sprites
 // allocated at 'engine_setup()'
-static constexpr unsigned collision_map_size =
+static constexpr int collision_map_size =
     sizeof(sprite_ix) * display_width * display_height;
 static sprite_ix *collision_map;
 
@@ -160,11 +160,11 @@ public:
   using time = unsigned long;
 
 private:
-  unsigned interval_ms_ = 5000;
+  int interval_ms_ = 5000;
   unsigned frames_rendered_since_last_update_ = 0;
   time last_fps_update_ms_ = 0;
   time prv_ms_ = 0;
-  unsigned locked_dt_ms_ = 0;
+  int locked_dt_ms_ = 0;
 
 public:
   // current time since boot in milliseconds
@@ -179,8 +179,8 @@ public:
   // called at setup with current time and frames per seconds calculation
   // interval
   void init(const unsigned long time_ms,
-            const unsigned interval_of_fps_calculation_ms,
-            const unsigned locked_dt_ms) {
+            const int interval_of_fps_calculation_ms,
+            const int locked_dt_ms) {
     interval_ms_ = interval_of_fps_calculation_ms;
     if (locked_dt_ms) {
       locked_dt_ms_ = locked_dt_ms;
@@ -195,16 +195,16 @@ public:
   // returns true if new frames per second calculation was done
   auto on_frame(const unsigned long time_ms) -> bool {
     if (locked_dt_ms_) {
-      ms += locked_dt_ms_;
+      ms += unsigned(locked_dt_ms_);
     } else {
       ms = time_ms;
       dt = 0.001f * (ms - prv_ms_);
       prv_ms_ = ms;
     }
     frames_rendered_since_last_update_++;
-    const unsigned long dt_ms = time_ms - last_fps_update_ms_;
+    const unsigned dt_ms = clk::time(time_ms) - last_fps_update_ms_;
     if (dt_ms >= interval_ms_) {
-      fps = frames_rendered_since_last_update_ * 1000 / dt_ms;
+      fps = frames_rendered_since_last_update_ * 1000u / dt_ms;
       frames_rendered_since_last_update_ = 0;
       last_fps_update_ms_ = time_ms;
       return true;
@@ -224,7 +224,7 @@ static void engine_setup() {
 }
 
 // forward declaration of platform specific function
-static void render(const unsigned x, const unsigned y);
+static void render(const int x, const int y);
 
 // forward declaration of user provided callback
 static void main_on_frame_completed();
@@ -248,7 +248,7 @@ static void engine_loop() {
   objects.pre_render();
 
   // render tiles, sprites and collision map
-  render(unsigned(tile_map_x), unsigned(tile_map_y));
+  render(tile_map_x, tile_map_y);
 
   // game logic hook
   main_on_frame_completed();

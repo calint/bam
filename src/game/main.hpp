@@ -45,7 +45,7 @@ static void main_setup() {
   printf("----------------------------------------------------------\n");
 }
 
-unsigned long last_fire_ms = 0;
+static clk::time last_fire_ms = 0;
 // keeps track of when the previous bullet was fired
 
 // callback when screen is touched, happens before 'update'
@@ -70,7 +70,7 @@ static void main_wave_4();
 // static void main_wave_5();
 
 // constant used to more easily position where waves are triggered
-constexpr unsigned tiles_per_screen = display_height / tile_height;
+constexpr int tiles_per_screen = display_height / tile_height;
 
 // pointer to function that creates wave
 using wave_func_ptr = void (*)();
@@ -103,10 +103,10 @@ struct wave_trigger {
      main_wave_4},
 };
 
-static constexpr unsigned wave_triggers_len =
+static constexpr int wave_triggers_len =
     sizeof(wave_triggers) / sizeof(wave_trigger);
 
-static unsigned wave_triggers_ix = 0;
+static int wave_triggers_ix = 0;
 
 // callback after frame has been rendered, happens after 'update'
 static void main_on_frame_completed() {
@@ -150,7 +150,7 @@ static void main_on_frame_completed() {
 void main_wave_1() {
   float x = 8;
   float y = -float(sprite_height);
-  for (unsigned i = 0; i < 8; i++) {
+  for (int i = 0; i < 8; i++) {
     ship1 *shp = new (objects.allocate_instance()) ship1{};
     shp->x = x;
     shp->y = y;
@@ -163,7 +163,7 @@ void main_wave_1() {
 void main_wave_2() {
   float x = 8;
   float y = -float(sprite_height);
-  for (unsigned i = 0; i < 8; i++) {
+  for (int i = 0; i < 8; i++) {
     ship1 *shp = new (objects.allocate_instance()) ship1{};
     shp->x = x;
     shp->y = y;
@@ -174,9 +174,9 @@ void main_wave_2() {
 
 void main_wave_3() {
   float y = -float(sprite_height);
-  for (unsigned j = 0; j < 8; j++, y -= 24) {
+  for (int j = 0; j < 8; j++, y -= 24) {
     float x = 8;
-    for (unsigned i = 0; i < 8; i++, x += 32) {
+    for (int i = 0; i < 8; i++, x += 32) {
       ship1 *shp = new (objects.allocate_instance()) ship1{};
       shp->x = x;
       shp->y = y;
@@ -208,9 +208,9 @@ void main_wave_4() {
 
 // void main_wave_5() {
 //   float y = -float(sprite_height);
-//   for (unsigned j = 0; j < 12; j++, y -= 10) {
+//   for (int j = 0; j < 12; j++, y -= 10) {
 //     float x = 8;
-//     for (unsigned i = 0; i < 20; i++, x += 10) {
+//     for (int i = 0; i < 20; i++, x += 10) {
 //       ship1 *shp = new (objects.allocate_instance()) ship1{};
 //       shp->x = x;
 //       shp->y = y;

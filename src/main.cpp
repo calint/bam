@@ -55,7 +55,7 @@ static TFT_eSPI display{};
 
 // buffers for rendering a tile height of scanlines while the other is
 // transferred to the display using DMA. allocated in setup
-static constexpr unsigned dma_buf_size =
+static constexpr int dma_buf_size =
     sizeof(uint16_t) * display_width * tile_height;
 static uint16_t *dma_buf_1;
 static uint16_t *dma_buf_2;
@@ -67,23 +67,23 @@ static uint16_t *dma_buf_2;
 // static uint16_t dma_buf_2[dma_buf_size];
 
 static void render_scanline(uint16_t *render_buf_ptr,
-                            sprite_ix *collision_map_row_ptr, unsigned tile_x,
-                            unsigned tile_x_fract,
+                            sprite_ix *collision_map_row_ptr, int tile_x,
+                            int tile_x_fract,
                             tile_ix const *tiles_map_row_ptr,
                             const int16_t scanline_y,
-                            const unsigned tile_line_times_tile_width) {
+                            const int tile_line_times_tile_width) {
 
   // used later by sprite renderer to overwrite tiles pixels
   uint16_t *scanline_ptr = render_buf_ptr;
 
   tile_ix const *tiles_map_ptr = tiles_map_row_ptr + tile_x;
 
-  unsigned remaining_x = display_width;
+  int remaining_x = display_width;
 
   while (remaining_x) {
     uint8_t const *tile_data_ptr =
         tiles[*tiles_map_ptr] + tile_line_times_tile_width + tile_x_fract;
-    unsigned render_n_pixels = 0;
+    int render_n_pixels = 0;
     if (tile_x_fract) {
       render_n_pixels = tile_width - tile_x_fract;
       tile_x_fract = 0;
@@ -103,8 +103,8 @@ static void render_scanline(uint16_t *render_buf_ptr,
   // rendering one tile height of sprites and tiles
 
   sprite *spr = sprites.all_list();
-  const unsigned len = sprites.all_list_len();
-  for (unsigned i = 0; i < len; i++, spr++) {
+  const int len = sprites.all_list_len();
+  for (int i = 0; i < len; i++, spr++) {
     if (!spr->img or spr->scr_y > scanline_y or
         spr->scr_y + int16_t(sprite_height) <= scanline_y or
         spr->scr_x <= sprite_width_neg or spr->scr_x > int16_t(display_width)) {
@@ -116,7 +116,7 @@ static void render_scanline(uint16_t *render_buf_ptr,
     uint8_t const *spr_data_ptr =
         spr->img + (scanline_y - spr->scr_y) * sprite_width;
     uint16_t *scanline_dst_ptr = scanline_ptr + spr->scr_x;
-    unsigned render_n_pixels = sprite_width;
+    int render_n_pixels = sprite_width;
     sprite_ix *collision_pixel = collision_map_row_ptr + spr->scr_x;
     if (spr->scr_x < 0) {
       // adjustment if x is negative
@@ -157,25 +157,25 @@ static void render_scanline(uint16_t *render_buf_ptr,
 
 // buffer: one tile height, palette, 8-bit tiles from tiles map, 8-bit sprites
 // 31 fps with DMA, 22 fps without
-static void render(const unsigned x, const unsigned y) {
+static void render(const int x, const int y) {
   display.startWrite();
 
-  const unsigned tile_x = x >> tile_width_shift;
-  const unsigned tile_x_fract = x & tile_width_and;
-  unsigned tile_y = y >> tile_height_shift;
-  unsigned tile_y_fract = y & tile_height_and;
+  const int tile_x = x >> tile_width_shift;
+  const int tile_x_fract = x & tile_width_and;
+  int tile_y = y >> tile_height_shift;
+  int tile_y_fract = y & tile_height_and;
 
   // selects buffer to write while DMA reads the other buffer
   bool dma_buf_use_first = true;
   // y in frame for current tiles row to be copied by DMA
-  unsigned frame_y = 0;
+  int frame_y = 0;
   // current line y on screen
   int16_t scanline_y = 0;
   // pointer to start of current row of tiles
   tile_ix const *tiles_map_row_ptr = tile_map[tile_y];
   // pointer to collision map starting at top left of screen
   sprite_ix *collision_map_row_ptr = collision_map;
-  unsigned remaining_y = display_height;
+  int remaining_y = display_height;
   while (remaining_y) {
     // swap between two rendering buffers to not overwrite DMA accessed
     // buffer
@@ -184,11 +184,11 @@ static void render(const unsigned x, const unsigned y) {
     // pointer to the buffer that the DMA will copy to screen
     uint16_t *dma_buf = render_buf_ptr;
     // render from tiles map and sprites to the 'render_buf_ptr'
-    unsigned render_n_tile_lines =
+    int render_n_tile_lines =
         remaining_y < tile_height ? remaining_y : tile_height;
-    unsigned render_n_scanlines = 0;
-    unsigned tile_line = 0;
-    unsigned tile_line_times_tile_width = 0;
+    int render_n_scanlines = 0;
+    int tile_line = 0;
+    int tile_line_times_tile_width = 0;
     if (tile_y_fract) {
       render_n_scanlines = tile_height - tile_y_fract;
       tile_line = tile_y_fract;
@@ -211,7 +211,7 @@ static void render(const unsigned x, const unsigned y) {
     }
 
     display.setAddrWindow(0, frame_y, display_width, render_n_scanlines);
-    display.pushPixelsDMA(dma_buf, display_width * render_n_scanlines);
+    display.pushPixelsDMA(dma_buf, unsigned(display_width * render_n_scanlines));
 
     tile_y++;
     frame_y += render_n_scanlines;

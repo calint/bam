@@ -8,43 +8,43 @@
 static constexpr uint8_t display_orientation = 0;
 
 // lock dt to 32 ms per frame (~31 fps) for deterministic behavior
-static constexpr unsigned clk_locked_dt_ms = 32;
+static constexpr int clk_locked_dt_ms = 32;
 // use measured time to increase dt
-// static constexpr unsigned clk_locked_dt_ms = 0;
+// static constexpr int clk_locked_dt_ms = 0;
 
 // number of sprite images
-static constexpr unsigned sprite_imgs_count = 256;
+static constexpr int sprite_imgs_count = 256;
 // defined in 'resources/sprite_imgs.hpp'
 
 // type used to index in the 'sprite_imgs' array
 using sprite_img_ix = uint8_t;
 
 // sprite dimensions
-static constexpr unsigned sprite_width = 16;
-static constexpr unsigned sprite_height = 16;
+static constexpr int sprite_width = 16;
+static constexpr int sprite_height = 16;
 
 // number of tile images
-static constexpr unsigned tiles_count = 256;
+static constexpr int tiles_count = 256;
 // defined in 'resources/tiles.hpp'
 
 // type used to index in the 'tiles' array from 'tile_map'
 using tile_ix = uint8_t;
 
 // tile dimensions
-static constexpr unsigned tile_width = 16;
-static constexpr unsigned tile_height = 16;
+static constexpr int tile_width = 16;
+static constexpr int tile_height = 16;
 
 //
 // example configuration of more sprites and tiles
 //
-// static constexpr unsigned sprite_imgs_count = 512;
+// static constexpr int sprite_imgs_count = 512;
 // using sprite_img_ix = uint16_t;
-// static constexpr unsigned tiles_count = 512;
+// static constexpr int tiles_count = 512;
 // using tile_ix = uint16_t;
 
 // tile map dimension
-static constexpr unsigned tile_map_width = 15;
-static constexpr unsigned tile_map_height = 320;
+static constexpr int tile_map_width = 15;
+static constexpr int tile_map_height = 320;
 // defined in 'resources/tile_map.hpp'
 
 // type used to index a 'sprite'
@@ -54,10 +54,10 @@ using sprite_ix = uint8_t;
 // sprites available for allocation using 'sprites'
 // note. maximum is one less than limit of type 'sprite_ix' due to the reserved
 // sprite index (maximum limit) used at collision detection
-static constexpr unsigned sprites_count = 255;
+static constexpr int sprites_count = 255;
 
 // objects available for allocation using 'objects'
-static constexpr unsigned objects_count = 255;
+static constexpr int objects_count = 255;
 
 // enumeration of game object classes
 // defined in 'objects/*'
@@ -73,7 +73,7 @@ enum object_class : uint8_t {
 };
 
 // size that fits any instance of game object
-static constexpr unsigned object_instance_max_size_B = 256;
+static constexpr int object_instance_max_size_B = 256;
 
 // define the size of collision bits
 using collision_bits = uint16_t;

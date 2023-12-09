@@ -91,10 +91,10 @@ public:
 
 private:
   static constexpr float frag_speed = 300;
-  static constexpr unsigned frag_count = 16;
+  static constexpr int frag_count = 16;
 
   void create_fragments() {
-    for (unsigned i = 0; i < frag_count; i++) {
+    for (int i = 0; i < frag_count; i++) {
       fragment *frg = new (objects.allocate_instance()) fragment{};
       frg->die_at_ms = clk.ms + 500;
       frg->x = x;

@@ -7,8 +7,8 @@
 class ship2 final : public game_object {
   // animation definition
   static const sprite_img_ix animation_frames[];
-  static const unsigned animation_frames_len;
-  static const unsigned animation_rate_ms;
+  static const int animation_frames_len;
+  static const int animation_rate_ms;
   // animation state
   clk::time animation_frame_ms = 0;
   uint8_t animation_frames_ix = 0;
@@ -36,7 +36,7 @@ public:
     // animation logic
     // note. approximation that does not skip frames and displays a frame at
     // least 'animation_rate_ms'
-    const unsigned ms_since_last_update = clk.ms - animation_frame_ms;
+    const clk::time ms_since_last_update = clk.ms - animation_frame_ms;
     if (ms_since_last_update > animation_rate_ms) {
       animation_frame_ms = clk.ms;
       animation_frames_ix++;
@@ -59,6 +59,6 @@ public:
 };
 
 const sprite_img_ix ship2::animation_frames[] = {6, 7};
-const unsigned ship2::animation_frames_len =
+const int ship2::animation_frames_len =
     sizeof(ship2::animation_frames) / sizeof(sprite_img_ix);
-const unsigned ship2::animation_rate_ms = 500;
+const int ship2::animation_rate_ms = 500;
