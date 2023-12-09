@@ -68,33 +68,35 @@ static uint16_t *dma_buf_2;
 
 static void render_scanline(uint16_t *render_buf_ptr,
                             sprite_ix *collision_map_row_ptr, int tile_x,
-                            int tile_x_fract,
-                            tile_ix const *tiles_map_row_ptr,
+                            int tile_x_fract, tile_ix const *tiles_map_row_ptr,
                             const int16_t scanline_y,
                             const int tile_line_times_tile_width) {
 
   // used later by sprite renderer to overwrite tiles pixels
   uint16_t *scanline_ptr = render_buf_ptr;
-
+  // pointer to first tile to render
   tile_ix const *tiles_map_ptr = tiles_map_row_ptr + tile_x;
-
+  // for all horizontal pixels
   int remaining_x = display_width;
-
   while (remaining_x) {
+    // pointer to tile data to render
     uint8_t const *tile_data_ptr =
         tiles[*tiles_map_ptr] + tile_line_times_tile_width + tile_x_fract;
+    // calculate number of pixels to render
     int render_n_pixels = 0;
     if (tile_x_fract) {
+      // note. assumes display width is at least a tile width
       render_n_pixels = tile_width - tile_x_fract;
       tile_x_fract = 0;
     } else {
       render_n_pixels = remaining_x < tile_width ? remaining_x : tile_width;
     }
+    // decrease remaining pixels to render before using that variable
     remaining_x -= render_n_pixels;
     while (render_n_pixels--) {
       *render_buf_ptr++ = palette_tiles[*tile_data_ptr++];
     }
-    tile_x++;
+    // next tile
     tiles_map_ptr++;
   }
 
@@ -106,20 +108,24 @@ static void render_scanline(uint16_t *render_buf_ptr,
   const int len = sprites.all_list_len();
   for (sprite_ix i = 0; i < len; i++, spr++) {
     if (!spr->img or spr->scr_y > scanline_y or
-        spr->scr_y + int16_t(sprite_height) <= scanline_y or
-        spr->scr_x <= sprite_width_neg or spr->scr_x > int16_t(display_width)) {
+        spr->scr_y + sprite_height <= scanline_y or
+        spr->scr_x <= sprite_width_neg or spr->scr_x >= display_width) {
       // sprite has no image or
       // not within scanline or
       // is outside the screen x-wise
       continue;
     }
+    // pointer to sprite data to be rendered
     uint8_t const *spr_data_ptr =
         spr->img + (scanline_y - spr->scr_y) * sprite_width;
+    // pointer to destination of sprite data
     uint16_t *scanline_dst_ptr = scanline_ptr + spr->scr_x;
+    // initial number of pixels to be rendered
     int render_n_pixels = sprite_width;
+    // pointer to collision map for first pixel of sprite
     sprite_ix *collision_pixel = collision_map_row_ptr + spr->scr_x;
     if (spr->scr_x < 0) {
-      // adjustment if x is negative
+      // adjustments if sprite x is negative
       spr_data_ptr -= spr->scr_x;
       scanline_dst_ptr -= spr->scr_x;
       render_n_pixels += spr->scr_x;
@@ -128,14 +134,16 @@ static void render_scanline(uint16_t *render_buf_ptr,
       // adjustment if sprite partially outside screen (x-wise)
       render_n_pixels = display_width - spr->scr_x;
     }
-    // render scanline of sprite
+    // render line from sprite to scanline and check collisions
     object *obj = spr->obj;
     while (render_n_pixels--) {
       // write pixel from sprite data or skip if 0
       const uint8_t color_ix = *spr_data_ptr;
       if (color_ix) {
+        // if not transparent pixel
         *scanline_dst_ptr = palette_sprites[color_ix];
         if (*collision_pixel != sprite_ix_reserved) {
+          // if other sprite has written to this pixel
           sprite *spr2 = sprites.instance(*collision_pixel);
           object *other_obj = spr2->obj;
           if (obj->col_mask & other_obj->col_bits) {
@@ -159,33 +167,34 @@ static void render_scanline(uint16_t *render_buf_ptr,
 // 31 fps with DMA, 22 fps without
 static void render(const int x, const int y) {
   display.startWrite();
-
+  // extract whole number and fractions from x, y
   const int tile_x = x >> tile_width_shift;
   const int tile_x_fract = x & tile_width_and;
   int tile_y = y >> tile_height_shift;
   int tile_y_fract = y & tile_height_and;
-
   // selects buffer to write while DMA reads the other buffer
   bool dma_buf_use_first = true;
-  // address window y to transfer render buffer using DMA
+  // destination window y for buffer transfer using DMA
   int addr_win_y = 0;
-  // current line y on screen
+  // current screen y for scanline
   int16_t scanline_y = 0;
   // pointer to start of current row of tiles
   tile_ix const *tiles_map_row_ptr = tile_map[tile_y];
   // pointer to collision map starting at top left of screen
   sprite_ix *collision_map_row_ptr = collision_map;
+  // for all lines on display
   int remaining_y = display_height;
   while (remaining_y) {
-    // swap between two rendering buffers to not overwrite DMA accessed
+    // swap between two rendering buffers to not overwrite DMA used
     // buffer
     uint16_t *render_buf_ptr = dma_buf_use_first ? dma_buf_1 : dma_buf_2;
     dma_buf_use_first = not dma_buf_use_first;
-    // pointer to the buffer that the DMA will copy to screen
+    // pointer to the buffer that DMA will copy to screen
     uint16_t *dma_buf = render_buf_ptr;
     // render from tiles map and sprites to the 'render_buf_ptr'
     int render_n_tile_lines =
         remaining_y < tile_height ? remaining_y : tile_height;
+    // prepare loop variables
     int render_n_scanlines = 0;
     int tile_line = 0;
     int tile_line_times_tile_width = 0;
@@ -199,6 +208,7 @@ static void render(const int x, const int y) {
       tile_line = 0;
       tile_line_times_tile_width = 0;
     }
+    // render a row from tile map
     while (tile_line < render_n_tile_lines) {
       render_scanline(render_buf_ptr, collision_map_row_ptr, tile_x,
                       tile_x_fract, tiles_map_row_ptr, scanline_y,
@@ -209,16 +219,14 @@ static void render(const int x, const int y) {
       collision_map_row_ptr += display_width;
       scanline_y++;
     }
-
     display.setAddrWindow(0, addr_win_y, display_width, render_n_scanlines);
-    display.pushPixelsDMA(dma_buf, unsigned(display_width * render_n_scanlines));
-
+    display.pushPixelsDMA(dma_buf,
+                          unsigned(display_width * render_n_scanlines));
     tile_y++;
     addr_win_y += render_n_scanlines;
     remaining_y -= render_n_scanlines;
     tiles_map_row_ptr += tile_map_width;
   }
-
   display.endWrite();
 }
 
