@@ -150,7 +150,7 @@ static void main_on_frame_completed() {
 
 void main_wave_1() {
   float x = 8;
-  float y = -float(sprite_height);
+  float y = -sprite_height;
   for (int i = 0; i < 8; i++) {
     ship1 *shp = new (objects.allocate_instance()) ship1{};
     shp->x = x;
@@ -163,7 +163,7 @@ void main_wave_1() {
 
 void main_wave_2() {
   float x = 8;
-  float y = -float(sprite_height);
+  float y = -sprite_height;
   for (int i = 0; i < 8; i++) {
     ship1 *shp = new (objects.allocate_instance()) ship1{};
     shp->x = x;
@@ -174,7 +174,7 @@ void main_wave_2() {
 }
 
 void main_wave_3() {
-  float y = -float(sprite_height);
+  float y = -sprite_height;
   for (int j = 0; j < 8; j++, y -= 24) {
     float x = 8;
     for (int i = 0; i < 8; i++, x += 32) {
@@ -189,8 +189,8 @@ void main_wave_3() {
 void main_wave_4() {
   {
     ship2 *shp = new (objects.allocate_instance()) ship2{};
-    shp->x = -float(sprite_width);
-    shp->y = -float(sprite_height);
+    shp->x = -sprite_width;
+    shp->y = -sprite_height;
     shp->dy = 25;
     shp->dx = 12;
     shp->ddy = 20;
@@ -199,7 +199,7 @@ void main_wave_4() {
   {
     ship2 *shp = new (objects.allocate_instance()) ship2{};
     shp->x = display_width;
-    shp->y = -float(sprite_height);
+    shp->y = -sprite_height;
     shp->dy = 25;
     shp->dx = -12;
     shp->ddy = 20;
