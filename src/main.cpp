@@ -17,8 +17,9 @@
 //   with engine
 
 // note. design decision regarding 'unsigned'
-// use signed constants to avoid sign conversion warnings and bugs in mixed
-// signedness operations; size values fit within the bit width of signed values.
+// due to sign conversion warnings and subtle bugs in mixed signedness
+// operations signed constants and variables are used where the bit width of the
+// type is wide enough to fit the largest values
 
 // note. why some buffers are allocated at 'setup'
 // Due to a technical limitation, the maximum statically allocated DRAM usage is
