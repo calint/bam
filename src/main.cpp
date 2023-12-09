@@ -16,6 +16,11 @@
 //   circular references and gives user the necessary callbacks to interface
 //   with engine
 
+// note. design decision regarding unsigned types
+// most constants are declared as 'int' instead of 'unsigned' to avoid sign
+// conversion warnings and subtle bugs
+// some types are declared as 'unsigned' due to bit width constraints
+
 // note. why some buffers are allocated at 'setup'
 // Due to a technical limitation, the maximum statically allocated DRAM usage is
 // 160KB. The remaining 160KB (for a total of 320KB of DRAM) can only be
