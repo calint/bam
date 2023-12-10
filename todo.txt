@@ -1,3 +1,5 @@
+[x] try 1 scanline of display buffer
+    => ~23 fps
 [x] examine generated assembler and compare 'for' and 'while'
 [x] inspect the sign conversion warnings and consider converting size constants to signed
     => converted unsigned to signed including constants, sizes etc
