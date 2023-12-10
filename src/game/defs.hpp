@@ -7,8 +7,8 @@
 // 0: portrait, 1: landscape
 static constexpr uint8_t display_orientation = 0;
 
-// lock dt to 32 ms per frame (~31 fps) for deterministic behavior
-static constexpr int clk_locked_dt_ms = 32;
+// lock dt to 33 ms per frame (~30 fps) for deterministic behavior
+static constexpr int clk_locked_dt_ms = 33;
 // use measured time to increase dt
 // static constexpr int clk_locked_dt_ms = 0;
 
