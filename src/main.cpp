@@ -68,19 +68,20 @@ constexpr int dma_n_scanlines = 8;
 // 16: 31 fps
 // 32: 30 fps
 // if there are remaining scanlines to transfer after the render loop
-constexpr bool dma_odd = display_height % dma_n_scanlines;
+constexpr bool dma_odd_size = display_height % dma_n_scanlines;
 // alternating buffers for rendering scanlines while DMA is active
 // allocated in 'setup'
 static constexpr int dma_buf_size =
     sizeof(uint16_t) * display_width * dma_n_scanlines;
-static uint16_t *dma_buf_1;
-static uint16_t *dma_buf_2;
+// static uint16_t *dma_buf_1;
+// static uint16_t *dma_buf_2;
 
-// note. allocating buffers in static memory leads to crash:
+// note. allocating buffers in static memory may leads to freertos crash due to
+// not having enough memory (dma_n_scanlines > 20 when width is 240):
 //    assert failed: vApplicationGetIdleTaskMemory port_common.c:194
 //    (pxTCBBufferTemp != NULL)
-// static uint16_t dma_buf_1[dma_buf_size];
-// static uint16_t dma_buf_2[dma_buf_size];
+static uint16_t dma_buf_1[dma_buf_size];
+static uint16_t dma_buf_2[dma_buf_size];
 
 static void render_scanline(uint16_t *render_buf_ptr,
                             sprite_ix *collision_map_row_ptr, int tile_x,
@@ -251,11 +252,11 @@ static void render(const int x, const int y) {
     remaining_y -= render_n_scanlines;
     tiles_map_row_ptr += tile_map_width;
   }
-  if (dma_odd) {
+  if (dma_odd_size) {
     // in case transfer scanlines and height not evenly divisible there will be
     // some remaining scanlines to transfer
-    display.pushPixelsDMA(
-        dma_buf, unsigned(display_width * dma_scanline_count));
+    display.pushPixelsDMA(dma_buf,
+                          unsigned(display_width * dma_scanline_count));
   }
   display.endWrite();
 }
@@ -295,14 +296,14 @@ void setup() {
   printf("            object: %zu B\n", sizeof(object));
   printf("              tile: %zu B\n", sizeof(tiles[0]));
 
-  // allocate DMA buffers
-  dma_buf_1 = static_cast<uint16_t *>(malloc(dma_buf_size));
-  dma_buf_2 = static_cast<uint16_t *>(malloc(dma_buf_size));
-  if (!dma_buf_1 or !dma_buf_2) {
-    printf("!!! could not allocate DMA buffers");
-    while (true)
-      ;
-  }
+  // // allocate DMA buffers
+  // dma_buf_1 = static_cast<uint16_t *>(malloc(dma_buf_size));
+  // dma_buf_2 = static_cast<uint16_t *>(malloc(dma_buf_size));
+  // if (!dma_buf_1 or !dma_buf_2) {
+  //   printf("!!! could not allocate DMA buffers");
+  //   while (true)
+  //     ;
+  // }
 
   engine_setup();
 
