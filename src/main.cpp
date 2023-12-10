@@ -124,7 +124,7 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
 
   // render sprites
   // note. although grossly inefficient algorithm the DMA is busy while
-  // rendering
+  //       rendering
 
   sprite *spr = sprites.all_list();
   const int len = sprites.all_list_len();
