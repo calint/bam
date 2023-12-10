@@ -76,23 +76,23 @@ class object {
 public:
   object **alloc_ptr;
   // note. no default value since it would overwrite the 'o1store' assigned
-  // value at 'allocate_instance()'
+  //       value at 'allocate_instance()'
 
   object *col_with = nullptr;
   collision_bits col_bits = 0;
   collision_bits col_mask = 0;
   // note: used to declare interest in collisions with objects whose
-  // 'col_bits' bitwise AND with this 'col_mask' is not 0
+  //       'col_bits' bitwise AND with this 'col_mask' is not 0
 
   object() {}
   // note. constructor must be defined because the default constructor
-  // overwrites the 'o1store' assigned 'alloc_ptr' at the 'new in place'
+  //       overwrites the 'o1store' assigned 'alloc_ptr' at the 'new in place'
 
   virtual ~object() {}
 
   // returns true if object has died
   // note. regarding classes overriding 'update(...)'
-  // after 'update(...)' 'col_with' should be 'nullptr'
+  //       after 'update(...)' 'col_with' should be 'nullptr'
   virtual auto update() -> bool { return false; }
 
   // called before rendering the sprites
@@ -107,7 +107,7 @@ public:
   void update() {
     object **end = allocated_list_end();
     // note. important to get the 'end' outside the loop because objects may
-    // allocate new objects in the loop and that would change the 'end'
+    //       allocate new objects in the loop and that would change the 'end'
     for (object **it = allocated_list(); it < end; it++) {
       object *obj = *it;
       if (obj->update()) {
@@ -120,7 +120,7 @@ public:
   void pre_render() {
     object **end = allocated_list_end();
     // note. important to get the 'end' outside the loop because objects may
-    // allocate new objects in the loop and that would change the 'end'
+    //       allocate new objects in the loop and that would change the 'end'
     for (object **it = allocated_list(); it < end; it++) {
       object *obj = *it;
       obj->pre_render();
@@ -217,7 +217,7 @@ static void engine_loop() {
 
   // clear collisions map
   // note. works on other sizes of type 'sprite_ix' because reserved value is
-  // unsigned maximum value such as 0xff or 0xffff etc
+  //       unsigned maximum value such as 0xff or 0xffff etc
   memset(collision_map, sprite_ix_reserved, collision_map_size_B);
 
   // prepare objects for render
