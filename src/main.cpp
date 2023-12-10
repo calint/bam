@@ -189,7 +189,7 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
 static void render(const int x, const int y) {
   display.startWrite();
   // set window for DMA transfer
-  display.setAddrWindow(0, 0, display_width, display_height);
+  display.setWindow(0, 0, display_width, display_height);
   // extract whole number and fractions from x, y
   const int tile_x = x >> tile_width_shift;
   const int tile_x_fract = x & tile_width_and;
