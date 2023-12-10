@@ -225,6 +225,7 @@ static void render(const int x, const int y) {
     int tile_line = 0;
     int tile_line_times_tile_width = 0;
     if (tile_y_fract) {
+      // note. assumes display height is at least a tile height -1
       render_n_scanlines = tile_height - tile_y_fract;
       tile_line = tile_y_fract;
       tile_line_times_tile_width = tile_y_fract * tile_height;
