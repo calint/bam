@@ -30,26 +30,6 @@ static tile_ix tile_map[tile_map_height][tile_map_width]{
 #include "game/resources/tile_map.hpp"
 };
 
-// returns number of shifts to convert a 2^n number to 1
-static constexpr int count_right_shifts_until_1(int num) {
-  return (num <= 1) ? 0 : 1 + count_right_shifts_until_1(num >> 1);
-}
-
-// the right shift of 'x' to get the x in tiles map
-static constexpr int tile_width_shift = count_right_shifts_until_1(tile_width);
-
-// the right shift of 'y' to get the y in tiles map
-static constexpr int tile_height_shift =
-    count_right_shifts_until_1(tile_height);
-
-// the bits that are the partial tile position between 0 and not including
-// 'tile_width'
-static constexpr int tile_width_and = (1 << tile_width_shift) - 1;
-
-// the bits that are the partial tile position between 0 and not including
-// 'tile_height'
-static constexpr int tile_height_and = (1 << tile_height_shift) - 1;
-
 // tile map controls
 static float tile_map_x = 0;
 static float tile_map_dx = 0;
