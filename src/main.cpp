@@ -64,13 +64,13 @@ constexpr int dma_n_scanlines = 8;
 //  1: 23 fps
 //  2: 27 fps
 //  4: 29 fps
-//  8: 30 fps
+//  8: 31 fps
 // 16: 31 fps
-// 32: 30 fps
+// 32: 32 fps
 
 // alternating buffers for rendering scanlines while DMA is active
 // note. allocating buffers in static memory may leads to freertos crash due to
-//       not having enough memory (dma_n_scanlines > 20 when width is 240):
+//       not having enough memory (dma_n_scanlines > 40 when width is 240):
 //       assert failed: vApplicationGetIdleTaskMemory port_common.c:194
 //       (pxTCBBufferTemp != NULL)
 static uint16_t dma_buf_1[display_width * dma_n_scanlines];
@@ -190,14 +190,11 @@ static constexpr int count_right_shifts_until_1(int num) {
 
 // renders tile map and sprites
 static void render(const int x, const int y) {
+  // extract whole number and fractions from x, y
   constexpr int tile_width_shift = count_right_shifts_until_1(tile_width);
   constexpr int tile_height_shift = count_right_shifts_until_1(tile_height);
   constexpr int tile_width_and = (1 << tile_width_shift) - 1;
   constexpr int tile_height_and = (1 << tile_height_shift) - 1;
-
-  display.startWrite();
-  display.setWindow(0, 0, display_width, display_height);
-  // extract whole number and fractions from x, y
   const int tile_x = x >> tile_width_shift;
   const int tile_x_fract = x & tile_width_and;
   int tile_y = y >> tile_height_shift;
@@ -268,7 +265,6 @@ static void render(const int x, const int y) {
     display.pushPixelsDMA(dma_buf,
                           unsigned(display_width * dma_n_scanlines_trailing));
   }
-  display.endWrite();
 }
 
 void setup() {
@@ -340,6 +336,7 @@ void setup() {
   // initiate display
   display.init();
   display.setRotation(display_orientation);
+  display.setAddrWindow(0, 0, display_width, display_height);
   display.initDMA(true);
 
   // set random seed for deterministic behavior
