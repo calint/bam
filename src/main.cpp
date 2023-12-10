@@ -78,9 +78,10 @@ constexpr bool dma_odd_size = display_height % dma_n_scanlines;
 //    (pxTCBBufferTemp != NULL)
 static uint16_t dma_buf_1[display_width * dma_n_scanlines];
 static uint16_t dma_buf_2[display_width * dma_n_scanlines];
+static constexpr int dma_buf_size_B = sizeof(dma_buf_1);
 
-static constexpr int dma_buf_size_B =
-    sizeof(uint16_t) * display_width * dma_n_scanlines;
+// static constexpr int dma_buf_size_B =
+//     sizeof(uint16_t) * display_width * dma_n_scanlines;
 // static uint16_t *dma_buf_1;
 // static uint16_t *dma_buf_2;
 
@@ -315,6 +316,7 @@ void setup() {
   printf("     free heap mem: %zu B\n", ESP.getFreeHeap());
   printf("largest free block: %zu B\n", ESP.getMaxAllocHeap());
   printf("------------------- globals ------------------------------\n");
+  printf("   DMA buf 1 and 2: %u B\n", 2 * dma_buf_size_B);
   printf("          tile map: %zu B\n", sizeof(tile_map));
   printf("           sprites: %zu B\n", sizeof(sprites));
   printf("           objects: %zu B\n", sizeof(objects));
@@ -322,7 +324,6 @@ void setup() {
   printf("      sprites data: %zu B\n", sprites.allocated_data_size_B());
   printf("      objects data: %zu B\n", objects.allocated_data_size_B());
   printf("     collision map: %zu B\n", collision_map_size);
-  printf("   DMA buf 1 and 2: %u B\n", 2 * dma_buf_size_B);
   printf("------------------- in program memory --------------------\n");
   printf("     sprite images: %zu B\n", sizeof(sprite_imgs));
   printf("             tiles: %zu B\n", sizeof(tiles));
