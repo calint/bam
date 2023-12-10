@@ -310,8 +310,6 @@ void setup() {
   printf("           sprites: %zu B\n", sizeof(sprites));
   printf("           objects: %zu B\n", sizeof(objects));
 
-  engine_setup();
-
   // set rgb led blue
   digitalWrite(cyd_led_red, HIGH);
   digitalWrite(cyd_led_green, HIGH);
@@ -337,6 +335,8 @@ void setup() {
   // initiate clock to current time, frames-per-second calculation every 2
   // seconds and locked dt
   clk.init(millis(), 2000, clk_locked_dt_ms);
+
+  engine_setup();
 
   main_setup();
 
