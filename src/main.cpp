@@ -185,13 +185,9 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
   }
 }
 
-// buffer: one tile height, palette, 8-bit tiles from tiles map, 8-bit sprites
-// 31 fps with DMA, 21 fps without
-// note. writing one scanline at a time to display gives ~21 fps with or without
-//       DMA transfer
+// renders tile map and sprites
 static void render(const int x, const int y) {
   display.startWrite();
-  // set window for DMA transfer
   display.setWindow(0, 0, display_width, display_height);
   // extract whole number and fractions from x, y
   const int tile_x = x >> tile_width_shift;
