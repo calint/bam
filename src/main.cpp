@@ -83,7 +83,9 @@ static constexpr int dma_buf_size =
 static uint16_t dma_buf_1[dma_buf_size];
 static uint16_t dma_buf_2[dma_buf_size];
 
-static void render_scanline(uint16_t *render_buf_ptr,
+// renders a scanline
+// note. inline because it is only called from render(...)
+static inline void render_scanline(uint16_t *render_buf_ptr,
                             sprite_ix *collision_map_row_ptr, int tile_x,
                             int tile_x_fract, tile_ix const *tiles_map_row_ptr,
                             const int16_t scanline_y,
