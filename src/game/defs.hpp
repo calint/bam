@@ -53,7 +53,7 @@ using sprite_ix = uint8_t;
 
 // sprites available for allocation using 'sprites'
 // note. maximum is one less than limit of type 'sprite_ix' due to the reserved
-// sprite index (maximum limit) used at collision detection
+//       sprite index (maximum limit) used at collision detection
 static constexpr int sprites_count = 255;
 
 // objects available for allocation using 'objects'
