@@ -84,6 +84,10 @@ struct wave_trigger {
   // note. constructor needed for C++11 to compile
 
 } static constexpr wave_triggers[] = {
+    // {float((tile_map_height - tiles_per_screen * 1.0f) * tile_height),
+    //  main_wave_5},
+    // {float((tile_map_height - tiles_per_screen * 2.0f) * tile_height),
+    //  main_wave_5},
     {float((tile_map_height - tiles_per_screen * 1.0f) * tile_height),
      main_wave_4},
     {float((tile_map_height - tiles_per_screen * 1.5f) * tile_height),

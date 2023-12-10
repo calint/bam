@@ -1,5 +1,9 @@
-[x] try 1 scanline of display buffer
-    => ~23 fps
+[x] try n scanlines of display buffer and DMA transfer
+    =>  1: 23 fps
+    =>  2: 27 fps
+    =>  4: 29 fps
+    =>  8: 30 fps
+    => 16: 31 fps
 [x] examine generated assembler and compare 'for' and 'while'
 [x] inspect the sign conversion warnings and consider converting size constants to signed
     => converted unsigned to signed including constants, sizes etc
