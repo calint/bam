@@ -86,26 +86,10 @@ static constexpr int dma_buf_size_B = sizeof(dma_buf_1);
 // static uint16_t *dma_buf_1;
 // static uint16_t *dma_buf_2;
 
-
 // returns number of shifts to convert a 2^n number to 1
 static constexpr int count_right_shifts_until_1(int num) {
   return (num <= 1) ? 0 : 1 + count_right_shifts_until_1(num >> 1);
 }
-
-// the right shift of 'x' to get the x in tiles map
-static constexpr int tile_width_shift = count_right_shifts_until_1(tile_width);
-
-// the right shift of 'y' to get the y in tiles map
-static constexpr int tile_height_shift =
-    count_right_shifts_until_1(tile_height);
-
-// the bits that are the partial tile position between 0 and not including
-// 'tile_width'
-static constexpr int tile_width_and = (1 << tile_width_shift) - 1;
-
-// the bits that are the partial tile position between 0 and not including
-// 'tile_height'
-static constexpr int tile_height_and = (1 << tile_height_shift) - 1;
 
 // renders a scanline
 // note. inline because it is only called from render(...)
@@ -209,6 +193,11 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
 
 // renders tile map and sprites
 static void render(const int x, const int y) {
+  constexpr int tile_width_shift = count_right_shifts_until_1(tile_width);
+  constexpr int tile_height_shift = count_right_shifts_until_1(tile_height);
+  constexpr int tile_width_and = (1 << tile_width_shift) - 1;
+  constexpr int tile_height_and = (1 << tile_height_shift) - 1;
+
   display.startWrite();
   display.setWindow(0, 0, display_width, display_height);
   // extract whole number and fractions from x, y
