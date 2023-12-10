@@ -32,8 +32,7 @@ static void main_setup() {
   // blt->y = 300;
   // blt->dy = -100;
 
-  printf("------------------- game objects -------------------------\n");
-  printf("----------------------------------------------------------\n");
+  printf("------------------- game object sizes --------------------\n");
   printf("            bullet: %zu B\n", sizeof(bullet));
   printf("             dummy: %zu B\n", sizeof(dummy));
   printf("          fragment: %zu B\n", sizeof(fragment));
@@ -42,7 +41,6 @@ static void main_setup() {
   printf("             ship2: %zu B\n", sizeof(ship2));
   printf("    upgrade_picked: %zu B\n", sizeof(upgrade_picked));
   printf("           upgrade: %zu B\n", sizeof(upgrade));
-  printf("----------------------------------------------------------\n");
 }
 
 static clk::time last_fire_ms = 0;

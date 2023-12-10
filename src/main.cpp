@@ -300,6 +300,9 @@ void setup() {
   printf("            sprite: %zu B\n", sizeof(sprite));
   printf("            object: %zu B\n", sizeof(object));
   printf("              tile: %zu B\n", sizeof(tiles[0]));
+  printf("------------------- in program memory --------------------\n");
+  printf("     sprite images: %zu B\n", sizeof(sprite_imgs));
+  printf("             tiles: %zu B\n", sizeof(tiles));
   printf("------------------- globals ------------------------------\n");
   printf("   DMA buf 1 and 2: %u B\n", 2 * dma_buf_size_B);
   printf("          tile map: %zu B\n", sizeof(tile_map));
@@ -307,18 +310,6 @@ void setup() {
   printf("           objects: %zu B\n", sizeof(objects));
 
   engine_setup();
-
-  printf("------------------- after init ---------------------------\n");
-  printf("     free heap mem: %zu B\n", ESP.getFreeHeap());
-  printf("largest free block: %zu B\n", ESP.getMaxAllocHeap());
-  printf("------------------- on heap ------------------------------\n");
-  printf("      sprites data: %zu B\n", sprites.allocated_data_size_B());
-  printf("      objects data: %zu B\n", objects.allocated_data_size_B());
-  printf("     collision map: %zu B\n", collision_map_size_B);
-  printf("------------------- in program memory --------------------\n");
-  printf("     sprite images: %zu B\n", sizeof(sprite_imgs));
-  printf("             tiles: %zu B\n", sizeof(tiles));
-  printf("----------------------------------------------------------\n");
 
   // set rgb led blue
   digitalWrite(cyd_led_red, HIGH);
@@ -352,6 +343,15 @@ void setup() {
   digitalWrite(cyd_led_red, HIGH);
   digitalWrite(cyd_led_green, LOW);
   digitalWrite(cyd_led_blue, HIGH);
+
+  printf("------------------- on heap ------------------------------\n");
+  printf("      sprites data: %zu B\n", sprites.allocated_data_size_B());
+  printf("      objects data: %zu B\n", objects.allocated_data_size_B());
+  printf("     collision map: %zu B\n", collision_map_size_B);
+  printf("------------------- after setup --------------------------\n");
+  printf("     free heap mem: %zu B\n", ESP.getFreeHeap());
+  printf("largest free block: %zu B\n", ESP.getMaxAllocHeap());
+  printf("----------------------------------------------------------\n");
 }
 
 void loop() {

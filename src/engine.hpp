@@ -157,7 +157,7 @@ public:
     interval_ms_ = interval_of_fps_calculation_ms;
     if (locked_dt_ms) {
       locked_dt_ms_ = locked_dt_ms;
-      dt = 1.0f / float(locked_dt_ms);
+      dt = 0.001f * float(locked_dt_ms);
     } else {
       prv_ms_ = ms = time_ms;
     }
