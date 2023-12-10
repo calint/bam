@@ -70,15 +70,15 @@ constexpr int dma_n_scanlines = 8;
 // if there are remaining scanlines to transfer after the render loop
 constexpr bool dma_odd_size = display_height % dma_n_scanlines;
 
+// alternating buffers for rendering scanlines while DMA is active
 // note. allocating buffers in static memory may leads to freertos crash due to
-// not having enough memory (dma_n_scanlines > 20 when width is 240):
-//    assert failed: vApplicationGetIdleTaskMemory port_common.c:194
-//    (pxTCBBufferTemp != NULL)
+//       not having enough memory (dma_n_scanlines > 20 when width is 240):
+//       assert failed: vApplicationGetIdleTaskMemory port_common.c:194
+//       (pxTCBBufferTemp != NULL)
 static uint16_t dma_buf_1[display_width * dma_n_scanlines];
 static uint16_t dma_buf_2[display_width * dma_n_scanlines];
 static constexpr int dma_buf_size_B = sizeof(dma_buf_1);
 
-// alternating buffers for rendering scanlines while DMA is active
 // allocated in 'setup'
 // static constexpr int dma_buf_size_B =
 //     sizeof(uint16_t) * display_width * dma_n_scanlines;
