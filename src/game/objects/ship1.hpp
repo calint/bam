@@ -21,7 +21,7 @@ public:
       return true;
     }
 
-    if (y > display_height) {
+    if (y >= display_height) {
       return true;
     }
 

@@ -37,7 +37,7 @@ public:
     // note. approximation that does not skip frames and displays a frame at
     // least 'animation_rate_ms'
     const clk::time ms_since_last_update = clk.ms - animation_frame_ms;
-    if (ms_since_last_update > animation_rate_ms) {
+    if (ms_since_last_update >= animation_rate_ms) {
       animation_frame_ms = clk.ms;
       animation_frames_ix++;
       if (animation_frames_ix == animation_frames_len) {

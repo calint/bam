@@ -56,10 +56,10 @@ public:
       return true;
     }
 
-    if (x > display_width) {
+    if (x >= display_width) {
       dx = -dx;
       x = display_width;
-    } else if (x < -sprite_width) {
+    } else if (x <= -sprite_width) {
       dx = -dx;
       x = -sprite_width;
     }

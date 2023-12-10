@@ -22,7 +22,7 @@ public:
     if (game_object::update()) {
       return true;
     }
-    if (clk.ms > die_at_ms) {
+    if (clk.ms >= die_at_ms) {
       return true;
     }
     return false;
