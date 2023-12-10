@@ -132,7 +132,7 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
   for (sprite_ix i = 0; i < len; i++, spr++) {
     if (!spr->img or spr->scr_y > scanline_y or
         spr->scr_y + sprite_height <= scanline_y or
-        spr->scr_x <= sprite_width_neg or spr->scr_x >= display_width) {
+        spr->scr_x <= -sprite_width or spr->scr_x >= display_width) {
       // sprite has no image or
       // not within scanline or
       // is outside the screen x-wise

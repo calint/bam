@@ -56,10 +56,6 @@ static float tile_map_dx = 0;
 static float tile_map_y = 0;
 static float tile_map_dy = 0;
 
-// used when rendering
-static constexpr int sprite_width_neg = -sprite_width;
-static constexpr int sprite_height_neg = -sprite_height;
-
 // images used by sprites
 static constexpr uint8_t sprite_imgs[sprite_imgs_count]
                                     [sprite_width * sprite_height]{

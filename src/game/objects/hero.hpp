@@ -59,9 +59,9 @@ public:
     if (x > display_width) {
       dx = -dx;
       x = display_width;
-    } else if (x < sprite_width_neg) {
+    } else if (x < -sprite_width) {
       dx = -dx;
-      x = sprite_width_neg;
+      x = -sprite_width;
     }
 
     if (clk.ms - last_upgrade_deployed_ms > upgrade_deploy_interval_ms) {
