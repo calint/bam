@@ -70,7 +70,7 @@ static sprite_ix *collision_map;
 
 // static sprite_ix collision_map[display_width * display_height];
 // note. allocating collision_map in static ram gives device error:
-// rst:0x10 (RTCWDT_RTC_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+//       rst:0x10 (RTCWDT_RTC_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
 
 class object {
 public:
