@@ -86,11 +86,6 @@ static constexpr int dma_buf_size_B = sizeof(dma_buf_1);
 // static uint16_t *dma_buf_1;
 // static uint16_t *dma_buf_2;
 
-// returns number of shifts to convert a 2^n number to 1
-static constexpr int count_right_shifts_until_1(int num) {
-  return (num <= 1) ? 0 : 1 + count_right_shifts_until_1(num >> 1);
-}
-
 // renders a scanline
 // note. inline because it is only called from render(...)
 static inline void render_scanline(uint16_t *render_buf_ptr,
@@ -189,6 +184,11 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
       scanline_dst_ptr++;
     }
   }
+}
+
+// returns number of shifts to convert a 2^n number to 1
+static constexpr int count_right_shifts_until_1(int num) {
+  return (num <= 1) ? 0 : 1 + count_right_shifts_until_1(num >> 1);
 }
 
 // renders tile map and sprites
