@@ -261,8 +261,8 @@ static void render(const int x, const int y) {
     remaining_y -= render_n_scanlines;
     tiles_map_row_ptr += tile_map_width;
   }
-  // in case 'dma_n_scanlines scanlines' and 'display_height' not evenly
-  // divisible there will be remaining scanlines to write
+  // in case 'dma_n_scanlines' and 'display_height' not evenly divisible there
+  // will be remaining scanlines to write
   constexpr int dma_n_scanlines_trailing = display_height % dma_n_scanlines;
   if (dma_n_scanlines_trailing) {
     display.pushPixelsDMA(dma_buf,
