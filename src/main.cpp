@@ -68,8 +68,8 @@ constexpr int dma_n_scanlines = 8;
 // 16: 31 fps
 // 32: 30 fps
 
-// if there are remaining scanlines to transfer after the render loop
-constexpr bool dma_odd_size = display_height % dma_n_scanlines;
+// remaining scanlines to transfer after the render loop
+constexpr int dma_n_scanlines_trailing = display_height % dma_n_scanlines;
 
 // alternating buffers for rendering scanlines while DMA is active
 // note. allocating buffers in static memory may leads to freertos crash due to
@@ -264,11 +264,10 @@ static void render(const int x, const int y) {
     remaining_y -= render_n_scanlines;
     tiles_map_row_ptr += tile_map_width;
   }
-  if (dma_odd_size) {
+  if (dma_n_scanlines_trailing) {
     // in case transfer scanlines and height not evenly divisible there will be
     // some remaining scanlines to transfer
-    display.pushPixelsDMA(dma_buf,
-                          unsigned(display_width * dma_scanline_count));
+    display.pushPixelsDMA(dma_buf, unsigned(display_width * dma_n_scanlines_trailing));
   }
   display.endWrite();
 }
