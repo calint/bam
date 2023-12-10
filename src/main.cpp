@@ -67,6 +67,7 @@ constexpr int dma_n_scanlines = 8;
 //  8: 30 fps
 // 16: 31 fps
 // 32: 30 fps
+
 // if there are remaining scanlines to transfer after the render loop
 constexpr bool dma_odd_size = display_height % dma_n_scanlines;
 
@@ -276,7 +277,6 @@ void setup() {
   Serial.begin(115200);
   sleep(1); // arbitrary wait 1 second for serial to connect
 
-  // heap_caps_dump_all();
   printf("\n\n");
   printf("------------------- platform -----------------------------\n");
   printf("        chip model: %s\n", ESP.getChipModel());
@@ -296,30 +296,21 @@ void setup() {
   printf("            sprite: %zu B\n", sizeof(sprite));
   printf("            object: %zu B\n", sizeof(object));
   printf("              tile: %zu B\n", sizeof(tiles[0]));
-
-  // // allocate DMA buffers
-  // dma_buf_1 = static_cast<uint16_t *>(malloc(dma_buf_size_B));
-  // dma_buf_2 = static_cast<uint16_t *>(malloc(dma_buf_size_B));
-  // if (!dma_buf_1 or !dma_buf_2) {
-  //   printf("!!! could not allocate DMA buffers");
-  //   while (true)
-  //     ;
-  // }
+  printf("------------------- globals ------------------------------\n");
+  printf("   DMA buf 1 and 2: %u B\n", 2 * dma_buf_size_B);
+  printf("          tile map: %zu B\n", sizeof(tile_map));
+  printf("           sprites: %zu B\n", sizeof(sprites));
+  printf("           objects: %zu B\n", sizeof(objects));
 
   engine_setup();
 
   printf("------------------- after init ---------------------------\n");
   printf("     free heap mem: %zu B\n", ESP.getFreeHeap());
   printf("largest free block: %zu B\n", ESP.getMaxAllocHeap());
-  printf("------------------- globals ------------------------------\n");
-  printf("   DMA buf 1 and 2: %u B\n", 2 * dma_buf_size_B);
-  printf("          tile map: %zu B\n", sizeof(tile_map));
-  printf("           sprites: %zu B\n", sizeof(sprites));
-  printf("           objects: %zu B\n", sizeof(objects));
   printf("------------------- on heap ------------------------------\n");
   printf("      sprites data: %zu B\n", sprites.allocated_data_size_B());
   printf("      objects data: %zu B\n", objects.allocated_data_size_B());
-  printf("     collision map: %zu B\n", collision_map_size);
+  printf("     collision map: %zu B\n", collision_map_size_B);
   printf("------------------- in program memory --------------------\n");
   printf("     sprite images: %zu B\n", sizeof(sprite_imgs));
   printf("             tiles: %zu B\n", sizeof(tiles));

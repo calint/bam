@@ -36,8 +36,7 @@ static constexpr int count_right_shifts_until_1(int num) {
 }
 
 // the right shift of 'x' to get the x in tiles map
-static constexpr int tile_width_shift =
-    count_right_shifts_until_1(tile_width);
+static constexpr int tile_width_shift = count_right_shifts_until_1(tile_width);
 
 // the right shift of 'y' to get the y in tiles map
 static constexpr int tile_height_shift =
@@ -89,13 +88,13 @@ static sprites_store sprites{};
 
 // pixel precision collision detection between on screen sprites
 // allocated at 'engine_setup()'
-static constexpr int collision_map_size =
+static constexpr int collision_map_size_B =
     sizeof(sprite_ix) * display_width * display_height;
 static sprite_ix *collision_map;
 
+// static sprite_ix collision_map[display_width * display_height];
 // note. allocating collision_map in static ram gives device error:
 // rst:0x10 (RTCWDT_RTC_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-// static sprite_ix collision_map[collision_map_size];
 
 class object {
 public:
@@ -178,8 +177,7 @@ public:
   // called at setup with current time and frames per seconds calculation
   // interval
   void init(const unsigned long time_ms,
-            const int interval_of_fps_calculation_ms,
-            const int locked_dt_ms) {
+            const int interval_of_fps_calculation_ms, const int locked_dt_ms) {
     interval_ms_ = interval_of_fps_calculation_ms;
     if (locked_dt_ms) {
       locked_dt_ms_ = locked_dt_ms;
@@ -214,7 +212,8 @@ public:
 
 // callback from 'main.cpp'
 static void engine_setup() {
-  collision_map = static_cast<sprite_ix *>(malloc(collision_map_size));
+  collision_map = static_cast<sprite_ix *>(
+      calloc(display_width * display_height, sizeof(sprite_ix)));
   if (!collision_map) {
     printf("!!! could not allocate collision map\n");
     while (true)
@@ -241,7 +240,9 @@ static void engine_loop() {
   sprites.apply_free();
 
   // clear collisions map
-  memset(collision_map, sprite_ix_reserved, collision_map_size);
+  // note. works on other sizes of type 'sprite_ix' because reserved value is
+  // unsigned maximum value such as 0xff or 0xffff etc
+  memset(collision_map, sprite_ix_reserved, collision_map_size_B);
 
   // prepare objects for render
   objects.pre_render();

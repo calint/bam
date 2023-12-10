@@ -17,10 +17,16 @@ TAG=$(date "+%Y-%m-%d--%H-%M") && git tag $TAG && git push origin $TAG
 #include "esp_debug_helpers.h"
 esp_backtrace_print(10);
 
-
-
-
-
+----------------------------------------------------------------------
+  // allocate DMA buffers
+  dma_buf_1 = static_cast<uint16_t *>(malloc(dma_buf_size_B));
+  dma_buf_2 = static_cast<uint16_t *>(malloc(dma_buf_size_B));
+  if (!dma_buf_1 or !dma_buf_2) {
+    printf("!!! could not allocate DMA buffers");
+    while (true)
+      ;
+  }
+----------------------------------------------------------------------
 // clang-format off
 {0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
