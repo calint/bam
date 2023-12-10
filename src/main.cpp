@@ -169,9 +169,13 @@ static void render_scanline(uint16_t *render_buf_ptr,
 }
 
 // buffer: one tile height, palette, 8-bit tiles from tiles map, 8-bit sprites
-// 31 fps with DMA, 22 fps without
+// 31 fps with DMA, 21 fps without
+// note. writing one scanline at a time to display gives ~21 fps with or without
+//       DMA transfer
 static void render(const int x, const int y) {
   display.startWrite();
+  // set window for DMA transfer
+  display.setAddrWindow(0, 0, display_width, display_height);
   // extract whole number and fractions from x, y
   const int tile_x = x >> tile_width_shift;
   const int tile_x_fract = x & tile_width_and;
@@ -179,8 +183,6 @@ static void render(const int x, const int y) {
   int tile_y_fract = y & tile_height_and;
   // selects buffer to write while DMA reads the other buffer
   bool dma_buf_use_first = true;
-  // destination display y for buffer transfer using DMA
-  int addr_win_y = 0;
   // current screen y for scanline
   int16_t scanline_y = 0;
   // pointer to start of current row of tiles
@@ -224,11 +226,9 @@ static void render(const int x, const int y) {
       collision_map_row_ptr += display_width;
       scanline_y++;
     }
-    display.setAddrWindow(0, addr_win_y, display_width, render_n_scanlines);
     display.pushPixelsDMA(dma_buf,
                           unsigned(display_width * render_n_scanlines));
     tile_y++;
-    addr_win_y += render_n_scanlines;
     remaining_y -= render_n_scanlines;
     tiles_map_row_ptr += tile_map_width;
   }
