@@ -22,6 +22,7 @@ using sprite_img_ix = uint8_t;
 // sprite dimensions
 static constexpr int sprite_width = 16;
 static constexpr int sprite_height = 16;
+// note. when changing dimensions update 'png-to-resources/extract.sh'
 
 // number of tile images
 static constexpr int tiles_count = 256;
@@ -33,6 +34,7 @@ using tile_ix = uint8_t;
 // tile dimensions
 static constexpr int tile_width = 16;
 static constexpr int tile_height = 16;
+// note. when changing dimensions update 'png-to-resources/extract.sh'
 
 //
 // example configuration of more sprites and tiles
