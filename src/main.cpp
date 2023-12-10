@@ -71,25 +71,27 @@ constexpr int dma_n_scanlines = 8;
 constexpr bool dma_odd_size = display_height % dma_n_scanlines;
 // alternating buffers for rendering scanlines while DMA is active
 // allocated in 'setup'
-static constexpr int dma_buf_size =
-    sizeof(uint16_t) * display_width * dma_n_scanlines;
-// static uint16_t *dma_buf_1;
-// static uint16_t *dma_buf_2;
 
 // note. allocating buffers in static memory may leads to freertos crash due to
 // not having enough memory (dma_n_scanlines > 20 when width is 240):
 //    assert failed: vApplicationGetIdleTaskMemory port_common.c:194
 //    (pxTCBBufferTemp != NULL)
-static uint16_t dma_buf_1[dma_buf_size];
-static uint16_t dma_buf_2[dma_buf_size];
+static uint16_t dma_buf_1[display_width * dma_n_scanlines];
+static uint16_t dma_buf_2[display_width * dma_n_scanlines];
+
+static constexpr int dma_buf_size_B =
+    sizeof(uint16_t) * display_width * dma_n_scanlines;
+// static uint16_t *dma_buf_1;
+// static uint16_t *dma_buf_2;
 
 // renders a scanline
 // note. inline because it is only called from render(...)
 static inline void render_scanline(uint16_t *render_buf_ptr,
-                            sprite_ix *collision_map_row_ptr, int tile_x,
-                            int tile_x_fract, tile_ix const *tiles_map_row_ptr,
-                            const int16_t scanline_y,
-                            const int tile_line_times_tile_width) {
+                                   sprite_ix *collision_map_row_ptr, int tile_x,
+                                   int tile_x_fract,
+                                   tile_ix const *tiles_map_row_ptr,
+                                   const int16_t scanline_y,
+                                   const int tile_line_times_tile_width) {
 
   // used later by sprite renderer to overwrite tiles pixels
   uint16_t *scanline_ptr = render_buf_ptr;
@@ -299,8 +301,8 @@ void setup() {
   printf("              tile: %zu B\n", sizeof(tiles[0]));
 
   // // allocate DMA buffers
-  // dma_buf_1 = static_cast<uint16_t *>(malloc(dma_buf_size));
-  // dma_buf_2 = static_cast<uint16_t *>(malloc(dma_buf_size));
+  // dma_buf_1 = static_cast<uint16_t *>(malloc(dma_buf_size_B));
+  // dma_buf_2 = static_cast<uint16_t *>(malloc(dma_buf_size_B));
   // if (!dma_buf_1 or !dma_buf_2) {
   //   printf("!!! could not allocate DMA buffers");
   //   while (true)
@@ -320,7 +322,7 @@ void setup() {
   printf("      sprites data: %zu B\n", sprites.allocated_data_size_B());
   printf("      objects data: %zu B\n", objects.allocated_data_size_B());
   printf("     collision map: %zu B\n", collision_map_size);
-  printf("   DMA buf 1 and 2: %u B\n", 2 * dma_buf_size);
+  printf("   DMA buf 1 and 2: %u B\n", 2 * dma_buf_size_B);
   printf("------------------- in program memory --------------------\n");
   printf("     sprite images: %zu B\n", sizeof(sprite_imgs));
   printf("             tiles: %zu B\n", sizeof(tiles));
