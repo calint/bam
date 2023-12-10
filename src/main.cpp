@@ -192,23 +192,23 @@ static void render(const int x, const int y) {
   const int tile_x_fract = x & tile_width_and;
   int tile_y = y >> tile_height_shift;
   int tile_y_fract = y & tile_height_and;
-  // current screen y for scanline
+  // current scanline screen y
   int16_t scanline_y = 0;
   // pointer to start of current row of tiles
   tile_ix const *tiles_map_row_ptr = tile_map[tile_y];
   // pointer to collision map starting at top left of screen
   sprite_ix *collision_map_row_ptr = collision_map;
-  // for all lines on display
-  int remaining_y = display_height;
   // keeps track of how many scanlines have been rendered since last DMA
   // transfer
   int dma_scanline_count = 0;
   // select first buffer for rendering
   uint16_t *render_buf_ptr = dma_buf_1;
-  // selects buffer to write while DMA reads the other buffer
+  // which dma buffer to use next
   bool dma_buf_use_first = false;
   // pointer to the buffer that DMA will copy to screen
   uint16_t *dma_buf = render_buf_ptr;
+  // for all lines on display
+  int remaining_y = display_height;
   while (remaining_y) {
     // render from tiles map and sprites to the 'render_buf_ptr'
     int render_n_tile_lines =
