@@ -57,7 +57,7 @@ static void main_on_touch_screen(int16_t x, int16_t y, int16_t z) {
       bullet *blt = new (objects.allocate_instance()) bullet{};
       blt->x = float((x - touch_screen_min_x) * display_width /
                      touch_screen_range_x);
-      blt->y = 300;
+      blt->y = display_height - 30;
       blt->dy = -100;
     }
   }
