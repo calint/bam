@@ -27,8 +27,8 @@ appendix:
 * see `objects/README.md`
 
 ## game_state.hpp
-* included by objects that access game state
-* included by `main.hpp` after the objects
+* included by game objects that access game state
+* included by `main.hpp` after the game objects
 * provides a way for game objects to share information with `main.hpp`
 * used in `main_on_frame_completed` to solve circular reference problems
 
@@ -43,7 +43,7 @@ appendix:
 ### `enum object_class`
 * each game object class has an entry named with suffix `_cls`
 ### `collision_bits`
-* named bits with constants used by objects to define collision bits and mask
+* named bits with constants used by game objects to define collision bits and mask
 ### `object_instance_max_size_B`
 * maximum size of any game object instance
 * set to 256B but should be maximum game object instance size rounded upwards to nearest power of 2 number
