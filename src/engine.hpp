@@ -1,6 +1,8 @@
 #pragma once
 // platform independent game engine code
 
+// reviewed: 2023-11-12
+
 // include platform constants
 #include "platform.hpp"
 
@@ -150,9 +152,9 @@ public:
   // current frames per second calculated at interval specified at 'init'
   unsigned fps = 0;
 
-  // called at setup with current time and frames per seconds calculation
-  // interval
-  void init(const unsigned long time_ms,
+  // called at setup with current time, frames per seconds calculation
+  // interval and optional fixed frame delta time
+  void init(const time time_ms,
             const int interval_of_fps_calculation_ms, const int locked_dt_ms) {
     interval_ms_ = interval_of_fps_calculation_ms;
     if (locked_dt_ms) {
@@ -175,7 +177,7 @@ public:
       prv_ms_ = ms;
     }
     frames_rendered_since_last_update_++;
-    const unsigned dt_ms = clk::time(time_ms) - last_fps_update_ms_;
+    const time dt_ms = time_ms - last_fps_update_ms_;
     if (dt_ms >= interval_ms_) {
       fps = frames_rendered_since_last_update_ * 1000u / dt_ms;
       frames_rendered_since_last_update_ = 0;

@@ -1,6 +1,8 @@
 #pragma once
 // platform constants used by engine and game
 
+// reviewed: 2023-11-12
+
 #include "game/defs.hpp"
 
 // display dimensions of screen ILI9341 depending on orientation

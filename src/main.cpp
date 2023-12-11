@@ -12,14 +12,14 @@
 // * the program is one file split into logical sections using includes
 // * increases opportunities for optimization by the compiler
 // * directory 'game' contains the user code that interfaces with 'engine.hpp'
-// * order of include and content of 'defs.hpp', 'game.hpp', 'main.hpp' solves
-//   circular references and gives user the necessary callbacks to interface
-//   with engine
+// * order of include and content of 'defs.hpp', 'game_state.hpp', 'main.hpp'
+//   solves circular references and gives user the necessary callbacks to
+//   interface with engine
 
 // note. design decision regarding 'unsigned'
 // due to sign conversion warnings and subtle bugs in mixed signedness
 // operations signed constants and variables are used where the bit width of the
-// type is wide enough to fit the largest values
+// type is wide enough to fit the largest value
 
 // note. why some buffers are allocated at 'setup'
 // Due to a technical limitation, the maximum statically allocated DRAM usage is
@@ -27,7 +27,9 @@
 // allocated at runtime as heap.
 // -- https://stackoverflow.com/questions/71085927/how-to-extend-esp32-heap-size
 
-// note. 38476 B static memory left for freertos not to crash
+// note. ~38 KB static memory left for freertos not to crash
+
+// reviewed: 2023-11-12
 
 #include <Arduino.h>
 
@@ -71,7 +73,7 @@ constexpr int dma_n_scanlines = 8;
 // 32: 32 fps
 
 // alternating buffers for rendering scanlines while DMA is active
-// note. allocating buffers in static memory may leads to freertos crash due to
+// note. allocating buffers in static memory may lead to freertos crash due to
 //       not having enough memory (dma_n_scanlines > 40 when width is 240):
 //       assert failed: vApplicationGetIdleTaskMemory port_common.c:194
 //       (pxTCBBufferTemp != NULL)
@@ -86,7 +88,7 @@ static constexpr int dma_buf_size_B = sizeof(dma_buf_1);
 // static uint16_t *dma_buf_2;
 
 // renders a scanline
-// note. inline because it is only called from render(...)
+// note. inline because it is only called from one location in render(...)
 static inline void render_scanline(uint16_t *render_buf_ptr,
                                    sprite_ix *collision_map_row_ptr, int tile_x,
                                    int tile_x_fract,
@@ -101,8 +103,8 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
   // for all horizontal pixels
   int remaining_x = display_width;
   while (remaining_x) {
-    // pointer to tile data to render
-    uint8_t const *tile_data_ptr =
+    // pointer to tile image to render
+    uint8_t const *tile_img_ptr =
         tiles[*tiles_map_ptr] + tile_line_times_tile_width + tile_x_fract;
     // calculate number of pixels to render
     int render_n_pixels = 0;
@@ -116,18 +118,19 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
     // decrease remaining pixels to render before using that variable
     remaining_x -= render_n_pixels;
     while (render_n_pixels--) {
-      *render_buf_ptr++ = palette_tiles[*tile_data_ptr++];
+      *render_buf_ptr++ = palette_tiles[*tile_img_ptr++];
     }
     // next tile
     tiles_map_ptr++;
   }
 
   // render sprites
-  // note. although grossly inefficient algorithm the DMA is busy while
+  // note. although grossly inefficient algorithm the DMA is mostly busy while
   //       rendering
 
   sprite *spr = sprites.all_list();
   const int len = sprites.all_list_len();
+  // note. "constexpr int len" does not compile
   for (sprite_ix i = 0; i < len; i++, spr++) {
     if (!spr->img or spr->scr_y > scanline_y or
         spr->scr_y + sprite_height <= scanline_y or
@@ -137,8 +140,8 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
       // is outside the screen x-wise
       continue;
     }
-    // pointer to sprite data to be rendered
-    uint8_t const *spr_data_ptr =
+    // pointer to sprite image to be rendered
+    uint8_t const *spr_img_ptr =
         spr->img + (scanline_y - spr->scr_y) * sprite_width;
     // pointer to destination of sprite data
     uint16_t *scanline_dst_ptr = scanline_ptr + spr->scr_x;
@@ -148,7 +151,7 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
     sprite_ix *collision_pixel = collision_map_row_ptr + spr->scr_x;
     if (spr->scr_x < 0) {
       // adjustments if sprite x is negative
-      spr_data_ptr -= spr->scr_x;
+      spr_img_ptr -= spr->scr_x;
       scanline_dst_ptr -= spr->scr_x;
       render_n_pixels += spr->scr_x;
       collision_pixel -= spr->scr_x;
@@ -160,7 +163,7 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
     object *obj = spr->obj;
     while (render_n_pixels--) {
       // write pixel from sprite data or skip if 0
-      const uint8_t color_ix = *spr_data_ptr;
+      const uint8_t color_ix = *spr_img_ptr;
       if (color_ix) {
         // if not transparent pixel
         *scanline_dst_ptr = palette_sprites[color_ix];
@@ -178,7 +181,7 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
         // set pixel collision value to sprite index
         *collision_pixel = i;
       }
-      spr_data_ptr++;
+      spr_img_ptr++;
       collision_pixel++;
       scanline_dst_ptr++;
     }
@@ -234,8 +237,7 @@ static void render(const int x, const int y) {
       tile_y_fract = 0;
     } else {
       render_n_scanlines = render_n_tile_lines;
-      tile_line = 0;
-      tile_line_times_tile_width = 0;
+      tile_line_times_tile_width = tile_line = 0;
     }
     // render a row from tile map
     while (tile_line < render_n_tile_lines) {
@@ -261,8 +263,8 @@ static void render(const int x, const int y) {
     remaining_y -= render_n_scanlines;
     tiles_map_row_ptr += tile_map_width;
   }
-  // in case 'dma_n_scanlines' and 'display_height' not evenly divisible there
-  // will be remaining scanlines to write
+  // in case 'display_height' is not evenly divisible with 'dma_n_scanlines'
+  // there will be remaining scanlines to write
   constexpr int dma_n_scanlines_trailing = display_height % dma_n_scanlines;
   if (dma_n_scanlines_trailing) {
     display.pushPixelsDMA(dma_buf,
@@ -307,7 +309,7 @@ void setup() {
   printf("     sprite images: %zu B\n", sizeof(sprite_imgs));
   printf("             tiles: %zu B\n", sizeof(tiles));
   printf("------------------- globals ------------------------------\n");
-  printf("   DMA buf 1 and 2: %u B\n", 2 * dma_buf_size_B);
+  printf("   DMA buf 1 and 2: %d B\n", 2 * dma_buf_size_B);
   printf("          tile map: %zu B\n", sizeof(tile_map));
   printf("           sprites: %zu B\n", sizeof(sprites));
   printf("           objects: %zu B\n", sizeof(objects));
@@ -348,18 +350,18 @@ void setup() {
   digitalWrite(cyd_led_blue, HIGH);
 
   printf("------------------- on heap ------------------------------\n");
-  printf("      sprites data: %zu B\n", sprites.allocated_data_size_B());
-  printf("      objects data: %zu B\n", objects.allocated_data_size_B());
-  printf("     collision map: %zu B\n", collision_map_size_B);
+  printf("      sprites data: %d B\n", sprites.allocated_data_size_B());
+  printf("      objects data: %d B\n", objects.allocated_data_size_B());
+  printf("     collision map: %d B\n", collision_map_size_B);
   printf("------------------- after setup --------------------------\n");
-  printf("     free heap mem: %zu B\n", ESP.getFreeHeap());
-  printf("largest free block: %zu B\n", ESP.getMaxAllocHeap());
+  printf("     free heap mem: %u B\n", ESP.getFreeHeap());
+  printf("largest free block: %u B\n", ESP.getMaxAllocHeap());
   printf("----------------------------------------------------------\n");
 }
 
 void loop() {
   if (clk.on_frame(millis())) {
-    printf("t=%lu  fps=%u  ldr=%u  objs=%u  sprs=%u\n", clk.ms, clk.fps,
+    printf("t=%lu  fps=%d  ldr=%u  objs=%d  sprs=%d\n", clk.ms, clk.fps,
            analogRead(cyd_ldr), objects.allocated_list_len(),
            sprites.allocated_list_len());
   }
