@@ -86,6 +86,8 @@ struct wave_trigger {
     //  main_wave_5},
     // {float((tile_map_height - tiles_per_screen * 2.0f) * tile_height),
     //  main_wave_5},
+    // {float((tile_map_height - tiles_per_screen * 1.0f) * tile_height),
+    //  main_wave_3},
     {float((tile_map_height - tiles_per_screen * 1.0f) * tile_height),
      main_wave_4},
     {float((tile_map_height - tiles_per_screen * 1.5f) * tile_height),
@@ -151,35 +153,43 @@ static void main_on_frame_completed() {
 }
 
 void main_wave_1() {
-  float x = 8;
+  constexpr int count = display_width / (sprite_width * 3 / 2);
+  constexpr int dx = display_width / count;
+  // printf("wave1: count=%d  dx=%d\n", count, dx);
+  float x = 0;
   float y = -sprite_height;
-  for (int i = 0; i < 8; i++) {
+  for (int i = 0; i < count; i++) {
     ship1 *shp = new (objects.allocate_instance()) ship1{};
     shp->x = x;
     shp->y = y;
     shp->dy = 50;
-    x += 32;
-    y -= 8;
+    x += dx;
+    y -= sprite_width / 2;
   }
 }
 
 void main_wave_2() {
-  float x = 8;
+  constexpr int count = display_width / (sprite_width * 3 / 2);
+  constexpr int dx = display_width / count;
+  // printf("wave2: count=%d  dx=%d\n", count, dx);
+  float x = 0;
   float y = -sprite_height;
-  for (int i = 0; i < 8; i++) {
+  for (int i = 0; i < count; i++, x += dx) {
     ship1 *shp = new (objects.allocate_instance()) ship1{};
     shp->x = x;
     shp->y = y;
     shp->dy = 50;
-    x += 32;
   }
 }
 
 void main_wave_3() {
+  constexpr int count = display_width / (sprite_width * 3 / 2);
+  constexpr int dx = display_width / count;
+  // printf("wave3: count=%d  dx=%d\n", count, dx);
   float y = -sprite_height;
-  for (int j = 0; j < 8; j++, y -= 24) {
-    float x = 8;
-    for (int i = 0; i < 8; i++, x += 32) {
+  for (int j = 0; j < count; j++, y -= 24) {
+    float x = 0;
+    for (int i = 0; i < count; i++, x += dx) {
       ship1 *shp = new (objects.allocate_instance()) ship1{};
       shp->x = x;
       shp->y = y;

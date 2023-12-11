@@ -29,6 +29,8 @@
 
 // note. 38476 B static memory left for freertos not to crash
 
+#include <Arduino.h>
+
 // main entry file to user code
 #include "game/main.hpp"
 

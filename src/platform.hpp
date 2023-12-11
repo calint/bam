@@ -1,8 +1,6 @@
 #pragma once
 // platform constants used by engine and game
 
-#include <Arduino.h>
-
 #include "game/defs.hpp"
 
 // display dimensions of screen ILI9341 depending on orientation
