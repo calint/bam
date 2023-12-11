@@ -56,7 +56,7 @@
 ### update
 * game loop calls `update` on allocated objects after the frame has been rendered and collisions detected
 * default implementation is:
-  - handle collision by calling `on_collision` if such occurred during previous frame
+  - if collision occurred call `on_collision`
   - update position and motion attributes
 * user code might implement custom collision handling
   - if `col_with` is not `nullptr`, handle collision and then set it to `nullptr`
@@ -64,12 +64,12 @@
 
 ### on_collision
 * called from `update` if game object is in collision
-* default implementation is to reduce `health` with the `damage` caused by the colliding object
-* if `damage` is greater or equal than `health` then `on_death_by_collision` is called
 * returns `true` if object has died
+* default implementation is to reduce `health` with the `damage` caused by the colliding object
+* if `health` is zero or less then call `on_death_by_collision` and return `true`
 
 ### on_death_by_collision
-* called during `on_collision` if game object has died due to collision damage
+* called from `on_collision` if game object has died due to collision damage
 
 ## examples
 * `ship1.hpp` basic object with typical implementation
