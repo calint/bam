@@ -42,11 +42,11 @@ appendix:
 ## defs.hpp
 ### `enum object_class`
 * each game object class has an entry named with suffix `_cls`
-### `collision_bits`
-* constants used by game objects to define collision bits and mask
 ### `object_instance_max_size_B`
 * maximum size of any game object instance
 * set to 256B but should be maximum game object instance size rounded upwards to nearest power of 2 number
+### `collision_bits`
+* constants used by game objects to define collision bits and mask
 
 ## limitations
 * due to target device not being able to allocate large (>150KB) chunks of contiguous memory some limitations are imposed
