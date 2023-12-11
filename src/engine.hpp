@@ -208,15 +208,6 @@ static void main_on_frame_completed();
 // callback from 'main.cpp'
 // update and render the state of the engine
 static void engine_loop() {
-  // call 'update()' on allocated objects
-  objects.update();
-
-  // deallocate the objects freed during 'objects.update()'
-  objects.apply_free();
-
-  // deallocate the sprites freed during 'objects.update()'
-  sprites.apply_free();
-
   // clear collisions map
   // note. works on other sizes of type 'sprite_ix' because reserved value is
   //       unsigned maximum value such as 0xff or 0xffff etc
@@ -227,6 +218,15 @@ static void engine_loop() {
 
   // render tiles, sprites and collision map
   render(int(tile_map_x), int(tile_map_y));
+
+  // call 'update()' on allocated objects
+  objects.update();
+
+  // deallocate the objects freed during 'objects.update()'
+  objects.apply_free();
+
+  // deallocate the sprites freed during 'objects.update()'
+  sprites.apply_free();
 
   // game logic hook
   main_on_frame_completed();

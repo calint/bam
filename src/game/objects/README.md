@@ -48,19 +48,19 @@
 * object deallocates the default sprite `spr`
 * user code might do additional clean up such as deallocating additional sprites
 
-### update
-* game loop calls `update` on allocated objects at the beginning of the frame
-* default implementation is:
-  - handle collision by calling `on_collision` if such occurred during previous frame
-  - update position and motion attributes
-* user code might implement custom collision handling
-  - check `col_with`, if not `nullptr`, handle collision, then set to `nullptr`
-* return `true` if object has died and should be deallocated by the engine
-
 ### pre_render
 * game loop calls `pre_render` on allocated objects before rendering the sprites
 * default implementation sets sprite screen position using object position
 * objects composed of several sprites override this function to set screen position on the additional sprites
+
+### update
+* game loop calls `update` on allocated objects after the frame has been rendered and collisions detected
+* default implementation is:
+  - handle collision by calling `on_collision` if such occurred during previous frame
+  - update position and motion attributes
+* user code might implement custom collision handling
+  - if `col_with` is not `nullptr`, handle collision and then set it to `nullptr`
+* return `true` if object has died and should be deallocated by the engine
 
 ### on_collision
 * called from `update` if game object is in collision
