@@ -40,11 +40,10 @@ public:
   }
 
   ~hero() override {
-    // turn off sprites
+    // turn off and free sprites
     spr_left->img = nullptr;
-    spr_right->img = nullptr;
-    // free sprite instances
     sprites.free_instance(spr_left);
+    spr_right->img = nullptr;
     sprites.free_instance(spr_right);
 
     game_state.hero_is_alive = false;

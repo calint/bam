@@ -14,13 +14,15 @@ class ship2 final : public game_object {
   uint8_t animation_frames_ix = 0;
 
 public:
-  ship2() : game_object{ship2_cls}, animation_frame_ms{clk.ms} {
+  ship2() : game_object{ship2_cls} {
     col_bits = cb_hero;
     col_mask = cb_enemy_bullet;
 
     spr = sprites.allocate_instance();
     spr->obj = this;
     spr->img = sprite_imgs[6];
+
+    animation_frame_ms = clk.ms;
   }
 
   // returns true if object died

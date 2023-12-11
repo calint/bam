@@ -25,7 +25,7 @@ public:
   // note. after constructor 'spr' must be in valid state.
 
   ~game_object() override {
-    // turn off sprite
+    // turn off and free sprite
     spr->img = nullptr;
     sprites.free_instance(spr);
   }
