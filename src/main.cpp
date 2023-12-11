@@ -29,7 +29,7 @@
 
 // note. ~38 KB static memory left for freertos not to crash
 
-// reviewed: 2023-11-12
+// reviewed: 2023-12-12
 
 #include <Arduino.h>
 

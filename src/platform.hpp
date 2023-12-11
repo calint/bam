@@ -1,7 +1,7 @@
 #pragma once
 // platform constants used by engine and game
 
-// reviewed: 2023-11-12
+// reviewed: 2023-12-12
 
 #include "game/defs.hpp"
 

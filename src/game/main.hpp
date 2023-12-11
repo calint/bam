@@ -13,7 +13,7 @@
 #include "objects/ship1.hpp"
 #include "objects/ship2.hpp"
 
-// callback at boot
+// callback from 'setup'
 static void main_setup() {
   // scrolling vertically from bottom up
   tile_map_x = 0;

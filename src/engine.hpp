@@ -1,7 +1,7 @@
 #pragma once
 // platform independent game engine code
 
-// reviewed: 2023-11-12
+// reviewed: 2023-12-12
 
 // include platform constants
 #include "platform.hpp"
