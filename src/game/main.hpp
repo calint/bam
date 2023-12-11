@@ -42,6 +42,7 @@ static void main_setup() {
   printf("             ship2: %zu B\n", sizeof(ship2));
   printf("    upgrade_picked: %zu B\n", sizeof(upgrade_picked));
   printf("           upgrade: %zu B\n", sizeof(upgrade));
+  printf("              ufo2: %zu B\n", sizeof(ufo2));
 }
 
 static clk::time last_fire_ms = 0;

@@ -6,7 +6,7 @@
 
 class sprites_2x2 final {
   // three additional sprites
-  sprite *spr[3];
+  sprite *sprs[3];
 
 public:
   sprites_2x2(game_object *obj, int top_left_index_in_16_sprites_row) {
@@ -14,31 +14,31 @@ public:
     obj->spr->obj = obj;
     // additional 3 sprites
     for (int i = 0; i < 3; i++) {
-      spr[i] = sprites.allocate_instance();
-      spr[i]->obj = obj;
+      sprs[i] = sprites.allocate_instance();
+      sprs[i]->obj = obj;
     }
     obj->spr->img = sprite_imgs[top_left_index_in_16_sprites_row];
-    spr[0]->img = sprite_imgs[top_left_index_in_16_sprites_row + 1];
-    spr[1]->img = sprite_imgs[top_left_index_in_16_sprites_row + 16];
-    spr[2]->img = sprite_imgs[top_left_index_in_16_sprites_row + 16 + 1];
+    sprs[0]->img = sprite_imgs[top_left_index_in_16_sprites_row + 1];
+    sprs[1]->img = sprite_imgs[top_left_index_in_16_sprites_row + 16];
+    sprs[2]->img = sprite_imgs[top_left_index_in_16_sprites_row + 16 + 1];
   }
 
   ~sprites_2x2() {
     for (int i = 0; i < 3; i++) {
-      spr[i]->img = nullptr;
-      sprites.free_instance(spr[i]);
+      sprs[i]->img = nullptr;
+      sprites.free_instance(sprs[i]);
     }
   }
 
   void pre_render(game_object *obj) {
     obj->spr->scr_x = int16_t(obj->x - sprite_width);
     obj->spr->scr_y = int16_t(obj->y - sprite_height);
-    spr[0]->scr_x = int16_t(obj->x);
-    spr[0]->scr_y = int16_t(obj->y - sprite_height);
-    spr[1]->scr_x = int16_t(obj->x - sprite_width);
-    spr[1]->scr_y = int16_t(obj->y);
-    spr[2]->scr_x = int16_t(obj->x);
-    spr[2]->scr_y = int16_t(obj->y);
+    sprs[0]->scr_x = int16_t(obj->x);
+    sprs[0]->scr_y = int16_t(obj->y - sprite_height);
+    sprs[1]->scr_x = int16_t(obj->x - sprite_width);
+    sprs[1]->scr_y = int16_t(obj->y);
+    sprs[2]->scr_x = int16_t(obj->x);
+    sprs[2]->scr_y = int16_t(obj->y);
   }
 };
 
