@@ -66,7 +66,7 @@
 * called from `update` if game object is in collision
 * returns `true` if object has died
 * default implementation is to reduce `health` with the `damage` caused by the colliding object
-* if `health` is zero or less then call `on_death_by_collision` and return `true`
+* if `health` is zero or less then calls `on_death_by_collision` and returns `true`
 
 ### on_death_by_collision
 * called from `on_collision` if game object has died due to collision damage
