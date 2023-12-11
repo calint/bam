@@ -1,6 +1,8 @@
 #pragma once
 // constants used by engine, game objects and 'main.hpp'
 
+// reviewed: 2023-12-12
+
 #include <cstdint>
 
 // portrait or landscape orientation of screen
@@ -37,7 +39,7 @@ static constexpr int tile_height = 16;
 // note. when changing dimensions update 'png-to-resources/extract.sh'
 
 //
-// example configuration of more sprites and tiles
+// example configuration for more sprites and tiles
 //
 // static constexpr int sprite_imgs_count = 512;
 // using sprite_img_ix = uint16_t;
