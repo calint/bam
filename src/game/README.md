@@ -29,13 +29,13 @@ appendix:
 ## game_state.hpp
 * included by game objects that access game state
 * included by `main.hpp` after the game objects
-* provides a way for game objects to share information with `main.hpp`
-* used in `main_on_frame_completed` to solve circular reference problems
+* provides a way for game objects to share data with `main.hpp`
+* used in `main_on_frame_completed` to solve circular reference issues
 
 ## resources/*
 * `tile_map.hpp` size defined in `defs.hpp`
 * `tiles.hpp`, `sprite_imgs.hpp` and `palette_*.hpp` generated from png files by tool `png-to-resources/extract.sh`
-* 256 tile and 256 sprite images are default settings in `defs.hpp`
+* 256 tile and 256 sprite images, 16 x 16 pixels, are default settings in `defs.hpp`
 * sprite and tile images are constant data stored in program memory
 * separate palettes for tiles and sprites
 
