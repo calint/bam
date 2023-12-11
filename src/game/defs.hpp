@@ -1,7 +1,7 @@
 #pragma once
 // constants used by engine, game objects and 'main.hpp'
 
-// reviewed: 2023-12-12
+// reviewed: 2023-12-11
 
 #include <cstdint>
 
