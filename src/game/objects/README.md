@@ -22,7 +22,7 @@
 * damage inflicted on collision: `damage`
 * engine performs collision detection between sprites on screen if a bitwise AND operation involving `col_bits` from an object and `col_mask` from another object is non-zero
 * example:
-  - if `col_bits` of object A bitwise AND with `col_mask` of object B is non-zero then object B `col_with` pointer is set to object A
+  - if `col_mask` of object A bitwise AND with `col_bits` of object B is non-zero then object A `col_with` pointer is set to object B
   - same procedure is done with A and B swapped
 * the definition of bits and their meaning is custom depending on the game
 * example:
