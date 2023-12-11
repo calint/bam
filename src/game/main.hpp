@@ -12,6 +12,7 @@
 #include "objects/hero.hpp"
 #include "objects/ship1.hpp"
 #include "objects/ship2.hpp"
+#include "objects/ufo2.hpp"
 
 // callback from 'setup'
 static void main_setup() {
@@ -199,6 +200,11 @@ void main_wave_3() {
 }
 
 void main_wave_4() {
+  ufo2 *ufo = new (objects.allocate_instance()) ufo2{};
+  ufo->x = display_width / 2;
+  ufo->y = -sprite_height;
+  ufo->dy = 5;
+
   {
     ship2 *shp = new (objects.allocate_instance()) ship2{};
     shp->x = -sprite_width;
