@@ -43,10 +43,10 @@ public:
 };
 
 void create_fragments(float orig_x, float orig_y, int frag_count,
-                      float frag_speed) {
+                      float frag_speed, int life_time_ms) {
   for (int i = 0; i < frag_count; i++) {
     fragment *frg = new (objects.allocate_instance()) fragment{};
-    frg->die_at_ms = clk.ms + 500;
+    frg->die_at_ms = clk.ms + life_time_ms;
     frg->x = orig_x;
     frg->y = orig_y;
     frg->dx = float(random(-frag_speed, frag_speed));

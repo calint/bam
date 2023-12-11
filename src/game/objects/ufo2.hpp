@@ -19,5 +19,7 @@ public:
 
   void pre_render() override { sprs.set_sprites_positions(this); }
 
-  void on_death_by_collision() override { create_fragments(x, y, 32, 150); }
+  void on_death_by_collision() override {
+    create_fragments(x, y, 32, 150, 1000);
+  }
 };
