@@ -1,7 +1,7 @@
 # game code
 
 intention:
-* developing a toy game using platform independent engine
+* developing a toy game using platform-independent engine
 
 table of contents (in include order by program file):
 * `main.hpp` setup initial game state, callbacks from engine, game logic

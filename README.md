@@ -3,7 +3,7 @@
 intention:
 * developing for esp32 boards using arduino framework with visual code (1.85.0) and platformio (3.3.1)
 * exploring the device by developing a toy game
-* developing a platform independent toy game engine featuring:
+* developing a platform-independent toy game engine featuring:
   - smooth scrolling tile map
   - sprites with pixel precision on screen collision detection
   - intuitive definition of game objects and logic
