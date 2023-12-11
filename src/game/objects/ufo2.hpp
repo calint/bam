@@ -17,7 +17,7 @@ public:
     health = 100;
   }
 
-  void pre_render() override { sprs.set_sprites_positions(this); }
+  void pre_render() override { sprs.pre_render(this); }
 
   void on_death_by_collision() override {
     create_fragments(x, y, 32, 150, 1000);

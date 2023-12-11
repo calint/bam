@@ -30,7 +30,7 @@ public:
     }
   }
 
-  void set_sprites_positions(game_object *obj) {
+  void pre_render(game_object *obj) {
     obj->spr->scr_x = int16_t(obj->x - sprite_width);
     obj->spr->scr_y = int16_t(obj->y - sprite_height);
     spr[0]->scr_x = int16_t(obj->x);
