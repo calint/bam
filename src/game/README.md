@@ -8,7 +8,7 @@ table of contents (in include order by program file):
 * `objects/*` game objects
 * `game_state.hpp` game state used by objects and `main.hpp`
 * `resources/*` partial files defining tiles, sprites, palettes and tile map
-* `defs.hpp` constants used by engine and game objects
+* `defs.hpp` constants used by engine and game objects and `main.hpp`
 
 appendix:
 * `png-to-resources/extract.sh` tool for extracting resources from png files
