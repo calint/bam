@@ -360,7 +360,7 @@ void setup() {
 }
 
 void loop() {
-  if (clk.on_frame(millis())) {
+  if (clk.on_frame(clk::time(millis()))) {
     printf("t=%lu  fps=%d  ldr=%u  objs=%d  sprs=%d\n", clk.ms, clk.fps,
            analogRead(cyd_ldr), objects.allocated_list_len(),
            sprites.allocated_list_len());
