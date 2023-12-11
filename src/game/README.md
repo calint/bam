@@ -43,7 +43,7 @@ appendix:
 ### `enum object_class`
 * each game object class has an entry named with suffix `_cls`
 ### `collision_bits`
-* named bits with constants used by game objects to define collision bits and mask
+* constants used by game objects to define collision bits and mask
 ### `object_instance_max_size_B`
 * maximum size of any game object instance
 * set to 256B but should be maximum game object instance size rounded upwards to nearest power of 2 number
