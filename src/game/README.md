@@ -6,9 +6,9 @@ intention:
 table of contents (in include order by program file):
 * `main.hpp` setup initial game state, callbacks from engine, game logic
 * `objects/*` game objects
-* `game_state.hpp` game state used by objects and `main.hpp`
+* `game_state.hpp` used by game objects and `main.hpp`
 * `resources/*` partial files defining tiles, sprites, palettes and tile map
-* `defs.hpp` constants used by engine and game objects and `main.hpp`
+* `defs.hpp` constants used by engine, game objects and `main.hpp`
 
 appendix:
 * `png-to-resources/extract.sh` tool for extracting resources from png files
