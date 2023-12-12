@@ -19,6 +19,16 @@ public:
 
   void pre_render() override { sprs.pre_render(this); }
 
+  auto update() -> bool override {
+    if (game_object::update()) {
+      return true;
+    }
+    if (y > (display_height + sprite_height)) {
+      return true;
+    }
+    return false;
+  }
+
   auto on_collision(game_object *obj) -> bool override {
     ship2 *shp = new (objects.allocate_instance()) ship2{};
     shp->x = obj->x;
