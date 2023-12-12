@@ -57,9 +57,6 @@ public:
     }
   }
 
-  // returns true if allocatable instance available
-  inline auto can_allocate() -> bool { return free_ptr_ < free_end_; }
-
   // allocates an instance
   // returns nullptr if instance could not be allocated
   auto allocate_instance() -> Type * {

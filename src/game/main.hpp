@@ -34,6 +34,7 @@ static void main_setup() {
   // blt->dy = -100;
 
   printf("------------------- game object sizes --------------------\n");
+  printf("       game object: %zu B\n", sizeof(game_object));
   printf("            bullet: %zu B\n", sizeof(bullet));
   printf("             dummy: %zu B\n", sizeof(dummy));
   printf("          fragment: %zu B\n", sizeof(fragment));
@@ -53,8 +54,8 @@ static void main_on_touch_screen(int16_t x, int16_t y, int16_t z) {
   // fire eight times a second
   if (clk.ms - last_fire_ms > 125) {
     last_fire_ms = clk.ms;
-    if (objects.can_allocate()) {
-      bullet *blt = new (objects.allocate_instance()) bullet{};
+    if (object *mem = objects.allocate_instance()) {
+      bullet *blt = new (mem) bullet{};
       blt->x = float((x - touch_screen_min_x) * display_width /
                      touch_screen_range_x);
       blt->y = display_height - 30;
