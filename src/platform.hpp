@@ -10,7 +10,7 @@ static constexpr int display_width = display_orientation == 0 ? 240 : 320;
 static constexpr int display_height = display_orientation == 0 ? 320 : 240;
 
 // calibration of touch screen
-static constexpr int16_t touch_screen_min_x = 400;
+static constexpr int16_t touch_screen_min_x = 500;
 static constexpr int16_t touch_screen_max_x = 3700;
 static constexpr int16_t touch_screen_range_x =
     touch_screen_max_x - touch_screen_min_x;
