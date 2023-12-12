@@ -5,7 +5,7 @@
 [ ] o1store: new_ list optimizing apply by putting new instances in deleted slots
     without swapping. if len(del_)>len(add_) no swaps will be made.
     concession is another list of size Size of pointers to instances
-[ ] o1store: consider a minimal implementation of span to return allocated list
+[ ] o1store: consider a minimal implementation of 'span' to return allocated list
 [ ] #define O1STORE_DEBUG to check for double free, index out of bounds
 [ ] vectorized functions:
     #include <esp32-hal-vector.h>
@@ -13,6 +13,7 @@
     float b[4] = {0.5, 1.5, 2.5, 3.5};
     float result[4];
     vaddf(result, a, b, 4);
+    => esp32 specific gain if used more extensively in game logic
 -------------------------------------------------------------------------------
 [x] o1store: consider using std::vector instead of calloc and free
     => implementation is concise with some pointer shenanigans
