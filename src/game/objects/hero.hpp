@@ -8,6 +8,8 @@
 #include "fragment.hpp"
 #include "game_object.hpp"
 #include "upgrade.hpp"
+// then other
+#include "utils.hpp"
 
 class hero final : public game_object {
   sprite *spr_left = nullptr;
@@ -98,10 +100,10 @@ private:
       frg->die_at_ms = clk.ms + 500;
       frg->x = x;
       frg->y = y;
-      frg->dx = float(random(-frag_speed, frag_speed));
-      frg->dy = float(random(-frag_speed, frag_speed));
-      frg->ddx = float(random(-frag_speed, frag_speed));
-      frg->ddy = float(random(-frag_speed, frag_speed));
+      frg->dx = random_float(-frag_speed, frag_speed);
+      frg->dy = random_float(-frag_speed, frag_speed);
+      frg->ddx = random_float(-frag_speed, frag_speed);
+      frg->ddy = random_float(-frag_speed, frag_speed);
     }
   }
 };

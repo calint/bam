@@ -334,7 +334,7 @@ void setup() {
   display.initDMA(true);
 
   // set random seed for deterministic behavior
-  randomSeed(0);
+  srand(0);
 
   // initiate clock to current time, frames-per-second calculation every 2
   // seconds and locked dt

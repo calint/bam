@@ -140,9 +140,9 @@ static void main_on_frame_completed() {
 
   if (not game_state.hero_is_alive) {
     hero *hro = new (objects.allocate_instance()) hero{};
-    hro->x = float(random(display_width));
+    hro->x = random_float(0, display_width);
     hro->y = 30;
-    hro->dx = float(random(-64, 64));
+    hro->dx = random_float(-64, 64);
   }
 
   // trigger waves

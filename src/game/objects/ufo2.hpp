@@ -23,7 +23,7 @@ public:
     ship2 *shp = new (objects.allocate_instance()) ship2{};
     shp->x = obj->x;
     shp->y = obj->y - sprite_height;
-    shp->dx = float(random(-100, 100));
+    shp->dx = random_float(-100, 100);
     shp->ddx = -shp->dx * 0.25f;
     shp->dy = -100;
     shp->ddy = 100;
