@@ -14,7 +14,7 @@ static constexpr int16_t touch_screen_min_x = 500;
 static constexpr int16_t touch_screen_max_x = 3700;
 static constexpr int16_t touch_screen_range_x =
     touch_screen_max_x - touch_screen_min_x;
-static constexpr int16_t touch_screen_min_y = 300;
-static constexpr int16_t touch_screen_max_y = 3750;
+static constexpr int16_t touch_screen_min_y = 400;
+static constexpr int16_t touch_screen_max_y = 3700;
 static constexpr int16_t touch_screen_range_y =
     touch_screen_max_y - touch_screen_min_y;

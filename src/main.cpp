@@ -368,7 +368,7 @@ void loop() {
 
   if (touch_screen.tirqTouched() and touch_screen.touched()) {
     const TS_Point pt = touch_screen.getPoint();
-    main_on_touch_screen(pt.x, pt.y, pt.z);
+    main_on_touch(pt.x, pt.y, pt.z);
   }
 
   engine_loop();

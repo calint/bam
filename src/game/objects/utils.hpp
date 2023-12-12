@@ -42,8 +42,8 @@ public:
   }
 };
 
-void create_fragments(float orig_x, float orig_y, int frag_count,
-                      float frag_speed, int life_time_ms) {
+static void create_fragments(float orig_x, float orig_y, int frag_count,
+                             float frag_speed, int life_time_ms) {
   for (int i = 0; i < frag_count; i++) {
     fragment *frg = new (objects.allocate_instance()) fragment{};
     frg->die_at_ms = clk.ms + life_time_ms;
@@ -54,4 +54,14 @@ void create_fragments(float orig_x, float orig_y, int frag_count,
     frg->ddx = 2 * float(random(-frag_speed, frag_speed));
     frg->ddy = 2 * float(random(-frag_speed, frag_speed));
   }
+}
+
+static float display_x_for_touch(int16_t x) {
+  static constexpr float fact_x = float(display_width) / touch_screen_range_x;
+  return float((x - touch_screen_min_x) * fact_x);
+}
+
+static float display_y_for_touch(int16_t y) {
+  static constexpr float fact_y = float(display_height) / touch_screen_range_y;
+  return float((y - touch_screen_min_y) * fact_y);
 }

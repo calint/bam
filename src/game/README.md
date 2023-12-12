@@ -18,7 +18,7 @@ appendix:
 ## main.hpp
 ### function `main_setup`
 * initiates the game by creating initial objects and sets tile map position and velocity
-### function `main_on_touch_screen`
+### function `main_on_touch`
 * handles user interaction with touch screen
 ### function `main_on_frame_completed`
 * implements game logic

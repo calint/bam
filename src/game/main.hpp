@@ -50,14 +50,14 @@ static clk::time last_fire_ms = 0;
 // keeps track of when the previous bullet was fired
 
 // callback when screen is touched, happens before 'update'
-static void main_on_touch_screen(int16_t x, int16_t y, int16_t z) {
+static void main_on_touch(int16_t x, int16_t y, int16_t z) {
   // fire eight times a second
   if (clk.ms - last_fire_ms > 125) {
     last_fire_ms = clk.ms;
     if (object *mem = objects.allocate_instance()) {
       bullet *blt = new (mem) bullet{};
-      blt->x = float((x - touch_screen_min_x) * display_width /
-                     touch_screen_range_x);
+      // printf("%d  %d\n", x, y);
+      blt->x = display_x_for_touch(x);
       blt->y = display_height - 30;
       blt->dy = -100;
     }
