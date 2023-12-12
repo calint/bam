@@ -75,3 +75,4 @@
 * `ship1.hpp` basic object with typical implementation
 * `ship2.hpp` ad-hoc implementation of animated sprite
 * `hero.hpp` composed of several sprites, spawns objects
+* `ufo2.hpp` 2 x 2 sprites using helper class, spawns objects
