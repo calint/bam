@@ -21,7 +21,7 @@ appendix:
 ### function `main_on_touch`
 * handles user interaction with touch screen
 ### function `main_on_frame_completed`
-* implements game logic
+* implements game logic after a frame has been rendered and objects updated
 
 ## objects/*
 * see `objects/README.md`
