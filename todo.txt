@@ -5,8 +5,6 @@
 [ ] o1store: new_ list optimizing apply by putting new instances in deleted slots
     without swapping. if len(del_)>len(add_) no swaps will be made.
     concession is another list of size Size of pointers to instances
-[ ] o1store: hang if overrun?
-[ ] o1store: consider using std::vector instead of calloc and free
 [ ] o1store: consider a minimal implementation of span to return allocated list
 [ ] #define O1STORE_DEBUG to check for double free, index out of bounds
 [ ] vectorized functions:
@@ -16,6 +14,10 @@
     float result[4];
     vaddf(result, a, b, 4);
 -------------------------------------------------------------------------------
+[x] o1store: consider using std::vector instead of calloc and free
+    => implementation is concise with some pointer shenanigans
+[x] o1store: hang if overrun?
+    => return nullptr
 [x] o1store: can_allocate() is not thread safe
     => removed, use
       if (object *mem = objects.allocate_instance()) {
