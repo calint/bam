@@ -4,6 +4,21 @@
 // then objects
 #include "fragment.hpp"
 
+static float random_float(float min, float max) {
+  constexpr float rand_max_inv = 1.0f / float(RAND_MAX);
+  return (max - min) * float(rand()) * rand_max_inv + min;
+}
+
+static float display_x_for_touch(int16_t x) {
+  static constexpr float fact_x = float(display_width) / touch_screen_range_x;
+  return float(x - touch_screen_min_x) * fact_x;
+}
+
+static float display_y_for_touch(int16_t y) {
+  static constexpr float fact_y = float(display_height) / touch_screen_range_y;
+  return float(y - touch_screen_min_y) * fact_y;
+}
+
 class sprites_2x2 final {
   // three additional sprites
   sprite *sprs[3];
@@ -42,11 +57,6 @@ public:
   }
 };
 
-static float random_float(float min, float max) {
-  constexpr float rand_max_inv = 1.0f / float(RAND_MAX);
-  return (max - min) * float(rand()) * rand_max_inv + min;
-}
-
 static void create_fragments(float orig_x, float orig_y, int frag_count,
                              float frag_speed, unsigned long life_time_ms) {
   for (int i = 0; i < frag_count; i++) {
@@ -59,14 +69,4 @@ static void create_fragments(float orig_x, float orig_y, int frag_count,
     frg->ddx = 2 * random_float(-frag_speed, frag_speed);
     frg->ddy = 2 * random_float(-frag_speed, frag_speed);
   }
-}
-
-static float display_x_for_touch(int16_t x) {
-  static constexpr float fact_x = float(display_width) / touch_screen_range_x;
-  return float(x - touch_screen_min_x) * fact_x;
-}
-
-static float display_y_for_touch(int16_t y) {
-  static constexpr float fact_y = float(display_height) / touch_screen_range_y;
-  return float(y - touch_screen_min_y) * fact_y;
 }
