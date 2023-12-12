@@ -13,6 +13,8 @@
 #include "objects/ship1.hpp"
 #include "objects/ship2.hpp"
 #include "objects/ufo2.hpp"
+// then other
+#include "objects/utils.hpp"
 
 // callback from 'setup'
 static void main_setup() {
