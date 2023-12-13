@@ -158,7 +158,7 @@ static void main_on_frame_completed() {
   }
 }
 
-void main_wave_1() {
+static void main_wave_1() {
   constexpr int count = display_width / (sprite_width * 3 / 2);
   constexpr int dx = display_width / count;
   // printf("wave1: count=%d  dx=%d\n", count, dx);
@@ -174,7 +174,7 @@ void main_wave_1() {
   }
 }
 
-void main_wave_2() {
+static void main_wave_2() {
   constexpr int count = display_width / (sprite_width * 3 / 2);
   constexpr int dx = display_width / count;
   // printf("wave2: count=%d  dx=%d\n", count, dx);
@@ -188,7 +188,7 @@ void main_wave_2() {
   }
 }
 
-void main_wave_3() {
+static void main_wave_3() {
   constexpr int count = display_width / (sprite_width * 3 / 2);
   constexpr int dx = display_width / count;
   // printf("wave3: count=%d  dx=%d\n", count, dx);
@@ -204,7 +204,7 @@ void main_wave_3() {
   }
 }
 
-void main_wave_4() {
+static void main_wave_4() {
   ufo2 *ufo = new (objects.allocate_instance()) ufo2{};
   ufo->x = display_width / 2;
   ufo->y = -sprite_height;
@@ -230,7 +230,7 @@ void main_wave_4() {
   }
 }
 
-// void main_wave_5() {
+// static void main_wave_5() {
 //   float y = -float(sprite_height);
 //   for (int j = 0; j < 12; j++, y -= 10) {
 //     float x = 8;
