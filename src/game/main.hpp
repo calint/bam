@@ -79,7 +79,7 @@ constexpr int tiles_per_screen = display_height / tile_height;
 // pointer to function that creates wave
 using wave_func_ptr = void (*)();
 
-constexpr float y_for_screen_percentage(float offset_as_screen_percentage) {
+static constexpr float y_for_screen_percentage(float offset_as_screen_percentage) {
   return float(display_height * offset_as_screen_percentage);
 }
 
@@ -103,7 +103,7 @@ struct wave_trigger {
     {y_for_screen_percentage(0.5f), main_wave_4},
 };
 
-constexpr float wave_triggers_bottom_screen_y =
+static constexpr float wave_triggers_bottom_screen_y =
     tile_map_height * tile_height - display_height;
 
 static constexpr int wave_triggers_len =
