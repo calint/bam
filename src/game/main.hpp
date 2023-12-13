@@ -52,7 +52,7 @@ static void main_on_touch(int16_t x, int16_t y, int16_t z) {
       // printf("%d  %d\n", x, y);
       blt->x = display_x_for_touch(x);
       blt->y = display_height - 30;
-      blt->dy = -100;
+      blt->dy = -200;
     }
   }
 }
