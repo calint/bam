@@ -79,44 +79,40 @@ constexpr int tiles_per_screen = display_height / tile_height;
 // pointer to function that creates wave
 using wave_func_ptr = void (*)();
 
+constexpr float y_for_screen_percentage(float offset_as_screen_percentage) {
+  return float(display_height * offset_as_screen_percentage);
+}
+
 struct wave_trigger {
-  float y = 0;
+  float since_last_wave_y = 0;
   wave_func_ptr func = nullptr;
 
-  constexpr wave_trigger(float y_, wave_func_ptr func_) : y{y_}, func{func_} {}
+  constexpr wave_trigger(float y_, wave_func_ptr func_)
+      : since_last_wave_y{y_}, func{func_} {}
   // note. constructor needed for C++11 to compile
 
 } static constexpr wave_triggers[] = {
-    // {float((tile_map_height - tiles_per_screen * 1.0f) * tile_height),
-    //  main_wave_5},
-    // {float((tile_map_height - tiles_per_screen * 2.0f) * tile_height),
-    //  main_wave_5},
-    // {float((tile_map_height - tiles_per_screen * 1.0f) * tile_height),
-    //  main_wave_3},
-    {float((tile_map_height - tiles_per_screen * 1.0f) * tile_height),
-     main_wave_4},
-    {float((tile_map_height - tiles_per_screen * 1.5f) * tile_height),
-     main_wave_1},
-    {float((tile_map_height - tiles_per_screen * 2.0f) * tile_height),
-     main_wave_2},
-    {float((tile_map_height - tiles_per_screen * 2.5f) * tile_height),
-     main_wave_3},
-    {float((tile_map_height - tiles_per_screen * 3.5f) * tile_height),
-     main_wave_4},
-    {float((tile_map_height - tiles_per_screen * 4.5f) * tile_height),
-     main_wave_3},
-    {float((tile_map_height - tiles_per_screen * 5.0f) * tile_height),
-     main_wave_2},
-    {float((tile_map_height - tiles_per_screen * 5.5f) * tile_height),
-     main_wave_1},
-    {float((tile_map_height - tiles_per_screen * 6.0f) * tile_height),
-     main_wave_4},
+    {y_for_screen_percentage(0.5f), main_wave_4},
+    {y_for_screen_percentage(0.5f), main_wave_1},
+    {y_for_screen_percentage(1.0f), main_wave_2},
+    {y_for_screen_percentage(0.5f), main_wave_3},
+    {y_for_screen_percentage(1.0f), main_wave_4},
+    {y_for_screen_percentage(1.0f), main_wave_3},
+    {y_for_screen_percentage(0.5f), main_wave_2},
+    {y_for_screen_percentage(0.5f), main_wave_1},
+    {y_for_screen_percentage(0.5f), main_wave_4},
 };
+
+constexpr float wave_triggers_bottom_screen_y =
+    tile_map_height * tile_height - display_height;
 
 static constexpr int wave_triggers_len =
     sizeof(wave_triggers) / sizeof(wave_trigger);
 
 static int wave_triggers_ix = 0;
+
+static float wave_triggers_next_y =
+    wave_triggers_bottom_screen_y - wave_triggers[0].since_last_wave_y;
 
 // callback after frame has been rendered, happens after 'update'
 static void main_on_frame_completed() {
@@ -138,6 +134,8 @@ static void main_on_frame_completed() {
     tile_map_y = tile_map_height * tile_height - display_height;
     tile_map_dy = -tile_map_dy;
     wave_triggers_ix = 0;
+    wave_triggers_next_y =
+        wave_triggers_bottom_screen_y - wave_triggers[0].since_last_wave_y;
   }
 
   if (not game_state.hero_is_alive) {
@@ -149,11 +147,14 @@ static void main_on_frame_completed() {
 
   // trigger waves
   if (wave_triggers_ix < wave_triggers_len and
-      wave_triggers[wave_triggers_ix].y >= tile_map_y) {
-    // Serial.printf("wave trigger  y=%f  trigger y = %f\n", tile_map_y,
-    //               wave_triggers[wave_triggers_ix].y);
+      wave_triggers_next_y >= tile_map_y) {
     wave_triggers[wave_triggers_ix].func();
     wave_triggers_ix++;
+    if (wave_triggers_ix < wave_triggers_len) {
+      wave_triggers_next_y -= wave_triggers[wave_triggers_ix].since_last_wave_y;
+    }
+    // Serial.printf("wave trigger  ix=%d  trigger_y=%f  trigger y = %f\n",
+    //               wave_triggers_ix, wave_triggers_next_y);
   }
 }
 

@@ -35,7 +35,7 @@ public:
     shp->x = obj->x;
     shp->y = obj->y - sprite_height;
     shp->dx = random_float(-100, 100);
-    shp->ddx = -shp->dx * 0.25f;
+    shp->ddx = -shp->dx * 0.5f;
     shp->dy = -100;
     shp->ddy = 100;
 
