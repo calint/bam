@@ -39,11 +39,11 @@ static void main_setup() {
   printf("              ufo2: %zu B\n", sizeof(ufo2));
 }
 
-// keep track of when the previous bullet was fired
-static clk::time last_fire_ms = 0;
-
 // callback when screen is touched, happens before 'render'
 static void main_on_touch(int16_t x, int16_t y, int16_t z) {
+  // keep track of when the previous bullet was fired
+  static clk::time last_fire_ms = 0;
+
   // fire eight times a second
   if (clk.ms - last_fire_ms > 125) {
     last_fire_ms = clk.ms;
@@ -128,7 +128,7 @@ static void main_on_frame_completed() {
   } else if (tile_map_y > (tile_map_height * tile_height - display_height)) {
     tile_map_y = tile_map_height * tile_height - display_height;
     tile_map_dy = -tile_map_dy;
-    // set y to when first wave is triggered
+    // set y of first wave trigger
     wave_triggers_ix = 0;
     wave_triggers_next_y =
         wave_triggers_bottom_screen_y - wave_triggers[0].since_last_wave_y;
