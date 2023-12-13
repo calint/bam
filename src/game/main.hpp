@@ -19,21 +19,12 @@
 // callback from 'setup'
 static void main_setup() {
   // scrolling vertically from bottom up
-  tile_map_x = 0;
-  tile_map_dx = 16;
   tile_map_y = tile_map_height * tile_height - display_height;
   tile_map_dy = -16;
-  // tile_map_y = 0;
-  // tile_map_dy = 1;
 
   hero *hro = new (objects.allocate_instance()) hero{};
   hro->x = display_width / 2 - sprite_width / 2;
   hro->y = 30;
-
-  // bullet *blt = new (objects.allocate_instance()) bullet{};
-  // blt->x = display_width / 2 - sprite_width / 2;
-  // blt->y = 300;
-  // blt->dy = -100;
 
   printf("------------------- game object sizes --------------------\n");
   printf("       game object: %zu B\n", sizeof(game_object));
@@ -48,8 +39,8 @@ static void main_setup() {
   printf("              ufo2: %zu B\n", sizeof(ufo2));
 }
 
+// keep track of when the previous bullet was fired
 static clk::time last_fire_ms = 0;
-// keeps track of when the previous bullet was fired
 
 // callback when screen is touched, happens before 'render'
 static void main_on_touch(int16_t x, int16_t y, int16_t z) {
@@ -80,6 +71,7 @@ static void main_wave_4();
 // pointer to function that creates wave
 using wave_func_ptr = void (*)();
 
+// eases placement of when waves should happen
 static constexpr float y_for_screen_percentage(float screen_percentage) {
   return float(display_height * screen_percentage / 100.0f);
 }
@@ -104,6 +96,7 @@ struct wave_trigger {
     {y_for_screen_percentage(50), main_wave_4},
 };
 
+// largest tile map y
 static constexpr float wave_triggers_bottom_screen_y =
     tile_map_height * tile_height - display_height;
 
@@ -112,6 +105,7 @@ static constexpr int wave_triggers_len =
 
 static int wave_triggers_ix = 0;
 
+// initiate to when the first wave is triggered
 static float wave_triggers_next_y =
     wave_triggers_bottom_screen_y - wave_triggers[0].since_last_wave_y;
 
@@ -134,6 +128,7 @@ static void main_on_frame_completed() {
   } else if (tile_map_y > (tile_map_height * tile_height - display_height)) {
     tile_map_y = tile_map_height * tile_height - display_height;
     tile_map_dy = -tile_map_dy;
+    // set y to when first wave is triggered
     wave_triggers_ix = 0;
     wave_triggers_next_y =
         wave_triggers_bottom_screen_y - wave_triggers[0].since_last_wave_y;
