@@ -51,7 +51,7 @@ static void main_setup() {
 static clk::time last_fire_ms = 0;
 // keeps track of when the previous bullet was fired
 
-// callback when screen is touched, happens before 'update'
+// callback when screen is touched, happens before 'render'
 static void main_on_touch(int16_t x, int16_t y, int16_t z) {
   // fire eight times a second
   if (clk.ms - last_fire_ms > 125) {
@@ -66,6 +66,10 @@ static void main_on_touch(int16_t x, int16_t y, int16_t z) {
   }
 }
 
+//
+// object waves related
+//
+
 // forward declaration of functions that start waves of objects
 static void main_wave_1();
 static void main_wave_2();
@@ -73,14 +77,11 @@ static void main_wave_3();
 static void main_wave_4();
 // static void main_wave_5();
 
-// constant used to more easily position where waves are triggered
-constexpr int tiles_per_screen = display_height / tile_height;
-
 // pointer to function that creates wave
 using wave_func_ptr = void (*)();
 
-static constexpr float y_for_screen_percentage(float offset_as_screen_percentage) {
-  return float(display_height * offset_as_screen_percentage);
+static constexpr float y_for_screen_percentage(float screen_percentage) {
+  return float(display_height * screen_percentage / 100.0f);
 }
 
 struct wave_trigger {
@@ -92,15 +93,15 @@ struct wave_trigger {
   // note. constructor needed for C++11 to compile
 
 } static constexpr wave_triggers[] = {
-    {y_for_screen_percentage(0.5f), main_wave_4},
-    {y_for_screen_percentage(0.5f), main_wave_1},
-    {y_for_screen_percentage(1.0f), main_wave_2},
-    {y_for_screen_percentage(0.5f), main_wave_3},
-    {y_for_screen_percentage(1.0f), main_wave_4},
-    {y_for_screen_percentage(1.0f), main_wave_3},
-    {y_for_screen_percentage(0.5f), main_wave_2},
-    {y_for_screen_percentage(0.5f), main_wave_1},
-    {y_for_screen_percentage(0.5f), main_wave_4},
+    {y_for_screen_percentage(50), main_wave_4},
+    {y_for_screen_percentage(25), main_wave_1},
+    {y_for_screen_percentage(50), main_wave_2},
+    {y_for_screen_percentage(50), main_wave_3},
+    {y_for_screen_percentage(100), main_wave_4},
+    {y_for_screen_percentage(50), main_wave_3},
+    {y_for_screen_percentage(50), main_wave_2},
+    {y_for_screen_percentage(50), main_wave_1},
+    {y_for_screen_percentage(50), main_wave_4},
 };
 
 static constexpr float wave_triggers_bottom_screen_y =
@@ -114,7 +115,7 @@ static int wave_triggers_ix = 0;
 static float wave_triggers_next_y =
     wave_triggers_bottom_screen_y - wave_triggers[0].since_last_wave_y;
 
-// callback after frame has been rendered, happens after 'update'
+// callback after frame has been rendered and objects updated
 static void main_on_frame_completed() {
   // update x position in pixels in the tile map
   tile_map_x += tile_map_dx * clk.dt;
