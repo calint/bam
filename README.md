@@ -23,5 +23,3 @@ note:
 * [community](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display)
 * [purchased at](https://www.aliexpress.com/item/1005004502250619.html)
 * [manufacturer](http://www.jczn1688.com/)
-
-[![demo](https://github.com/calint/bam/blob/main/demo-screenshot.png)](https://github.com/calint/bam/raw/main/demo.mp4)
