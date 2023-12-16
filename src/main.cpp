@@ -132,7 +132,7 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
     sprite *spr = sprites.all_list();
     const int len = sprites.all_list_len();
     // note. "constexpr int len" does not compile
-    for (sprite_ix i = 0; i < len; i++, spr++) {
+    for (int i = 0; i < len; i++, spr++) {
       if (spr->layer != layer or !spr->img or spr->scr_y > scanline_y or
           spr->scr_y + sprite_height <= scanline_y or
           spr->scr_x <= -sprite_width or spr->scr_x >= display_width) {
