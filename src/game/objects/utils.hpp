@@ -25,7 +25,7 @@ class sprites_2x2 final {
 
 public:
   sprites_2x2(game_object *obj, const int top_left_index_in_16_sprites_row,
-              const int8_t layer) {
+              const uint8_t layer) {
     obj->spr = sprites.allocate_instance();
     obj->spr->obj = obj;
     obj->spr->layer = layer;

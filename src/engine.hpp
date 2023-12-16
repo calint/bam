@@ -58,7 +58,7 @@ public:
   uint8_t const *img = nullptr;
   int16_t scr_x = 0;
   int16_t scr_y = 0;
-  int8_t layer = 0;
+  uint8_t layer = 0;
   // note. lower 'layer' number is rendered first
   //       number of layers specified by 'sprite_layers'
 };
