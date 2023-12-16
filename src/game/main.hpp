@@ -231,7 +231,7 @@ static void main_wave_5() {
   float y = -float(sprite_height);
   for (int j = 0; j < 12; j++, y -= 10) {
     float x = 8;
-    for (int i = 0; i < 19; i++, x += 10) {
+    for (int i = 0; i < 19; i++, x += 11) {
       ship1 *shp = new (objects.allocate_instance()) ship1{};
       shp->x = x;
       shp->y = y;
