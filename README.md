@@ -1,6 +1,6 @@
 # ESP32-2432S028R a.k.a. cheap-yellow-display (cyd)
 
-[![demo](https://github.com/calint/bam/blob/main/demo-screenshot.png)](https://github.com/calint/bam/raw/main/demo.mp4)
+<video width="320" height="240" src="https://github.com/calint/bam/assets/1920811/1e1f7bb0-4d1e-4ce2-937a-10c6ac176b2e"></video>
 
 intention:
 * developing using arduino framework with visual code (1.85.0) and platformio (3.3.1)
@@ -23,3 +23,5 @@ note:
 * [community](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display)
 * [purchased at](https://www.aliexpress.com/item/1005004502250619.html)
 * [manufacturer](http://www.jczn1688.com/)
+
+[![demo](https://github.com/calint/bam/blob/main/demo-screenshot.png)](https://github.com/calint/bam/raw/main/demo.mp4)
