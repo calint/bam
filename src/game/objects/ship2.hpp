@@ -21,6 +21,7 @@ public:
     spr = sprites.allocate_instance();
     spr->obj = this;
     spr->img = sprite_imgs[6];
+    spr->layer = 1;
 
     animation_frame_ms = clk.ms;
   }

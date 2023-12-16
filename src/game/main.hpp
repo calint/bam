@@ -66,7 +66,7 @@ static void main_wave_1();
 static void main_wave_2();
 static void main_wave_3();
 static void main_wave_4();
-// static void main_wave_5();
+static void main_wave_5();
 
 // pointer to function that creates wave
 using wave_func_ptr = void (*)();
@@ -85,6 +85,7 @@ struct wave_trigger {
   // note. constructor needed for C++11 to compile
 
 } static constexpr wave_triggers[] = {
+    {y_for_screen_percentage(0), main_wave_5},
     {y_for_screen_percentage(50), main_wave_4},
     {y_for_screen_percentage(25), main_wave_1},
     {y_for_screen_percentage(50), main_wave_2},
@@ -226,15 +227,15 @@ static void main_wave_4() {
   }
 }
 
-// static void main_wave_5() {
-//   float y = -float(sprite_height);
-//   for (int j = 0; j < 12; j++, y -= 10) {
-//     float x = 8;
-//     for (int i = 0; i < 20; i++, x += 10) {
-//       ship1 *shp = new (objects.allocate_instance()) ship1{};
-//       shp->x = x;
-//       shp->y = y;
-//       shp->dy = 30;
-//     }
-//   }
-// }
+static void main_wave_5() {
+  float y = -float(sprite_height);
+  for (int j = 0; j < 12; j++, y -= 10) {
+    float x = 8;
+    for (int i = 0; i < 19; i++, x += 10) {
+      ship1 *shp = new (objects.allocate_instance()) ship1{};
+      shp->x = x;
+      shp->y = y;
+      shp->dy = 30;
+    }
+  }
+}

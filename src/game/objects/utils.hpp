@@ -24,13 +24,16 @@ class sprites_2x2 final {
   sprite *sprs[3];
 
 public:
-  sprites_2x2(game_object *obj, const int top_left_index_in_16_sprites_row) {
+  sprites_2x2(game_object *obj, const int top_left_index_in_16_sprites_row,
+              const int8_t layer) {
     obj->spr = sprites.allocate_instance();
     obj->spr->obj = obj;
+    obj->spr->layer = layer;
     // additional 3 sprites
     for (int i = 0; i < 3; i++) {
       sprs[i] = sprites.allocate_instance();
       sprs[i]->obj = obj;
+      sprs[i]->layer = layer;
     }
     obj->spr->img = sprite_imgs[top_left_index_in_16_sprites_row];
     sprs[0]->img = sprite_imgs[top_left_index_in_16_sprites_row + 1];
