@@ -26,8 +26,8 @@ static constexpr int sprite_width = 16;
 static constexpr int sprite_height = 16;
 // note. when changing dimensions update 'png-to-resources/extract.sh'
 
-// number of layers used by sprites (0: ground, 1: air)
-static constexpr int8_t sprite_layers = 2;
+// number of layers of sprites (0: ground, 1: air)
+static constexpr int sprite_layers = 2;
 
 // number of tile images
 static constexpr int tiles_count = 256;
