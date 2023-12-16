@@ -209,7 +209,7 @@ static void render(const int x, const int y);
 static void main_on_frame_completed();
 
 // callback from 'main.cpp'
-// update and render the state of the engine
+// render and update the state of the engine
 static void engine_loop() {
   // clear collisions map
   // note. works on other sizes of type 'sprite_ix' because reserved value is
