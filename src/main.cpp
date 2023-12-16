@@ -128,7 +128,7 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
   // note. although grossly inefficient algorithm the DMA is mostly busy while
   //       rendering
 
-  for (int layer = 0; layer < sprite_layers; layer++) {
+  for (int layer = 0; layer < sprites_layers; layer++) {
     sprite *spr = sprites.all_list();
     const int len = sprites.all_list_len();
     // note. "constexpr int len" does not compile

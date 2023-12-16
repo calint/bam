@@ -26,8 +26,11 @@ static constexpr int sprite_width = 16;
 static constexpr int sprite_height = 16;
 // note. when changing dimensions update 'png-to-resources/extract.sh'
 
-// number of layers of sprites (0: ground, 1: air)
-static constexpr int sprite_layers = 2;
+// number of layers of sprites
+// note. number of layers deteriorates performance
+//       with 230 sprites on device cyd 1 layer: ~30 fps, 2 layers: ~28 fps
+// 0: ground, 1: air
+static constexpr int sprites_layers = 2;
 
 // number of tile images
 static constexpr int tiles_count = 256;

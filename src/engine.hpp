@@ -60,7 +60,7 @@ public:
   int16_t scr_y = 0;
   uint8_t layer = 0;
   // note. lower 'layer' number is rendered first
-  //       number of layers specified by 'sprite_layers'
+  //       number of layers specified by 'sprites_layers'
 };
 
 using sprites_store = o1store<sprite, sprites_count, 1>;
