@@ -36,9 +36,8 @@ public:
     del_ptr_ = del_bgn_ = static_cast<Type **>(calloc(Size, sizeof(Type *)));
 
     if (!all_ or !free_bgn_ or !alloc_bgn_ or !del_bgn_) {
-      Serial.printf("!!! o1store %u: could not allocate arrays\n", StoreId);
-      while (true)
-        ;
+      printf("!!! o1store %u: could not allocate arrays\n", StoreId);
+      exit(1);
     }
 
     free_end_ = free_bgn_ + Size;
@@ -75,8 +74,7 @@ public:
   void free_instance(Type *inst) {
     if (del_ptr_ >= del_end_) {
       printf("!!! o1store %d: free overrun\n", StoreId);
-      while (true)
-        ;
+      exit(1);
     }
     *del_ptr_ = inst;
     del_ptr_++;

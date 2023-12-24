@@ -110,7 +110,7 @@ using object_store =
 class objects : public object_store {
 public:
   void update() {
-    object **end = allocated_list_end();
+    object **const end = allocated_list_end();
     // note. important to get the 'end' outside the loop because objects may
     //       allocate new objects in the loop and that would change the 'end'
     for (object **it = allocated_list(); it < end; it++) {
@@ -123,7 +123,7 @@ public:
   }
 
   void pre_render() {
-    object **end = allocated_list_end();
+    object **const end = allocated_list_end();
     // note. important to get the 'end' outside the loop because objects may
     //       allocate new objects in the loop and that would change the 'end'
     for (object **it = allocated_list(); it < end; it++) {
@@ -157,8 +157,8 @@ public:
 
   // called at setup with current time, frames per seconds calculation
   // interval and optional fixed frame delta time
-  void init(const time time_ms,
-            const int interval_of_fps_calculation_ms, const int locked_dt_ms) {
+  void init(const time time_ms, const int interval_of_fps_calculation_ms,
+            const int locked_dt_ms) {
     interval_ms_ = interval_of_fps_calculation_ms;
     if (locked_dt_ms) {
       locked_dt_ms_ = locked_dt_ms;
