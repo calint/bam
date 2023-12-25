@@ -95,24 +95,24 @@ public:
   }
 
   // returns list of allocated instances
-  inline auto allocated_list() -> Type ** { return alloc_bgn_; }
+  inline auto allocated_list() const -> Type ** { return alloc_bgn_; }
 
   // returns length of list of allocated instances
-  inline auto allocated_list_len() -> int {
+  inline auto allocated_list_len() const -> int {
     return alloc_ptr_ - alloc_bgn_;
   }
 
   // returns one past the end of allocated instances list
-  inline auto allocated_list_end() -> Type ** { return alloc_ptr_; }
+  inline auto allocated_list_end() const -> Type ** { return alloc_ptr_; }
 
   // returns the list with all preallocated instances
-  inline auto all_list() -> Type * { return all_; }
+  inline auto all_list() const -> Type * { return all_; }
 
   // returns the length of 'all' list
-  constexpr auto all_list_len() -> int { return Size; }
+  constexpr auto all_list_len() const -> int { return Size; }
 
   // returns instance at index 'ix' from 'all' list
-  inline auto instance(int ix) -> Type * {
+  inline auto instance(int ix) const -> Type * {
     if (!InstanceSizeInBytes) {
       return &all_[ix];
     }
@@ -122,7 +122,7 @@ public:
   }
 
   // returns the size of allocated heap memory in bytes
-  constexpr auto allocated_data_size_B() -> int {
+  constexpr auto allocated_data_size_B() const -> int {
     return InstanceSizeInBytes
                ? (Size * InstanceSizeInBytes + 3 * Size * sizeof(Type *))
                : (Size * sizeof(Type) + 3 * Size * sizeof(Type *));
