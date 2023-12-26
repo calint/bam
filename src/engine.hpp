@@ -86,14 +86,11 @@ public:
   object *col_with = nullptr;
   collision_bits col_bits = 0;
   collision_bits col_mask = 0;
-  // note: used to declare interest in collisions with objects whose
+  // note. used to declare interest in collisions with objects whose
   //       'col_bits' bitwise AND with this 'col_mask' is not 0
 
-  object() {}
-  // note. constructor must be defined because the default constructor
-  //       overwrites the 'o1store' assigned 'alloc_ptr' at the 'new in place'
-
   virtual ~object() {}
+  // note. 'delete obj' is not allowed since memory is managed by 'o1store'
 
   // returns true if object has died
   // note. regarding classes overriding 'update(...)'
