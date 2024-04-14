@@ -181,7 +181,7 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
             }
           }
           // set pixel collision value to sprite index
-          *collision_pixel = i;
+          *collision_pixel = sprite_ix(i);
         }
         spr_img_ptr++;
         collision_pixel++;
