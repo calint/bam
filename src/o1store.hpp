@@ -36,7 +36,7 @@ public:
     del_ptr_ = del_bgn_ = static_cast<Type **>(calloc(Size, sizeof(Type *)));
 
     if (!all_ or !free_bgn_ or !alloc_bgn_ or !del_bgn_) {
-      printf("!!! o1store %u: could not allocate arrays\n", StoreId);
+      printf("!!! o1store %d: could not allocate arrays\n", StoreId);
       exit(1);
     }
 
