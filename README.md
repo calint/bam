@@ -12,7 +12,7 @@ intention:
   - decent performance, ~30 frames per second on the device
 
 note:
-* manufacturer provided device configuration `User_Setup.h` has been copied to `lib/TFT_eSPI-2.5.34`
+* manufacturer provided device configuration `etc/User_Setup.h` has been copied to `lib/TFT_eSPI-2.5.34`
 * installed platform is Espressif 32 (6.4.0)
 * packages:
   - framework-arduinoespressif32 @ 3.20011.230801 (2.0.11) 
