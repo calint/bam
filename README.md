@@ -12,12 +12,20 @@ intention:
   - decent performance, ~30 frames per second on the device
 
 note:
-* manufacturer provided device configuration `etc/User_Setup.h` has been copied to `lib/TFT_eSPI-2.5.34`
-* installed platform is Espressif 32 (6.4.0)
+* manufacturer provided device configuration `etc/User_Setup.h` has been copied to `lib/TFT_eSPI-2.5.43`
+
+developed in:
+* Visual Code 1.88.1
+* PlatformIO 6.1.14
+* Espressif 32 (6.6.0) > Espressif ESP32 Dev Module
 * packages:
-  - framework-arduinoespressif32 @ 3.20011.230801 (2.0.11) 
+  - framework-arduinoespressif32 @ 3.20014.231204 (2.0.14) 
   - tool-esptoolpy @ 1.40501.0 (4.5.1) 
   - toolchain-xtensa-esp32 @ 8.4.0+2021r2-patch5
+* dependencies:
+  - SPI @ 2.0.0
+  - TFT_eSPI @ 2.5.43
+  - XPT2046_Touchscreen
 
 ### about the device
 * [community](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display)
