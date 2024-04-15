@@ -1,3 +1,4 @@
+[x] check sprite collisions between sprites that are in the same layer
 [x] use object **const end = objects.store.allocated_list_end();
 [x] o1store: Serial.printf
 [ ] o1store: ? inst_deleted->~object() at apply_free()

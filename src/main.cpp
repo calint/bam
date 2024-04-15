@@ -171,13 +171,15 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
           *scanline_dst_ptr = palette_sprites[color_ix];
           if (*collision_pixel != sprite_ix_reserved) {
             // if other sprite has written to this pixel
-            sprite *spr2 = sprites.instance(*collision_pixel);
-            object *other_obj = spr2->obj;
-            if (obj->col_mask & other_obj->col_bits) {
-              obj->col_with = other_obj;
-            }
-            if (other_obj->col_mask & obj->col_bits) {
-              other_obj->col_with = obj;
+            sprite *other_spr = sprites.instance(*collision_pixel);
+            if (spr->layer == other_spr->layer) {
+              object *other_obj = other_spr->obj;
+              if (obj->col_mask & other_obj->col_bits) {
+                obj->col_with = other_obj;
+              }
+              if (other_obj->col_mask & obj->col_bits) {
+                other_obj->col_with = obj;
+              }
             }
           }
           // set pixel collision value to sprite index
