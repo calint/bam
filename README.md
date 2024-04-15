@@ -3,11 +3,11 @@
 <video width="320" height="240" src="https://github.com/calint/bam/assets/1920811/1e1f7bb0-4d1e-4ce2-937a-10c6ac176b2e"></video>
 
 intention:
-* developing using arduino framework with visual code (1.85.0) and platformio (3.3.1)
+* developing using arduino framework with visual code and platformio
 * exploring the device by developing a toy game
 * developing a platform-independent toy game engine featuring:
   - smooth scrolling tile map
-  - sprites with pixel precision on-screen collision detection
+  - sprites in layers with pixel precision on-screen collision detection
   - intuitive definition of game objects and logic
   - decent performance, ~30 frames per second on the device
 
