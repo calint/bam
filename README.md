@@ -25,7 +25,7 @@ developed in:
 * dependencies:
   - SPI @ 2.0.0
   - TFT_eSPI @ 2.5.43
-  - XPT2046_Touchscreen
+  - XPT2046_Touchscreen @ 1.4
 
 ### about the device
 * [community](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display)
