@@ -11,9 +11,6 @@ intention:
   - intuitive definition of game objects and logic
   - decent performance, ~30 frames per second on the device
 
-note:
-* manufacturer provided device configuration `etc/User_Setup.h` has been copied to `lib/TFT_eSPI-2.5.43`
-
 developed in:
 * Visual Code 1.88.1
 * PlatformIO 6.1.14
@@ -26,6 +23,9 @@ developed in:
   - SPI @ 2.0.0
   - TFT_eSPI @ 2.5.43
   - XPT2046_Touchscreen @ 1.4
+
+note:
+* manufacturer provided device configuration `etc/User_Setup.h` has been copied to `lib/TFT_eSPI-2.5.43`
 
 ### about the device
 * [community](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display)
