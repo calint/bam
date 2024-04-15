@@ -16,10 +16,10 @@
 //   solves circular references and gives user the necessary callbacks to
 //   interface with engine
 
-// note. design decision regarding 'unsigned'
-// due to sign conversion warnings and subtle bugs in mixed signedness
-// operations signed constants and variables are used where the bit width of the
-// type is wide enough to fit the largest value
+// note. design decision regarding 'unsigned' due to sign conversion warnings
+// and subtle bugs in mixed signedness operations, signed constants and
+// variables are used where the bit width of the type is wide enough to fit the
+// largest value
 
 // note. why some buffers are allocated at 'setup'
 // Due to a technical limitation, the maximum statically allocated DRAM usage is
@@ -257,7 +257,7 @@ static void render(const int x, const int y) {
       dma_scanline_count++;
       if (dma_scanline_count == dma_n_scanlines) {
         display.pushPixelsDMA(dma_buf,
-                              unsigned(display_width * dma_n_scanlines));
+                              uint32_t(display_width * dma_n_scanlines));
         dma_scanline_count = 0;
         // swap to the other render buffer
         dma_buf = render_buf_ptr = dma_buf_use_first ? dma_buf_1 : dma_buf_2;
@@ -273,7 +273,7 @@ static void render(const int x, const int y) {
   constexpr int dma_n_scanlines_trailing = display_height % dma_n_scanlines;
   if (dma_n_scanlines_trailing) {
     display.pushPixelsDMA(dma_buf,
-                          unsigned(display_width * dma_n_scanlines_trailing));
+                          uint32_t(display_width * dma_n_scanlines_trailing));
   }
 }
 

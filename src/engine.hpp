@@ -133,11 +133,11 @@ public:
 // helper class managing current frame time, dt, frames per second calculation
 class clk {
 public:
-  using time = unsigned long;
+  using time = uint32_t;
 
 private:
   int interval_ms_ = 5000;
-  unsigned frames_rendered_since_last_update_ = 0;
+  int frames_rendered_since_last_update_ = 0;
   time last_fps_update_ms_ = 0;
   time prv_ms_ = 0;
   int locked_dt_ms_ = 0;
@@ -150,7 +150,7 @@ public:
   float dt = 0;
 
   // current frames per second calculated at interval specified at 'init'
-  unsigned fps = 0;
+  int fps = 0;
 
   // called at setup with current time, frames per seconds calculation
   // interval and optional fixed frame delta time
@@ -168,9 +168,9 @@ public:
 
   // called before every frame to update state
   // returns true if new frames per second calculation was done
-  auto on_frame(const unsigned long time_ms) -> bool {
+  auto on_frame(const time time_ms) -> bool {
     if (locked_dt_ms_) {
-      ms += unsigned(locked_dt_ms_);
+      ms += time(locked_dt_ms_);
     } else {
       ms = time_ms;
       dt = 0.001f * float(ms - prv_ms_);
