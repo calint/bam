@@ -84,7 +84,7 @@ enum object_class : uint8_t {
 };
 
 // size that fits any instance of game object
-static constexpr int object_instance_max_size_B = 256;
+static constexpr int object_instance_max_size_B = 128;
 
 // define the size of collision bits
 using collision_bits = uint16_t;

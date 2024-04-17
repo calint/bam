@@ -362,6 +362,8 @@ void setup() {
   printf("     free heap mem: %u B\n", ESP.getFreeHeap());
   printf("largest free block: %u B\n", ESP.getMaxAllocHeap());
   printf("----------------------------------------------------------\n");
+
+  heap_caps_print_heap_info(MALLOC_CAP_DEFAULT);
 }
 
 void loop() {
