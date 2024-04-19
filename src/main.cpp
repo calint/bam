@@ -63,7 +63,7 @@ static XPT2046_Touchscreen touch_screen{xpt2046_cs, xpt2046_irq};
 static TFT_eSPI display{};
 
 // number of scanlines to render before DMA transfer
-constexpr int dma_n_scanlines = 8;
+static constexpr int dma_n_scanlines = 8;
 // note. performance on device:
 //  1: 23 fps
 //  2: 27 fps
