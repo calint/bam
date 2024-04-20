@@ -22,10 +22,12 @@ static void main_setup() {
   tile_map_y = tile_map_height * tile_height - display_height;
   tile_map_dy = -16;
 
+  // create default hero
   hero *hro = new (objects.allocate_instance()) hero{};
   hro->x = display_width / 2 - sprite_width / 2;
   hro->y = 30;
 
+  // output size of game object classes
   printf("------------------- game object sizes --------------------\n");
   printf("       game object: %zu B\n", sizeof(game_object));
   printf("            bullet: %zu B\n", sizeof(bullet));
@@ -37,6 +39,12 @@ static void main_setup() {
   printf("    upgrade_picked: %zu B\n", sizeof(upgrade_picked));
   printf("           upgrade: %zu B\n", sizeof(upgrade));
   printf("              ufo2: %zu B\n", sizeof(ufo2));
+
+  // assert that game object instances fit in object store slots
+  static_assert(
+      max_size_of_type<game_object, bullet, dummy, fragment, hero, ship1, ship2,
+                       upgrade_picked, upgrade, ufo2>() <=
+      object_instance_max_size_B);
 }
 
 // callback when screen is touched, happens before 'render'

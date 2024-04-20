@@ -234,3 +234,16 @@ static void engine_loop() {
   // game logic hook
   main_on_frame_completed();
 }
+
+// used for static assert of object sizes and config
+// 'object_instance_max_size_B'
+template <typename T> static constexpr int max_size_of_type() {
+  return sizeof(T);
+}
+
+template <typename T, typename U, typename... Args>
+static constexpr int max_size_of_type() {
+  return sizeof(T) > max_size_of_type<U, Args...>()
+             ? sizeof(T)
+             : max_size_of_type<U, Args...>();
+}
