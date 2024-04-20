@@ -65,27 +65,126 @@ static TFT_eSPI display{};
 // number of scanlines to render before DMA transfer
 static constexpr int dma_n_scanlines = 8;
 // note. performance on device:
-//  1: 23 fps
-//  2: 27 fps
-//  4: 29 fps
-//  8: 31 fps
-// 16: 31 fps
-// 32: 32 fps
+//  1: 23 fps, 2: 27 fps, 4: 29 fps, 8: 31 fps, 16: 31 fps, 32: 32 fps
 
 // alternating buffers for rendering scanlines while DMA is active
-// note. allocating buffers in static memory may lead to freertos crash due to
-//       not having enough memory (dma_n_scanlines > 40 when width is 240):
-//       assert failed: vApplicationGetIdleTaskMemory port_common.c:194
-//       (pxTCBBufferTemp != NULL)
-// static uint16_t dma_buf_1[display_width * dma_n_scanlines];
-// static uint16_t dma_buf_2[display_width * dma_n_scanlines];
-// static constexpr int dma_buf_size_B = sizeof(dma_buf_1);
-
 // allocated in 'setup'
 static constexpr int dma_buf_size_B =
     sizeof(uint16_t) * display_width * dma_n_scanlines;
 static uint16_t *dma_buf_1;
 static uint16_t *dma_buf_2;
+
+void setup() {
+  // setup rgb led pins
+  pinMode(cyd_led_red, OUTPUT);
+  pinMode(cyd_led_green, OUTPUT);
+  pinMode(cyd_led_blue, OUTPUT);
+
+  // set rgb led to yellow
+  digitalWrite(cyd_led_red, LOW);
+  digitalWrite(cyd_led_green, LOW);
+  digitalWrite(cyd_led_blue, HIGH);
+
+  Serial.begin(115200);
+  sleep(1); // arbitrary wait 1 second for serial to connect
+
+  printf("\n\n");
+  printf("------------------- platform -----------------------------\n");
+  printf("        chip model: %s\n", ESP.getChipModel());
+  printf("            screen: %u x %u px\n", display_width, display_height);
+  printf("     free heap mem: %u B\n", ESP.getFreeHeap());
+  printf("largest free block: %u B\n", ESP.getMaxAllocHeap());
+  printf("------------------- type sizes ---------------------------\n");
+  printf("              bool: %zu B\n", sizeof(bool));
+  printf("              char: %zu B\n", sizeof(char));
+  printf("               int: %zu B\n", sizeof(int));
+  printf("              long: %zu B\n", sizeof(long));
+  printf("         long long: %zu B\n", sizeof(long long));
+  printf("             float: %zu B\n", sizeof(float));
+  printf("            double: %zu B\n", sizeof(double));
+  printf("             void*: %zu B\n", sizeof(void *));
+  printf("------------------- object sizes -------------------------\n");
+  printf("            sprite: %zu B\n", sizeof(sprite));
+  printf("            object: %zu B\n", sizeof(object));
+  printf("              tile: %zu B\n", sizeof(tiles[0]));
+  printf("------------------- in program memory --------------------\n");
+  printf("     sprite images: %zu B\n", sizeof(sprite_imgs));
+  printf("             tiles: %zu B\n", sizeof(tiles));
+  printf("------------------- globals ------------------------------\n");
+  printf("          tile map: %zu B\n", sizeof(tile_map));
+  printf("           sprites: %zu B\n", sizeof(sprites));
+  printf("           objects: %zu B\n", sizeof(objects));
+
+  // set rgb led blue
+  digitalWrite(cyd_led_red, HIGH);
+  digitalWrite(cyd_led_green, HIGH);
+  digitalWrite(cyd_led_blue, LOW);
+
+  // setup ldr pin
+  pinMode(cyd_ldr, INPUT);
+
+  // start the spi for the touch screen and init the library
+  spi.begin(xpt2046_clk, xpt2046_miso, xpt2046_mosi, xpt2046_cs);
+  touch_screen.begin(spi);
+  touch_screen.setRotation(display_orientation);
+
+  // initiate display
+  display.init();
+  display.setRotation(display_orientation);
+  display.setAddrWindow(0, 0, display_width, display_height);
+  display.initDMA(true);
+
+  // set random seed for deterministic behavior
+  srand(0);
+
+  // initiate clock to current time, frames-per-second calculation every 2
+  // seconds and locked dt
+  clk.init(millis(), 2000, clk_locked_dt_ms);
+
+  engine_setup();
+
+  main_setup();
+
+  // allocate DMA buffers
+  dma_buf_1 = (uint16_t *)heap_caps_calloc(1, dma_buf_size_B, MALLOC_CAP_DMA);
+  dma_buf_2 = (uint16_t *)heap_caps_calloc(1, dma_buf_size_B, MALLOC_CAP_DMA);
+  if (!dma_buf_1 || !dma_buf_2) {
+    printf("!!! could not allocate DMA buffers\n");
+    exit(1);
+  }
+
+  // set rgb led green
+  digitalWrite(cyd_led_red, HIGH);
+  digitalWrite(cyd_led_green, LOW);
+  digitalWrite(cyd_led_blue, HIGH);
+
+  printf("------------------- on heap ------------------------------\n");
+  printf("   DMA buf 1 and 2: %d B\n", 2 * dma_buf_size_B);
+  printf("      sprites data: %d B\n", sprites.allocated_data_size_B());
+  printf("      objects data: %d B\n", objects.allocated_data_size_B());
+  printf("     collision map: %d B\n", collision_map_size_B);
+  printf("------------------- after setup --------------------------\n");
+  printf("     free heap mem: %u B\n", ESP.getFreeHeap());
+  printf("largest free block: %u B\n", ESP.getMaxAllocHeap());
+  printf("----------------------------------------------------------\n");
+
+  heap_caps_print_heap_info(MALLOC_CAP_DEFAULT);
+}
+
+void loop() {
+  if (clk.on_frame(clk::time(millis()))) {
+    printf("t=%06lu  fps=%02d  ldr=%03u  objs=%03d  sprs=%03d\n", clk.ms,
+           clk.fps, analogRead(cyd_ldr), objects.allocated_list_len(),
+           sprites.allocated_list_len());
+  }
+
+  if (touch_screen.tirqTouched() and touch_screen.touched()) {
+    const TS_Point pt = touch_screen.getPoint();
+    main_on_touch(pt.x, pt.y, pt.z);
+  }
+
+  engine_loop();
+}
 
 // renders a scanline
 // note. inline because it is only called from one location in render(...)
@@ -275,116 +374,4 @@ static void render(const int x, const int y) {
     display.pushPixelsDMA(dma_buf,
                           uint32_t(display_width * dma_n_scanlines_trailing));
   }
-}
-
-void setup() {
-  // setup rgb led pins
-  pinMode(cyd_led_red, OUTPUT);
-  pinMode(cyd_led_green, OUTPUT);
-  pinMode(cyd_led_blue, OUTPUT);
-
-  // set rgb led to yellow
-  digitalWrite(cyd_led_red, LOW);
-  digitalWrite(cyd_led_green, LOW);
-  digitalWrite(cyd_led_blue, HIGH);
-
-  Serial.begin(115200);
-  sleep(1); // arbitrary wait 1 second for serial to connect
-
-  printf("\n\n");
-  printf("------------------- platform -----------------------------\n");
-  printf("        chip model: %s\n", ESP.getChipModel());
-  printf("            screen: %u x %u px\n", display_width, display_height);
-  printf("     free heap mem: %u B\n", ESP.getFreeHeap());
-  printf("largest free block: %u B\n", ESP.getMaxAllocHeap());
-  printf("------------------- type sizes ---------------------------\n");
-  printf("              bool: %zu B\n", sizeof(bool));
-  printf("              char: %zu B\n", sizeof(char));
-  printf("               int: %zu B\n", sizeof(int));
-  printf("              long: %zu B\n", sizeof(long));
-  printf("         long long: %zu B\n", sizeof(long long));
-  printf("             float: %zu B\n", sizeof(float));
-  printf("            double: %zu B\n", sizeof(double));
-  printf("             void*: %zu B\n", sizeof(void *));
-  printf("------------------- object sizes -------------------------\n");
-  printf("            sprite: %zu B\n", sizeof(sprite));
-  printf("            object: %zu B\n", sizeof(object));
-  printf("              tile: %zu B\n", sizeof(tiles[0]));
-  printf("------------------- in program memory --------------------\n");
-  printf("     sprite images: %zu B\n", sizeof(sprite_imgs));
-  printf("             tiles: %zu B\n", sizeof(tiles));
-  printf("------------------- globals ------------------------------\n");
-  printf("          tile map: %zu B\n", sizeof(tile_map));
-  printf("           sprites: %zu B\n", sizeof(sprites));
-  printf("           objects: %zu B\n", sizeof(objects));
-
-  // set rgb led blue
-  digitalWrite(cyd_led_red, HIGH);
-  digitalWrite(cyd_led_green, HIGH);
-  digitalWrite(cyd_led_blue, LOW);
-
-  // setup ldr pin
-  pinMode(cyd_ldr, INPUT);
-
-  // start the spi for the touch screen and init the library
-  spi.begin(xpt2046_clk, xpt2046_miso, xpt2046_mosi, xpt2046_cs);
-  touch_screen.begin(spi);
-  touch_screen.setRotation(display_orientation);
-
-  // initiate display
-  display.init();
-  display.setRotation(display_orientation);
-  display.setAddrWindow(0, 0, display_width, display_height);
-  display.initDMA(true);
-
-  // set random seed for deterministic behavior
-  srand(0);
-
-  // initiate clock to current time, frames-per-second calculation every 2
-  // seconds and locked dt
-  clk.init(millis(), 2000, clk_locked_dt_ms);
-
-  engine_setup();
-
-  main_setup();
-
-  // allocate DMA buffers
-  dma_buf_1 = (uint16_t *)heap_caps_calloc(1, dma_buf_size_B, MALLOC_CAP_DMA);
-  dma_buf_2 = (uint16_t *)heap_caps_calloc(1, dma_buf_size_B, MALLOC_CAP_DMA);
-  if (!dma_buf_1 || !dma_buf_2) {
-    printf("!!! could not allocate DMA buffers\n");
-    exit(1);
-  }
-
-  // set rgb led green
-  digitalWrite(cyd_led_red, HIGH);
-  digitalWrite(cyd_led_green, LOW);
-  digitalWrite(cyd_led_blue, HIGH);
-
-  printf("------------------- on heap ------------------------------\n");
-  printf("   DMA buf 1 and 2: %d B\n", 2 * dma_buf_size_B);
-  printf("      sprites data: %d B\n", sprites.allocated_data_size_B());
-  printf("      objects data: %d B\n", objects.allocated_data_size_B());
-  printf("     collision map: %d B\n", collision_map_size_B);
-  printf("------------------- after setup --------------------------\n");
-  printf("     free heap mem: %u B\n", ESP.getFreeHeap());
-  printf("largest free block: %u B\n", ESP.getMaxAllocHeap());
-  printf("----------------------------------------------------------\n");
-
-  heap_caps_print_heap_info(MALLOC_CAP_DEFAULT);
-}
-
-void loop() {
-  if (clk.on_frame(clk::time(millis()))) {
-    printf("t=%06lu  fps=%02d  ldr=%03u  objs=%03d  sprs=%03d\n", clk.ms,
-           clk.fps, analogRead(cyd_ldr), objects.allocated_list_len(),
-           sprites.allocated_list_len());
-  }
-
-  if (touch_screen.tirqTouched() and touch_screen.touched()) {
-    const TS_Point pt = touch_screen.getPoint();
-    main_on_touch(pt.x, pt.y, pt.z);
-  }
-
-  engine_loop();
 }
