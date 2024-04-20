@@ -194,8 +194,7 @@ static void engine_setup() {
       calloc(display_width * display_height, sizeof(sprite_ix)));
   if (!collision_map) {
     printf("!!! could not allocate collision map\n");
-    while (true)
-      ;
+    exit(1);
   }
 }
 

@@ -77,15 +77,15 @@ static constexpr int dma_n_scanlines = 8;
 //       not having enough memory (dma_n_scanlines > 40 when width is 240):
 //       assert failed: vApplicationGetIdleTaskMemory port_common.c:194
 //       (pxTCBBufferTemp != NULL)
-static uint16_t dma_buf_1[display_width * dma_n_scanlines];
-static uint16_t dma_buf_2[display_width * dma_n_scanlines];
-static constexpr int dma_buf_size_B = sizeof(dma_buf_1);
+// static uint16_t dma_buf_1[display_width * dma_n_scanlines];
+// static uint16_t dma_buf_2[display_width * dma_n_scanlines];
+// static constexpr int dma_buf_size_B = sizeof(dma_buf_1);
 
 // allocated in 'setup'
-// static constexpr int dma_buf_size_B =
-//     sizeof(uint16_t) * display_width * dma_n_scanlines;
-// static uint16_t *dma_buf_1;
-// static uint16_t *dma_buf_2;
+static constexpr int dma_buf_size_B =
+    sizeof(uint16_t) * display_width * dma_n_scanlines;
+static uint16_t *dma_buf_1;
+static uint16_t *dma_buf_2;
 
 // renders a scanline
 // note. inline because it is only called from one location in render(...)
@@ -314,7 +314,6 @@ void setup() {
   printf("     sprite images: %zu B\n", sizeof(sprite_imgs));
   printf("             tiles: %zu B\n", sizeof(tiles));
   printf("------------------- globals ------------------------------\n");
-  printf("   DMA buf 1 and 2: %d B\n", 2 * dma_buf_size_B);
   printf("          tile map: %zu B\n", sizeof(tile_map));
   printf("           sprites: %zu B\n", sizeof(sprites));
   printf("           objects: %zu B\n", sizeof(objects));
@@ -349,12 +348,21 @@ void setup() {
 
   main_setup();
 
+  // allocate DMA buffers
+  dma_buf_1 = (uint16_t *)heap_caps_calloc(1, dma_buf_size_B, MALLOC_CAP_DMA);
+  dma_buf_2 = (uint16_t *)heap_caps_calloc(1, dma_buf_size_B, MALLOC_CAP_DMA);
+  if (!dma_buf_1 || !dma_buf_2) {
+    printf("!!! could not allocate DMA buffers\n");
+    exit(1);
+  }
+
   // set rgb led green
   digitalWrite(cyd_led_red, HIGH);
   digitalWrite(cyd_led_green, LOW);
   digitalWrite(cyd_led_blue, HIGH);
 
   printf("------------------- on heap ------------------------------\n");
+  printf("   DMA buf 1 and 2: %d B\n", 2 * dma_buf_size_B);
   printf("      sprites data: %d B\n", sprites.allocated_data_size_B());
   printf("      objects data: %d B\n", objects.allocated_data_size_B());
   printf("     collision map: %d B\n", collision_map_size_B);
