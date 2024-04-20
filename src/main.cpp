@@ -10,7 +10,8 @@
 
 // note. design decision of 'hpp' source files
 // * the program is one file split into logical sections using includes
-// * increases opportunities for optimization by the compiler
+// * all globals are declared 'static'
+// * increases optimization opportunities for the compiler
 // * directory 'game' contains the user code that interfaces with 'engine.hpp'
 // * order of include and content of 'defs.hpp', 'game_state.hpp', 'main.hpp'
 //   solves circular references and gives user the necessary callbacks to
@@ -26,8 +27,6 @@
 // 160KB. The remaining 160KB (for a total of 320KB of DRAM) can only be
 // allocated at runtime as heap.
 // -- https://stackoverflow.com/questions/71085927/how-to-extend-esp32-heap-size
-
-// note. ~38 KB static memory left for freertos not to crash
 
 // reviewed: 2023-12-11
 

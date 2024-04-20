@@ -6,4 +6,4 @@
 class game_state final {
 public:
   bool hero_is_alive = false;
-} game_state{};
+} static game_state{};
