@@ -20,7 +20,7 @@
 static void main_setup() {
   // output size of game object classes
   printf("------------------- game object sizes --------------------\n");
-  printf("       game object: %zu B\n", sizeof(game_object));
+  printf("       game_object: %zu B\n", sizeof(game_object));
   printf("            bullet: %zu B\n", sizeof(bullet));
   printf("             dummy: %zu B\n", sizeof(dummy));
   printf("          fragment: %zu B\n", sizeof(fragment));
