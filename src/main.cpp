@@ -133,9 +133,6 @@ void setup() {
   display.setAddrWindow(0, 0, display_width, display_height);
   display.initDMA(true);
 
-  // set random seed for deterministic behavior
-  srand(0);
-
   // initiate clock to current time, frames-per-second calculation every 2
   // seconds and locked dt
   clk.init(millis(), 2000, clk_locked_dt_ms);

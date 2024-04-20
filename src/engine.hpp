@@ -192,10 +192,14 @@ public:
 static void engine_setup() {
   collision_map = static_cast<sprite_ix *>(
       calloc(display_width * display_height, sizeof(sprite_ix)));
+
   if (!collision_map) {
     printf("!!! could not allocate collision map\n");
     exit(1);
   }
+
+  // set random seed for deterministic behavior
+  srand(0);
 }
 
 // forward declaration of platform specific function
