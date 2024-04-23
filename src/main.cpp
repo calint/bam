@@ -142,8 +142,10 @@ void setup() {
   main_setup();
 
   // allocate DMA buffers
-  dma_buf_1 = (uint16_t *)heap_caps_calloc(1, dma_buf_size_B, MALLOC_CAP_DMA);
-  dma_buf_2 = (uint16_t *)heap_caps_calloc(1, dma_buf_size_B, MALLOC_CAP_DMA);
+  dma_buf_1 = static_cast<uint16_t *>(
+      heap_caps_calloc(1, dma_buf_size_B, MALLOC_CAP_DMA));
+  dma_buf_2 = static_cast<uint16_t *>(
+      heap_caps_calloc(1, dma_buf_size_B, MALLOC_CAP_DMA));
   if (!dma_buf_1 || !dma_buf_2) {
     printf("!!! could not allocate DMA buffers\n");
     exit(1);
