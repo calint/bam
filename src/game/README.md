@@ -44,7 +44,7 @@ appendix:
 * each game object class has an entry named with suffix `_cls`
 ### `object_instance_max_size_B`
 * maximum size of any game object instance
-* set to 256B but should be maximum game object instance size rounded upwards to nearest power of 2 number
+* set to 128B but should be maximum game object instance size rounded upwards to nearest power of 2 number
 ### `collision_bits`
 * constants used by game objects to define collision bits and mask
 
