@@ -57,7 +57,7 @@ static constexpr uint8_t xpt2046_miso = 39; // Master In Slave Out
 static constexpr uint8_t xpt2046_clk = 25;  // Clock
 static constexpr uint8_t xpt2046_cs = 33;   // Chip Select
 
-static SPIClass spi{HSPI};
+static SPIClass hspi{HSPI};
 static XPT2046_Touchscreen touch_screen{xpt2046_cs, xpt2046_irq};
 static TFT_eSPI display{};
 
@@ -123,8 +123,8 @@ void setup() {
   pinMode(cyd_ldr, INPUT);
 
   // start the spi for the touch screen and init the library
-  spi.begin(xpt2046_clk, xpt2046_miso, xpt2046_mosi, xpt2046_cs);
-  touch_screen.begin(spi);
+  hspi.begin(xpt2046_clk, xpt2046_miso, xpt2046_mosi, xpt2046_cs);
+  touch_screen.begin(hspi);
   touch_screen.setRotation(display_orientation);
 
   // initiate display

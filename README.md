@@ -24,9 +24,6 @@ developed in:
   - TFT_eSPI @ 2.5.43
   - XPT2046_Touchscreen @ 1.4
 
-note:
-* manufacturer provided device configuration `etc/User_Setup.h` has been copied to `lib/TFT_eSPI-2.5.43`
-
 ### about the device
 * [community](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display)
 * [purchased at](https://www.aliexpress.com/item/1005004502250619.html)
