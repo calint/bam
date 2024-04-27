@@ -1,4 +1,0 @@
-On Linux
-* if "/dev/ttyUSB0" does not show up when the device is plugged in then the
-  service "brltty" might be the problem
-* disable it and related services or uninstall it
