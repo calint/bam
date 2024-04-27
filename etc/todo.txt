@@ -1,11 +1,6 @@
-[x] check sprite collisions between sprites that are in the same layer
-[x] use object **const end = objects.store.allocated_list_end();
-[x] o1store: Serial.printf
-[ ] o1store: ? inst_deleted->~object() at apply_free()
 [ ] game_object: position relative to tile map or screen
-[x] flip sprite horizontal
-[x] flip sprite vertical
 [ ] several sets of tiles cycled for animation
+[ ] o1store: ? inst_deleted->~object() at apply_free()
 [ ] render_scanline(...) consider looping through allocated sprites instead of all
 [ ] o1store: new_ list optimizing apply by putting new instances in deleted slots
     without swapping. if len(del_)>len(add_) no swaps will be made.
@@ -20,6 +15,11 @@
     vaddf(result, a, b, 4);
     => esp32 specific gain if used more extensively in game logic
 -------------------------------------------------------------------------------
+[x] check sprite collisions between sprites that are in the same layer
+[x] use object **const end = objects.store.allocated_list_end();
+[x] o1store: Serial.printf
+[x] flip sprite horizontal
+[x] flip sprite vertical
 [x] o1store: consider using std::vector instead of calloc and free
     => implementation is concise with some pointer shenanigans
 [x] o1store: hang if overrun?
