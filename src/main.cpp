@@ -239,11 +239,11 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
         // is outside the screen x-wise
         continue;
       }
-      // is sprite flipped horizontally?
-      const bool flip_horiz = spr->flip & 1;
-      const bool flip_vert = spr->flip & 2;
       // pointer to sprite image to be rendered
       uint8_t const *spr_img_ptr = spr->img;
+      // extract sprite flip
+      const bool flip_horiz = spr->flip & 1;
+      const bool flip_vert = spr->flip & 2;
       if (flip_vert) {
         spr_img_ptr += (sprite_height - 1) * sprite_width -
                        (scanline_y - spr->scr_y) * sprite_width;
@@ -251,9 +251,10 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
         spr_img_ptr += (scanline_y - spr->scr_y) * sprite_width;
       }
       if (flip_horiz) {
+        // start at end of sprite line
         spr_img_ptr += sprite_width - 1;
       }
-
+      // increment to next sprite pixel to be rendered
       const int spr_img_ptr_inc = flip_horiz ? -1 : 1;
       // pointer to destination of sprite data
       uint16_t *scanline_dst_ptr = scanline_ptr + spr->scr_x;
