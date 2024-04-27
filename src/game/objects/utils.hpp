@@ -29,11 +29,13 @@ public:
     obj->spr = sprites.allocate_instance();
     obj->spr->obj = obj;
     obj->spr->layer = layer;
+    obj->spr->flip = 0;
     // additional 3 sprites
     for (int i = 0; i < 3; i++) {
       sprs[i] = sprites.allocate_instance();
       sprs[i]->obj = obj;
       sprs[i]->layer = layer;
+      sprs[i]->flip = 0;
     }
     obj->spr->img = sprite_imgs[top_left_index_in_16_sprites_row];
     sprs[0]->img = sprite_imgs[top_left_index_in_16_sprites_row + 1];

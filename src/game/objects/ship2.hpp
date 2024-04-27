@@ -22,6 +22,7 @@ public:
     spr->obj = this;
     spr->img = sprite_imgs[6];
     spr->layer = 1;
+    spr->flip = 0;
 
     animation_frame_ms = clk.ms;
   }
@@ -30,6 +31,10 @@ public:
   auto update() -> bool override {
     if (game_object::update()) {
       return true;
+    }
+
+    if (dy > 0) {
+      spr->flip = 2;
     }
 
     if (y > display_height) {

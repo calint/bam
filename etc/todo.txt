@@ -3,7 +3,8 @@
 [x] o1store: Serial.printf
 [ ] o1store: ? inst_deleted->~object() at apply_free()
 [ ] game_object: position relative to tile map or screen
-[ ] horizontal, vertical flip of sprite
+[x] flip sprite horizontal
+[x] flip sprite vertical
 [ ] several sets of tiles cycled for animation
 [ ] render_scanline(...) consider looping through allocated sprites instead of all
 [ ] o1store: new_ list optimizing apply by putting new instances in deleted slots

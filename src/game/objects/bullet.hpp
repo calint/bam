@@ -16,6 +16,7 @@ public:
     spr->obj = this;
     spr->img = sprite_imgs[1];
     spr->layer = 1;
+    spr->flip = 0;
   }
 
   // returns true if object died
@@ -23,8 +24,8 @@ public:
     if (game_object::update()) {
       return true;
     }
-    if (x <= -sprite_width or x >= display_width or
-        y <= -sprite_height or y >= display_height) {
+    if (x <= -sprite_width or x >= display_width or y <= -sprite_height or
+        y >= display_height) {
       return true;
     }
     return false;

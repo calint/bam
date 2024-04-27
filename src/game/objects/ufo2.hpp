@@ -15,7 +15,6 @@ public:
     col_bits = cb_hero;
     col_mask = cb_enemy | cb_enemy_bullet;
 
-    spr->layer = 1;
     health = 100;
   }
 

@@ -28,16 +28,19 @@ public:
     spr->obj = this;
     spr->img = sprite_imgs[0];
     spr->layer = 1; // put in top layer
+    spr->flip = 0;
 
     spr_left = sprites.allocate_instance();
     spr_left->obj = this;
     spr_left->img = sprite_imgs[0];
     spr_left->layer = 1;
+    spr_left->flip = 0;
 
     spr_right = sprites.allocate_instance();
     spr_right->obj = this;
     spr_right->img = sprite_imgs[0];
     spr_right->layer = 1;
+    spr_right->flip = 0;
 
     last_upgrade_deployed_ms = clk.ms;
 

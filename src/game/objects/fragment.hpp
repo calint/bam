@@ -16,6 +16,7 @@ public:
     spr->obj = this;
     spr->img = sprite_imgs[2];
     spr->layer = 1;
+    spr->flip = 0;
   }
 
   // returns true if object died
