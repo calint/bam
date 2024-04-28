@@ -1,8 +1,8 @@
 # view assembler
-~/.platformio/packages/toolchain-xtensa-esp32/bin/xtensa-esp32-elf-objdump -S .pio/build/esp32dev/src/main.cpp.o | less
+~/.platformio/packages/toolchain-xtensa-esp32/bin/xtensa-esp32-elf-objdump -S .pio/build/ESP32-2432S028R/src/main.cpp.o | less
 
 # stack trace. copy 'back trace' addresses as argument
-~/.platformio/packages/toolchain-xtensa-esp32/bin/xtensa-esp32-elf-addr2line -pfiaC -e .pio/build/esp32dev/firmware.elf 
+~/.platformio/packages/toolchain-xtensa-esp32/bin/xtensa-esp32-elf-addr2line -pfiaC -e .pio/build/ESP32-2432S028R/firmware.elf 
 
 # revert changes to last commit
 git reset --hard HEAD
