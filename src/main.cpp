@@ -90,6 +90,9 @@ void setup() {
   printf("\n\n");
   printf("------------------- platform -----------------------------\n");
   printf("        chip model: %s\n", ESP.getChipModel());
+  printf("          revision: %u\n", ESP.getChipRevision());
+  printf("             cores: %u\n", ESP.getChipCores());
+  printf("              freq: %u MHz\n", ESP.getCpuFreqMHz());
   printf("            screen: %u x %u px\n", display_width, display_height);
   printf("     free heap mem: %u B\n", ESP.getFreeHeap());
   printf("largest free block: %u B\n", ESP.getMaxAllocHeap());
