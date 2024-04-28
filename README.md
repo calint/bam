@@ -1,4 +1,4 @@
-# ESP32-2432S028R a.k.a. cheap-yellow-display (cyd)
+# ESP32-2432S028R a.k.a. cheap-yellow-display (CYD)
 
 <video width="320" height="240" src="https://github.com/calint/bam/assets/1920811/1e1f7bb0-4d1e-4ce2-937a-10c6ac176b2e"></video>
 
