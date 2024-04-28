@@ -34,7 +34,7 @@ public:
     }
 
     if (dy > 0) {
-      spr->flip = 2;
+      spr->flip = 2; // vertical
     }
 
     if (y > display_height) {

@@ -206,10 +206,10 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
     // calculate number of pixels to render
     int render_n_pixels = 0;
     if (tile_x_fract) {
-      // note. can only happen at first tile
+      // can only happen at first tile in row
       render_n_pixels = tile_width - tile_x_fract;
       if (render_n_pixels > remaining_x) {
-        // note. tile is bigger than screen width
+        // tile width + 1 is greater than screen width
         render_n_pixels = remaining_x;
       }
       tile_x_fract = 0;
