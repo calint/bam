@@ -2,7 +2,7 @@
 
 <video width="320" height="240" src="https://github.com/calint/bam/assets/1920811/1e1f7bb0-4d1e-4ce2-937a-10c6ac176b2e"></video>
 
-intention:
+### intention
 * developing using arduino framework with visual code and platformio
 * exploring the device by developing a toy game
 * developing a platform-independent toy game engine featuring:
@@ -11,7 +11,7 @@ intention:
   - intuitive definition of game objects and logic
   - decent performance, ~30 frames per second on the device
 
-developed in:
+### development environment
 * Visual Code 1.88.1
 * PlatformIO 6.1.14
 * Espressif 32 (6.6.0) > Espressif ESP32 Dev Module
