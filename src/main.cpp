@@ -64,8 +64,8 @@ static constexpr int dma_n_scanlines = 8;
 // allocated in 'setup'
 static constexpr int dma_buf_size_B =
     sizeof(uint16_t) * display_width * dma_n_scanlines;
-static uint16_t *dma_buf_1;
-static uint16_t *dma_buf_2;
+static uint16_t *dma_buf_1 = nullptr;
+static uint16_t *dma_buf_2 = nullptr;
 
 void setup() {
   // setup rgb led pins
@@ -92,6 +92,7 @@ void setup() {
   printf("------------------- type sizes ---------------------------\n");
   printf("              bool: %zu B\n", sizeof(bool));
   printf("              char: %zu B\n", sizeof(char));
+  printf("             short: %zu B\n", sizeof(short));
   printf("               int: %zu B\n", sizeof(int));
   printf("              long: %zu B\n", sizeof(long));
   printf("         long long: %zu B\n", sizeof(long long));
