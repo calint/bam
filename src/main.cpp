@@ -85,7 +85,6 @@ void setup() {
   digitalWrite(cyd_led_blue, HIGH);
 
   Serial.begin(115200);
-  sleep(1); // arbitrary wait 1 second for serial to connect
 
   printf("\n\n");
   printf("------------------- platform -----------------------------\n");
