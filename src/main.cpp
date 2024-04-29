@@ -51,14 +51,8 @@ static constexpr uint8_t cyd_ldr = 34;
 
 // setup touch screen
 // https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display/blob/main/Examples/Basics/2-TouchTest/2-TouchTest.ino
-static constexpr uint8_t xpt2046_irq = 36;  // Interrupt Request
-static constexpr uint8_t xpt2046_mosi = 32; // Master Out Slave In
-static constexpr uint8_t xpt2046_miso = 39; // Master In Slave Out
-static constexpr uint8_t xpt2046_clk = 25;  // Clock
-static constexpr uint8_t xpt2046_cs = 33;   // Chip Select
-
 static SPIClass hspi{HSPI};
-static XPT2046_Touchscreen touch_screen{xpt2046_cs, xpt2046_irq};
+static XPT2046_Touchscreen touch_screen{XPT2046_CS, XPT2046_IRQ};
 static TFT_eSPI display{};
 
 // number of scanlines to render before DMA transfer
@@ -125,7 +119,7 @@ void setup() {
   pinMode(cyd_ldr, INPUT);
 
   // start the spi for the touch screen and init the library
-  hspi.begin(xpt2046_clk, xpt2046_miso, xpt2046_mosi, xpt2046_cs);
+  hspi.begin(XPT2046_CLK, XPT2046_MISO, XPT2046_MOSI, XPT2046_CS);
   touch_screen.begin(hspi);
   touch_screen.setRotation(display_orientation);
 
