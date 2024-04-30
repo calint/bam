@@ -10,9 +10,8 @@
 static constexpr uint8_t display_orientation = 0;
 
 // lock dt to 32 ms per frame (~31 fps) for deterministic behavior
+// set 0 to use measured dt
 static constexpr int clk_locked_dt_ms = 32;
-// use measured time to increase dt
-// static constexpr int clk_locked_dt_ms = 0;
 
 // number of sprite images
 static constexpr int sprite_imgs_count = 256;
