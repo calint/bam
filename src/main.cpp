@@ -17,7 +17,7 @@
 //   solves circular references and gives user the necessary callbacks to
 //   interface with engine
 
-// note. design decision regarding 'unsigned' due to sign conversion warnings
+// note. design decision regarding 'unsigned' - due to sign conversion warnings
 // and subtle bugs in mixed signedness operations, signed constants and
 // variables are used where the bit width of the type is wide enough to fit the
 // largest value
