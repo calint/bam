@@ -13,6 +13,9 @@ static constexpr uint8_t display_orientation = 0;
 // set 0 to use measured dt
 static constexpr int clk_locked_dt_ms = 32;
 
+// update rate of fps calculation
+static constexpr int clk_fps_update_ms = 2000;
+
 // number of sprite images
 static constexpr int sprite_imgs_count = 256;
 // defined in 'resources/sprite_imgs.hpp'
@@ -70,9 +73,6 @@ static constexpr int objects_count = 255;
 
 // used by 'engine.hpp' as seed for random numbers
 static constexpr int random_seed = 0;
-
-// update rate of fps calculation
-static constexpr int clk_fps_update_ms = 2000;
 
 // enumeration of game object classes
 // defined in 'objects/*'
