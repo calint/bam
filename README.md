@@ -1,6 +1,11 @@
 # ESP32-2432S028R
 a.k.a. cheap-yellow-display (CYD)
 
+### about the device
+* [community](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display)
+* [purchased at](https://www.aliexpress.com/item/1005004502250619.html)
+* [manufacturer](http://www.jczn1688.com/)
+
 <video width="320" height="240" src="https://github.com/calint/bam/assets/1920811/1e1f7bb0-4d1e-4ce2-937a-10c6ac176b2e"></video>
 
 ### intention
@@ -24,8 +29,3 @@ a.k.a. cheap-yellow-display (CYD)
   - SPI @ 2.0.0
   - TFT_eSPI @ 2.5.43
   - XPT2046_Touchscreen @ 1.4
-
-### about the device
-* [community](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display)
-* [purchased at](https://www.aliexpress.com/item/1005004502250619.html)
-* [manufacturer](http://www.jczn1688.com/)
