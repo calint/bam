@@ -143,10 +143,9 @@ void setup() {
     exit(1);
   }
 
-  // initiate clock to current time, frames-per-second calculation every 2
-  // seconds and clock dt
-  // note. not initiated in 'engine_setup()' due to dependency to 'millis()'
+  // initiate clock
   clk.init(millis(), clk_fps_update_ms, clk_locked_dt_ms);
+  // note. not in 'engine_setup()' due to dependency on 'millis()'
 
   engine_setup();
 
@@ -171,8 +170,8 @@ void setup() {
 }
 
 void loop() {
-  // note. not in 'engine_loop()' due to dependency on 'millis()'
   if (clk.on_frame(clk::time(millis()))) {
+    // note. not in 'engine_loop()' due to dependency on 'millis()'
     printf("t=%06lu  fps=%02d  ldr=%03u  objs=%03d  sprs=%03d\n", clk.ms,
            clk.fps, analogRead(CYD_LDR), objects.allocated_list_len(),
            sprites.allocated_list_len());
