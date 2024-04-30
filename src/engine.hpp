@@ -186,7 +186,7 @@ static void engine_setup() {
 
   // initiate clock to current time, frames-per-second calculation every 2
   // seconds and clock dt
-  clk.init(millis(), 2000, clk_locked_dt_ms);
+  clk.init(millis(), clk_fps_update_ms, clk_locked_dt_ms);
 }
 
 // forward declaration of platform specific function
