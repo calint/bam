@@ -68,16 +68,6 @@ using sprites_store = o1store<sprite, sprites_count, 1>;
 
 static sprites_store sprites{};
 
-// pixel precision collision detection between on screen sprites
-// allocated at 'engine_setup()'
-static constexpr int collision_map_size_B =
-    sizeof(sprite_ix) * display_width * display_height;
-static sprite_ix *collision_map;
-
-// static sprite_ix collision_map[display_width * display_height];
-// note. allocating collision_map in static ram gives device error:
-//       rst:0x10 (RTCWDT_RTC_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-
 class object {
 public:
   object **alloc_ptr;
@@ -191,14 +181,6 @@ public:
 
 // callback from 'main.cpp'
 static void engine_setup() {
-  collision_map = static_cast<sprite_ix *>(
-      calloc(display_width * display_height, sizeof(sprite_ix)));
-
-  if (!collision_map) {
-    printf("!!! could not allocate collision map\n");
-    exit(1);
-  }
-
   // set random seed for deterministic behavior
   srand(0);
 }
@@ -212,11 +194,6 @@ static void main_on_frame_completed();
 // callback from 'main.cpp'
 // render and update the state of the engine
 static void engine_loop() {
-  // clear collisions map
-  // note. works on other sizes of type 'sprite_ix' because reserved value is
-  //       unsigned maximum value such as 0xff or 0xffff etc
-  memset(collision_map, sprite_ix_reserved, collision_map_size_B);
-
   // prepare objects for render
   objects.pre_render();
 

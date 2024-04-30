@@ -158,8 +158,6 @@ static void main_on_frame_completed() {
     if (wave_triggers_ix < wave_triggers_len) {
       wave_triggers_next_y -= wave_triggers[wave_triggers_ix].since_last_wave_y;
     }
-    // Serial.printf("wave trigger  ix=%d  trigger_y=%f  trigger y = %f\n",
-    //               wave_triggers_ix, wave_triggers_next_y);
   }
 }
 

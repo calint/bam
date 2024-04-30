@@ -67,6 +67,12 @@ static constexpr int dma_buf_size_B =
 static uint16_t *dma_buf_1 = nullptr;
 static uint16_t *dma_buf_2 = nullptr;
 
+// pixel precision collision detection between on screen sprites
+// allocated at 'engine_setup()'
+static constexpr int collision_map_size_B =
+    sizeof(sprite_ix) * display_width * display_height;
+static sprite_ix *collision_map = nullptr;
+
 void setup() {
   // setup rgb led pins
   pinMode(cyd_led_red, OUTPUT);
@@ -145,6 +151,13 @@ void setup() {
       heap_caps_calloc(1, dma_buf_size_B, MALLOC_CAP_DMA));
   if (!dma_buf_1 || !dma_buf_2) {
     printf("!!! could not allocate DMA buffers\n");
+    exit(1);
+  }
+
+  collision_map = static_cast<sprite_ix *>(
+      calloc(display_width * display_height, sizeof(sprite_ix)));
+  if (!collision_map) {
+    printf("!!! could not allocate collision map\n");
     exit(1);
   }
 
@@ -316,6 +329,11 @@ static constexpr int count_right_shifts_until_1(int num) {
 
 // renders tile map and sprites
 static void render(const int x, const int y) {
+  // clear collisions map
+  // note. works on other sizes of type 'sprite_ix' because reserved value is
+  //       unsigned maximum value such as 0xff or 0xffff etc
+  memset(collision_map, sprite_ix_reserved, collision_map_size_B);
+
   // extract whole number and fractions from x, y
   constexpr int tile_width_shift = count_right_shifts_until_1(tile_width);
   constexpr int tile_height_shift = count_right_shifts_until_1(tile_height);
