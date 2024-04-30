@@ -136,14 +136,6 @@ void setup() {
   display.setAddrWindow(0, 0, display_width, display_height);
   display.initDMA(true);
 
-  // initiate clock to current time, frames-per-second calculation every 2
-  // seconds and locked dt
-  clk.init(millis(), 2000, clk_locked_dt_ms);
-
-  engine_setup();
-
-  main_setup();
-
   dma_buf_1 = static_cast<uint16_t *>(
       heap_caps_calloc(1, dma_buf_size_B, MALLOC_CAP_DMA));
   dma_buf_2 = static_cast<uint16_t *>(
@@ -159,6 +151,14 @@ void setup() {
     printf("!!! could not allocate collision map\n");
     exit(1);
   }
+
+  // initiate clock to current time, frames-per-second calculation every 2
+  // seconds and locked dt
+  clk.init(millis(), 2000, clk_locked_dt_ms);
+
+  engine_setup();
+
+  main_setup();
 
   // set rgb led to green
   digitalWrite(cyd_led_red, HIGH);
