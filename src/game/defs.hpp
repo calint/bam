@@ -69,6 +69,9 @@ static constexpr int sprites_count = 255;
 // objects available for allocation using 'objects'
 static constexpr int objects_count = 255;
 
+// used by 'engine.hpp' as seed for random numbers
+static constexpr int random_seed = 0;
+
 // enumeration of game object classes
 // defined in 'objects/*'
 enum object_class : uint8_t {
