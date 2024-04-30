@@ -70,10 +70,10 @@ void setup() {
   pinMode(CYD_LED_GREEN, OUTPUT);
   pinMode(CYD_LED_BLUE, OUTPUT);
 
-  // set rgb led to red
-  digitalWrite(CYD_LED_RED, LOW);
+  // set rgb led to blue
+  digitalWrite(CYD_LED_RED, HIGH);
   digitalWrite(CYD_LED_GREEN, HIGH);
-  digitalWrite(CYD_LED_BLUE, HIGH);
+  digitalWrite(CYD_LED_BLUE, LOW);
 
   Serial.begin(115200);
 
