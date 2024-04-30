@@ -183,10 +183,6 @@ public:
 static void engine_setup() {
   // set random seed for deterministic behavior
   srand(random_seed);
-
-  // initiate clock to current time, frames-per-second calculation every 2
-  // seconds and clock dt
-  clk.init(millis(), clk_fps_update_ms, clk_locked_dt_ms);
 }
 
 // forward declaration of platform specific function

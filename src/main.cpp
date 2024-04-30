@@ -143,6 +143,11 @@ void setup() {
     exit(1);
   }
 
+  // initiate clock to current time, frames-per-second calculation every 2
+  // seconds and clock dt
+  // note. not initiated in 'engine_setup' because of dependency on 'millis()'
+  clk.init(millis(), clk_fps_update_ms, clk_locked_dt_ms);
+
   engine_setup();
 
   main_setup();
