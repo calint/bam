@@ -119,6 +119,7 @@ static float wave_triggers_next_y =
     wave_triggers_bottom_screen_y - wave_triggers[0].since_last_wave_y;
 
 // callback after frame has been rendered and objects updated
+// note. if objects are deleted see objects::update()
 static void main_on_frame_completed() {
   // update x position in pixels in the tile map
   tile_map_x += tile_map_dx * clk.dt;
