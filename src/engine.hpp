@@ -173,7 +173,7 @@ public:
       fps = frames_rendered_since_last_update_ * 1000u / dt_ms;
       frames_rendered_since_last_update_ = 0;
       last_fps_update_ms_ = time_ms;
-      return true;
+      return interval_ms_ != 0;
     }
     return false;
   }

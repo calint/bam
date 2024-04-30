@@ -14,6 +14,7 @@ static constexpr uint8_t display_orientation = 0;
 static constexpr int clk_locked_dt_ms = 32;
 
 // update rate of fps calculation
+// 0 to update fps every frame and make no output
 static constexpr int clk_fps_update_ms = 2000;
 
 // number of sprite images
