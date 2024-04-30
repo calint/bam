@@ -52,14 +52,14 @@ static constexpr int dma_n_scanlines = 8;
 //  1: 23 fps, 2: 27 fps, 4: 29 fps, 8: 31 fps, 16: 31 fps, 32: 32 fps
 
 // alternating buffers for rendering scanlines while DMA is active
-// allocated in 'setup'
+// allocated in 'setup()'
 static constexpr int dma_buf_size_B =
     sizeof(uint16_t) * display_width * dma_n_scanlines;
 static uint16_t *dma_buf_1 = nullptr;
 static uint16_t *dma_buf_2 = nullptr;
 
 // pixel precision collision detection between on screen sprites
-// allocated in 'setup'
+// allocated in 'setup()'
 static constexpr int collision_map_size_B =
     sizeof(sprite_ix) * display_width * display_height;
 static sprite_ix *collision_map = nullptr;
@@ -145,7 +145,7 @@ void setup() {
 
   // initiate clock to current time, frames-per-second calculation every 2
   // seconds and clock dt
-  // note. not initiated in 'engine_setup' because of dependency to 'millis()'
+  // note. not initiated in 'engine_setup()' due to dependency to 'millis()'
   clk.init(millis(), clk_fps_update_ms, clk_locked_dt_ms);
 
   engine_setup();
@@ -171,6 +171,7 @@ void setup() {
 }
 
 void loop() {
+  // note. not in 'engine_loop()' due to dependency on 'millis()'
   if (clk.on_frame(clk::time(millis()))) {
     printf("t=%06lu  fps=%02d  ldr=%03u  objs=%03d  sprs=%03d\n", clk.ms,
            clk.fps, analogRead(CYD_LDR), objects.allocated_list_len(),
