@@ -117,7 +117,7 @@ void setup() {
   printf("           sprites: %zu B\n", sizeof(sprites));
   printf("           objects: %zu B\n", sizeof(objects));
 
-  // set rgb led blue
+  // set rgb led to blue
   digitalWrite(cyd_led_red, HIGH);
   digitalWrite(cyd_led_green, HIGH);
   digitalWrite(cyd_led_blue, LOW);
@@ -144,7 +144,6 @@ void setup() {
 
   main_setup();
 
-  // allocate DMA buffers
   dma_buf_1 = static_cast<uint16_t *>(
       heap_caps_calloc(1, dma_buf_size_B, MALLOC_CAP_DMA));
   dma_buf_2 = static_cast<uint16_t *>(
@@ -161,7 +160,7 @@ void setup() {
     exit(1);
   }
 
-  // set rgb led green
+  // set rgb led to green
   digitalWrite(cyd_led_red, HIGH);
   digitalWrite(cyd_led_green, LOW);
   digitalWrite(cyd_led_blue, HIGH);
