@@ -68,7 +68,7 @@ static uint16_t *dma_buf_1 = nullptr;
 static uint16_t *dma_buf_2 = nullptr;
 
 // pixel precision collision detection between on screen sprites
-// allocated at 'engine_setup()'
+// allocated in 'setup'
 static constexpr int collision_map_size_B =
     sizeof(sprite_ix) * display_width * display_height;
 static sprite_ix *collision_map = nullptr;
