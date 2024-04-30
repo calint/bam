@@ -40,15 +40,6 @@
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
 
-// rgb led
-static constexpr uint8_t cyd_led_blue = 17;
-static constexpr uint8_t cyd_led_red = 4;
-static constexpr uint8_t cyd_led_green = 16;
-
-// ldr (light dependant resistor)
-// analog read of pin gives: 0 for full brightness, higher values is darker
-static constexpr uint8_t cyd_ldr = 34;
-
 // setup touch screen
 // https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display/blob/main/Examples/Basics/2-TouchTest/2-TouchTest.ino
 static SPIClass hspi{HSPI};
@@ -75,14 +66,14 @@ static sprite_ix *collision_map = nullptr;
 
 void setup() {
   // setup rgb led pins
-  pinMode(cyd_led_red, OUTPUT);
-  pinMode(cyd_led_green, OUTPUT);
-  pinMode(cyd_led_blue, OUTPUT);
+  pinMode(CYD_LED_RED, OUTPUT);
+  pinMode(CYD_LED_GREEN, OUTPUT);
+  pinMode(CYD_LED_BLUE, OUTPUT);
 
-  // set rgb led to yellow
-  digitalWrite(cyd_led_red, LOW);
-  digitalWrite(cyd_led_green, LOW);
-  digitalWrite(cyd_led_blue, HIGH);
+  // set rgb led to red
+  digitalWrite(CYD_LED_RED, LOW);
+  digitalWrite(CYD_LED_GREEN, HIGH);
+  digitalWrite(CYD_LED_BLUE, HIGH);
 
   Serial.begin(115200);
 
@@ -117,13 +108,13 @@ void setup() {
   printf("           sprites: %zu B\n", sizeof(sprites));
   printf("           objects: %zu B\n", sizeof(objects));
 
-  // set rgb led to blue
-  digitalWrite(cyd_led_red, HIGH);
-  digitalWrite(cyd_led_green, HIGH);
-  digitalWrite(cyd_led_blue, LOW);
+  // set rgb led to yellow
+  digitalWrite(CYD_LED_RED, LOW);
+  digitalWrite(CYD_LED_GREEN, LOW);
+  digitalWrite(CYD_LED_BLUE, HIGH);
 
   // setup ldr pin
-  pinMode(cyd_ldr, INPUT);
+  pinMode(CYD_LDR, INPUT);
 
   // start the spi for the touch screen and init the library
   hspi.begin(XPT2046_CLK, XPT2046_MISO, XPT2046_MOSI, XPT2046_CS);
@@ -161,9 +152,9 @@ void setup() {
   main_setup();
 
   // set rgb led to green
-  digitalWrite(cyd_led_red, HIGH);
-  digitalWrite(cyd_led_green, LOW);
-  digitalWrite(cyd_led_blue, HIGH);
+  digitalWrite(CYD_LED_RED, HIGH);
+  digitalWrite(CYD_LED_GREEN, LOW);
+  digitalWrite(CYD_LED_BLUE, HIGH);
 
   printf("------------------- on heap ------------------------------\n");
   printf("   DMA buf 1 and 2: %d B\n", 2 * dma_buf_size_B);
@@ -181,7 +172,7 @@ void setup() {
 void loop() {
   if (clk.on_frame(clk::time(millis()))) {
     printf("t=%06lu  fps=%02d  ldr=%03u  objs=%03d  sprs=%03d\n", clk.ms,
-           clk.fps, analogRead(cyd_ldr), objects.allocated_list_len(),
+           clk.fps, analogRead(CYD_LDR), objects.allocated_list_len(),
            sprites.allocated_list_len());
   }
 
