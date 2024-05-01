@@ -2,14 +2,18 @@
 //
 // implements a O(1) store of objects
 //
-// * Type is object type. 'Type' must contain public field 'Type **alloc_ptr'
+// template parameters:
+// * 'Type' is object type. 'Type' must contain public field 'Type **alloc_ptr'
 // * Size is number of preallocated objects
-// * StoreId is for debugging
-// * InstanceSizeInBytes is custom size of instance
-//   used to fit largest object in an object hierarchy
+// * StoreId is and id used for debugging
+// * InstanceSizeInBytes is custom size of instance to fit largest object in an
+//   object hierarchy or 0 if 'Type' sizeof is used
 //
 // note. no destructor since life-time is program life-time
 //
+
+// reviewed: 2024-05-01
+
 template <typename Type, const int Size, const int StoreId = 0,
           const int InstanceSizeInBytes = 0>
 class o1store {
@@ -35,7 +39,7 @@ public:
         static_cast<Type **>(calloc(Size, sizeof(Type *)));
     del_ptr_ = del_bgn_ = static_cast<Type **>(calloc(Size, sizeof(Type *)));
 
-    if (!all_ or !free_bgn_ or !alloc_bgn_ or !del_bgn_) {
+    if (!all_ || !free_bgn_ || !alloc_bgn_ || !del_bgn_) {
       printf("!!! o1store %d: could not allocate arrays\n", StoreId);
       exit(1);
     }

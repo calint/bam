@@ -29,6 +29,7 @@
 // -- https://stackoverflow.com/questions/71085927/how-to-extend-esp32-heap-size
 
 // reviewed: 2023-12-11
+// reviewed: 2024-05-01
 
 #include <Arduino.h>
 
@@ -44,6 +45,7 @@
 // https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display/blob/main/Examples/Basics/2-TouchTest/2-TouchTest.ino
 static SPIClass hspi{HSPI};
 static XPT2046_Touchscreen touch_screen{XPT2046_CS, XPT2046_IRQ};
+
 static TFT_eSPI display{};
 
 // number of scanlines to render before DMA transfer
@@ -177,7 +179,7 @@ void loop() {
            sprites.allocated_list_len());
   }
 
-  if (touch_screen.tirqTouched() and touch_screen.touched()) {
+  if (touch_screen.tirqTouched() && touch_screen.touched()) {
     const TS_Point pt = touch_screen.getPoint();
     main_on_touch(pt.x, pt.y, pt.z);
   }
@@ -235,9 +237,9 @@ static inline void render_scanline(uint16_t *render_buf_ptr,
     const int len = sprites.all_list_len();
     // note. "constexpr int len" does not compile
     for (int i = 0; i < len; i++, spr++) {
-      if (spr->layer != layer or !spr->img or spr->scr_y > scanline_y or
-          spr->scr_y + sprite_height <= scanline_y or
-          spr->scr_x <= -sprite_width or spr->scr_x >= display_width) {
+      if (spr->layer != layer || !spr->img || spr->scr_y > scanline_y ||
+          spr->scr_y + sprite_height <= scanline_y ||
+          spr->scr_x <= -sprite_width || spr->scr_x >= display_width) {
         // sprite not in current layer or
         // sprite has no image or
         // not within scanline or

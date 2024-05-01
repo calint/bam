@@ -2,6 +2,7 @@
 // platform-independent game engine code
 
 // reviewed: 2023-12-11
+// reviewed: 2024-05-01
 
 // include platform constants
 #include "platform.hpp"
@@ -24,10 +25,12 @@ static constexpr uint16_t palette_sprites[256]{
 #include "game/resources/palette_sprites.hpp"
 };
 
+// images used by tile map
 static constexpr uint8_t tiles[tiles_count][tile_width * tile_height]{
 #include "game/resources/tiles.hpp"
 };
 
+// initial tile map
 static tile_ix tile_map[tile_map_height][tile_map_width]{
 #include "game/resources/tile_map.hpp"
 };
@@ -127,7 +130,7 @@ public:
   using time = uint32_t;
 
 private:
-  int interval_ms_ = 5000;
+  int interval_ms_ = 0;
   int frames_rendered_since_last_update_ = 0;
   time last_fps_update_ms_ = 0;
   time prv_ms_ = 0;
@@ -170,7 +173,7 @@ public:
     frames_rendered_since_last_update_++;
     const time dt_ms = time_ms - last_fps_update_ms_;
     if (dt_ms >= interval_ms_) {
-      fps = frames_rendered_since_last_update_ * 1000u / dt_ms;
+      fps = frames_rendered_since_last_update_ * 1000 / dt_ms;
       frames_rendered_since_last_update_ = 0;
       last_fps_update_ms_ = time_ms;
       return interval_ms_ != 0;
@@ -186,7 +189,7 @@ static void engine_setup() {
 }
 
 // forward declaration of platform specific function
-static void render(const int x, const int y);
+static void render(int x, int y);
 
 // forward declaration of user provided callback
 static void main_on_frame_completed();
