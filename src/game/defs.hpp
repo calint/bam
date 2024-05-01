@@ -2,10 +2,10 @@
 // constants used by engine, game objects and 'main.hpp'
 
 // reviewed: 2023-12-11
+// reviewed: 2024-05-01
 
 #include <cstdint>
 
-// portrait or landscape orientation of screen
 // 0: portrait, 1: landscape
 static constexpr uint8_t display_orientation = 0;
 
