@@ -2,6 +2,8 @@
 // setup initial game state, callbacks from engine, game logic
 // solves circular references between 'game_state' and game objects
 
+// reviewed: 2005-05-01
+
 // first include engine
 #include "../engine.hpp"
 // then the game state
@@ -16,7 +18,7 @@
 // then other
 #include "objects/utils.hpp"
 
-// callback from 'setup'
+// callback from 'setup()'
 static void main_setup() {
   // output size of game object classes
   printf("------------------- game object sizes --------------------\n");
@@ -47,8 +49,8 @@ static void main_setup() {
   hro->y = 30;
 }
 
-// callback when screen is touched, happens before 'render'
-static void main_on_touch(int16_t x, int16_t y, int16_t z) {
+// callback when screen is touched, happens before 'render(...)'
+static void main_on_touch(const int16_t x, const int16_t y, const int16_t z) {
   // keep track of when the previous bullet was fired
   static clk::time last_fire_ms = 0;
 
@@ -57,7 +59,6 @@ static void main_on_touch(int16_t x, int16_t y, int16_t z) {
     last_fire_ms = clk.ms;
     if (object *mem = objects.allocate_instance()) {
       bullet *blt = new (mem) bullet{};
-      // printf("%d  %d\n", x, y);
       blt->x = display_x_for_touch(x);
       blt->y = display_height - 30;
       blt->dy = -200;
@@ -80,7 +81,7 @@ static void main_wave_5();
 using wave_func_ptr = void (*)();
 
 // eases placement of when waves should happen
-static constexpr float y_for_screen_percentage(float screen_percentage) {
+static constexpr float y_for_screen_percentage(const float screen_percentage) {
   return float(display_height * screen_percentage / 100.0f);
 }
 
@@ -152,7 +153,7 @@ static void main_on_frame_completed() {
   }
 
   // trigger waves
-  if (wave_triggers_ix < wave_triggers_len and
+  if (wave_triggers_ix < wave_triggers_len &&
       wave_triggers_next_y >= tile_map_y) {
     wave_triggers[wave_triggers_ix].func();
     wave_triggers_ix++;
@@ -165,7 +166,6 @@ static void main_on_frame_completed() {
 static void main_wave_1() {
   constexpr int count = display_width / (sprite_width * 3 / 2);
   constexpr int dx = display_width / count;
-  // printf("wave1: count=%d  dx=%d\n", count, dx);
   float x = 0;
   float y = -sprite_height;
   for (int i = 0; i < count; i++) {
@@ -181,7 +181,6 @@ static void main_wave_1() {
 static void main_wave_2() {
   constexpr int count = display_width / (sprite_width * 3 / 2);
   constexpr int dx = display_width / count;
-  // printf("wave2: count=%d  dx=%d\n", count, dx);
   float x = 0;
   float y = -sprite_height;
   for (int i = 0; i < count; i++, x += dx) {
@@ -195,7 +194,6 @@ static void main_wave_2() {
 static void main_wave_3() {
   constexpr int count = display_width / (sprite_width * 3 / 2);
   constexpr int dx = display_width / count;
-  // printf("wave3: count=%d  dx=%d\n", count, dx);
   float y = -sprite_height;
   for (int j = 0; j < count; j++, y -= 24) {
     float x = 0;
