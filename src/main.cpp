@@ -388,15 +388,15 @@ static void render(const int x, const int y) {
         dma_scanline_count = 0;
         // swap to the other render buffer
         dma_buf = render_buf_ptr = dma_buf_use_first ? dma_buf_1 : dma_buf_2;
-        dma_buf_use_first = not dma_buf_use_first;
+        dma_buf_use_first = !dma_buf_use_first;
       }
     }
     tile_y++;
     remaining_y -= render_n_scanlines;
     tiles_map_row_ptr += tile_map_width;
   }
-  // in case 'display_height' is not evenly divisible with 'dma_n_scanlines'
-  // there will be remaining scanlines to write
+  // if 'display_height' is not evenly divisible by 'dma_n_scanlines' there will
+  // be remaining scanlines to write
   constexpr int dma_n_scanlines_trailing = display_height % dma_n_scanlines;
   if (dma_n_scanlines_trailing) {
     display.pushPixelsDMA(dma_buf,
