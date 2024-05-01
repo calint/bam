@@ -145,7 +145,7 @@ static void main_on_frame_completed() {
         wave_triggers_bottom_screen_y - wave_triggers[0].since_last_wave_y;
   }
 
-  if (not game_state.hero_is_alive) {
+  if (!game_state.hero_is_alive) {
     hero *hro = new (objects.allocate_instance()) hero{};
     hro->x = random_float(0, display_width);
     hro->y = 30;
