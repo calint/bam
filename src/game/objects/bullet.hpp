@@ -24,7 +24,7 @@ public:
     if (game_object::update()) {
       return true;
     }
-    if (x <= -sprite_width or x >= display_width or y <= -sprite_height or
+    if (x <= -sprite_width || x >= display_width || y <= -sprite_height ||
         y >= display_height) {
       return true;
     }
