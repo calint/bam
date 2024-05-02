@@ -18,8 +18,8 @@ a.k.a. cheap-yellow-display (CYD)
   - decent performance, ~30 frames per second on the device
 
 ### development environment
-* Visual Code 1.88.1
-* PlatformIO 6.1.14
+* Visual Code 1.89.0
+* PlatformIO 6.1.15
 * Espressif 32 (6.6.0) > Espressif ESP32 Dev Module
 * packages:
   - framework-arduinoespressif32 @ 3.20014.231204 (2.0.14) 
