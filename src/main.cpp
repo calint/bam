@@ -66,6 +66,11 @@ static constexpr int collision_map_size_B =
     sizeof(sprite_ix) * display_width * display_height;
 static sprite_ix *collision_map = nullptr;
 
+// statistics about ratio of busy DMA before sending new buffer (higher is
+// better meaning DMA is not finished before rendering)
+static int dma_busy = 0;
+static int dma_writes = 0;
+
 void setup() {
   // setup rgb led pins
   pinMode(CYD_LED_RED, OUTPUT);
@@ -174,9 +179,9 @@ void setup() {
 void loop() {
   if (clk.on_frame(clk::time(millis()))) {
     // note. not in 'engine_loop()' due to dependency on 'millis()'
-    printf("t=%06lu  fps=%02d  ldr=%03u  objs=%03d  sprs=%03d\n", clk.ms,
-           clk.fps, analogRead(CYD_LDR), objects.allocated_list_len(),
-           sprites.allocated_list_len());
+    printf("t=%06lu  fps=%02d  dma=%03d  ldr=%03u  objs=%03d  sprs=%03d\n",
+           clk.ms, clk.fps, dma_busy * 100 / dma_writes, analogRead(CYD_LDR),
+           objects.allocated_list_len(), sprites.allocated_list_len());
   }
 
   if (touch_screen.tirqTouched() && touch_screen.touched()) {
@@ -322,6 +327,8 @@ static constexpr int count_right_shifts_until_1(int num) {
 
 // renders tile map and sprites
 static void render(const int x, const int y) {
+  dma_busy = dma_writes = 0;
+
   // clear collisions map
   // note. works on other sizes of type 'sprite_ix' because reserved value is
   //       unsigned maximum value such as 0xff or 0xffff etc
@@ -383,6 +390,10 @@ static void render(const int x, const int y) {
       scanline_y++;
       dma_scanline_count++;
       if (dma_scanline_count == dma_n_scanlines) {
+        dma_writes++;
+        if (display.dmaBusy()) {
+          dma_busy++;
+        }
         display.pushPixelsDMA(dma_buf,
                               uint32_t(display_width * dma_n_scanlines));
         dma_scanline_count = 0;
@@ -399,6 +410,10 @@ static void render(const int x, const int y) {
   // be remaining scanlines to write
   constexpr int dma_n_scanlines_trailing = display_height % dma_n_scanlines;
   if (dma_n_scanlines_trailing) {
+    dma_writes++;
+    if (display.dmaBusy()) {
+      dma_busy++;
+    }
     display.pushPixelsDMA(dma_buf,
                           uint32_t(display_width * dma_n_scanlines_trailing));
   }
