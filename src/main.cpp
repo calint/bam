@@ -41,12 +41,12 @@
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
 
+static TFT_eSPI display{};
+
 // setup touch screen
 // https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display/blob/main/Examples/Basics/2-TouchTest/2-TouchTest.ino
-static SPIClass hspi{HSPI};
+static SPIClass hspi{HSPI}; // note. VSPI is used by the display
 static XPT2046_Touchscreen touch_screen{XPT2046_CS, XPT2046_IRQ};
-
-static TFT_eSPI display{};
 
 // number of scanlines to render before DMA transfer
 static constexpr int dma_n_scanlines = 8;
