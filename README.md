@@ -1,4 +1,4 @@
-continued in [https://github.com/calint/platformio-bam](https://github.com/calint/platformio-bam)
+> :information_source: continued in [https://github.com/calint/platformio-bam](https://github.com/calint/platformio-bam)
 
 <video width="240" height="320" src="https://github.com/calint/bam/assets/1920811/1e1f7bb0-4d1e-4ce2-937a-10c6ac176b2e"></video>
 
